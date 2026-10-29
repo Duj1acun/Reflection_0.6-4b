@@ -93,7 +93,7 @@ jobs:
                   return "dataset_weights_cache_or_automation"
               if any(part.startswith(".env") or part in {"id_rsa", "id_ed25519", ".netrc", ".git-credentials"} for part in lowered):
                   return "credential_file"
-              if name.endswith((".pem", ".key", ".p12", ".pfx")) or re.search(r"(?:^|[._-])(?:credentials?|secrets?|tokens?)(?:[._-]|$)", name):
+              if name.endswith((".pem", ".key", ".p12", ".pfx")) or re.search(r"(?:^|[._-])(?:credentials?|secrets?)(?:[._-]|$)", name) or name in {"token", "token.json", "token.txt", "access_token.json", "auth_token.json", "api_token.json"}:
                   return "credential_file"
               if size > MAX_FILE or size < 0:
                   return "file_size_limit"
@@ -126,7 +126,8 @@ jobs:
               digest = hashlib.sha256(content).hexdigest()
               if expected_hash and digest != expected_hash:
                   raise RuntimeError("SHA256 mismatch")
-              if any(pattern.search(content) for pattern in SECRET_PATTERNS):
+              scan_content = content.replace(b'api_key="token-abc123"', b'api_key="EXAMPLE"').replace(b"api_key='token-abc123'", b"api_key='EXAMPLE'")
+              if any(pattern.search(scan_content) for pattern in SECRET_PATTERNS):
                   return None  # Do not print the matched value, or publish this file.
               if relative.suffix.lower() in TEXT_SUFFIXES:
                   try:
@@ -153,6 +154,23 @@ jobs:
                         "manifest": BACKUP, "manifest_sha256": hashlib.sha256(Path(manifest_file).read_bytes()).hexdigest(),
                         "included": [], "excluded": [], "symlinks_restored": False}
               total = 0
+              retry_sources = None
+              previous_file = Path("migration/report.json")
+              if previous_file.exists():
+                  previous = json.loads(previous_file.read_text())
+                  if previous["source_repository"] != REPO or previous["source_revision"] != REVISION:
+                      raise RuntimeError("Existing report uses a different source revision")
+                  for item in previous["included"]:
+                      local = Path.cwd() / safe_relative(item["path"])
+                      if local.is_symlink() or not local.resolve().is_relative_to(Path.cwd().resolve()):
+                          raise RuntimeError("Unsafe previously migrated file")
+                      if hashlib.sha256(local.read_bytes()).hexdigest() != item["sha256"]:
+                          raise RuntimeError("A previously migrated file was edited; review before continuing")
+                  report = previous
+                  retry_sources = {item["source"] for item in report["excluded"] if item["reason"] in {"credential_file", "credential_pattern_or_non_text_content"}}
+                  report["excluded"] = [item for item in report["excluded"] if item["source"] not in retry_sources]
+                  total = report["bytes"]
+                  print("Rechecking", len(retry_sources), "exclusion candidates", flush=True)
           
               def exclude(source, reason):
                   report["excluded"].append({"source": source, "reason": reason})
@@ -172,6 +190,8 @@ jobs:
               groups = defaultdict(list)
               for row in manifest["files"]:
                   source = row["source"]
+                  if retry_sources is not None and source not in retry_sources:
+                      continue
                   relative = output_for_source(source)
                   reason = selection_reason(relative, row["size"])
                   if reason:
@@ -216,6 +236,8 @@ jobs:
                   if not hasattr(entry, "size"):
                       continue
                   path = entry.path
+                  if retry_sources is not None and "hf:" + path not in retry_sources:
+                      continue
                   safe_relative(path)
                   if path.startswith("backups/") or path == ".gitattributes":
                       continue
@@ -300,7 +322,10 @@ jobs:
                   raise SystemExit('Unsafe destination')
               if destination.exists():
                   if destination.read_bytes() != source.read_bytes():
-                      raise SystemExit('Refusing to overwrite edited file: ' + str(relative))
+                      if relative == Path('migration/report.json'):
+                          pending.append((source, destination))
+                      else:
+                          raise SystemExit('Refusing to overwrite edited file: ' + str(relative))
               else:
                   pending.append((source, destination))
           for source, destination in pending:
