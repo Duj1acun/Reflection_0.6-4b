@@ -1,0 +1,324 @@
+name: Migrate selected HF sources
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hf-source-migration
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out target repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install download client
+        run: python -m pip install 'huggingface_hub==0.36.0'
+      - name: Restore and verify selected sources
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          MIGRATION_OUTPUT: ${{ runner.temp }}/reflect-selected-output
+          HF_HOME: ${{ runner.temp }}/hf-cache
+        shell: bash
+        run: |
+          python - <<'PYTHON'
+          """Restore selected REFLECT sources without executing any downloaded code."""
+          import hashlib
+          import json
+          import os
+          import re
+          import tarfile
+          from collections import defaultdict
+          from pathlib import Path, PurePosixPath
+          
+          REPO = "Duj1acun/Reflect_Qwen3_4b"
+          REVISION = "8e0a9ea0253346fc454b19c1997c369d37bc19c2"
+          BACKUP = "backups/reflection_grpo_clean_20261008/manifest.json"
+          PRIMARY = PurePosixPath("/root/reflection_grpo_clean")
+          MAX_FILE = 10 * 1024 * 1024
+          MAX_TOTAL = 400 * 1024 * 1024
+          TEXT_SUFFIXES = {
+              ".py", ".sh", ".bash", ".zsh", ".yaml", ".yml", ".toml", ".ini",
+              ".cfg", ".conf", ".md", ".rst", ".txt", ".json", ".csv", ".tsv",
+              ".ipynb", ".jinja", ".jinja2", ".j2", ".patch", ".diff", ".lock",
+              ".c", ".h", ".cpp", ".cu", ".cuh", ".tex", ".bib", ".r", ".sql",
+          }
+          RESULT_SUFFIXES = {".png", ".jpg", ".jpeg", ".svg", ".pdf"}
+          SPECIAL_NAMES = {"LICENSE", "NOTICE", "Makefile", "Dockerfile", "requirements", ".gitignore", ".dockerignore"}
+          BLOCKED_DIRS = {
+              ".git", ".github", ".ssh", ".aws", ".codex", "__pycache__", ".cache",
+              ".pytest_cache", "node_modules", "site-packages", "wandb", "tensorboard",
+              "optimizer", "optimizers", "checkpoints", "weights", "tokenizer",
+              "venv", ".venv", "credentials", "secrets", "datasets", "dataset",
+              "offline_cache", "offline_caches", "hf_datasets_cache", "data", "data_cache",
+          }
+          RESULT_HINT = re.compile(r"(?:result|summary|summaries|metric|report|statistic|analysis|analyz|figure|plot|table)", re.I)
+          SECRET_PATTERNS = [
+              re.compile(rb"\bhf_[A-Za-z0-9]{25,}\b"),
+              re.compile(rb"\bgh[pousr]_[A-Za-z0-9]{30,}\b"),
+              re.compile(rb"\bgithub_pat_[A-Za-z0-9_]{40,}\b"),
+              re.compile(rb"\bsk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{24,}\b"),
+              re.compile(rb"\bAKIA[A-Z0-9]{16}\b"),
+              re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----"),
+              re.compile(rb"(?i)(?:api[_-]?key|access[_-]?token|auth[_-]?token|password|secret[_-]?key)\s*[=:]\s*[\"'][^\"'\r\n]{12,}[\"']"),
+          ]
+          
+          
+          def safe_relative(value):
+              path = PurePosixPath(value)
+              if not value or path.is_absolute() or ".." in path.parts or "\\" in value or "\x00" in value:
+                  raise ValueError("Unsafe relative path")
+              return path
+          
+          
+          def selection_reason(path, size):
+              """Return None for an in-scope source/config/result, else the exclusion reason."""
+              p = PurePosixPath(path)
+              lowered = {part.lower() for part in p.parts}
+              name = p.name.lower()
+              if lowered & BLOCKED_DIRS or any(part.startswith("global_step_") for part in lowered):
+                  return "dataset_weights_cache_or_automation"
+              if any(part.startswith(".env") or part in {"id_rsa", "id_ed25519", ".netrc", ".git-credentials"} for part in lowered):
+                  return "credential_file"
+              if name.endswith((".pem", ".key", ".p12", ".pfx")) or re.search(r"(?:^|[._-])(?:credentials?|secrets?|tokens?)(?:[._-]|$)", name):
+                  return "credential_file"
+              if size > MAX_FILE or size < 0:
+                  return "file_size_limit"
+              suffix = p.suffix.lower()
+              if suffix in RESULT_SUFFIXES:
+                  return None if RESULT_HINT.search(str(p)) else "non_result_binary"
+              if suffix not in TEXT_SUFFIXES and p.name not in SPECIAL_NAMES and not name.startswith("dockerfile"):
+                  return "weight_archive_or_other_binary"
+              if suffix in {".json", ".csv", ".tsv"} and re.search(r"(?:tokenizer|vocab|merges|special_tokens|added_tokens|train_data|test_data|eval_data)", name):
+                  return "dataset_or_tokenizer"
+              return None
+          
+          
+          def output_for_source(source):
+              p = PurePosixPath(source)
+              if not p.is_absolute() or ".." in p.parts or "\\" in source:
+                  raise ValueError("Unsafe manifest source")
+              if p.is_relative_to(PRIMARY):
+                  return safe_relative(str(PurePosixPath("project") / p.relative_to(PRIMARY)))
+              return safe_relative(str(PurePosixPath("recovered") / str(p).lstrip("/")))
+          
+          
+          def publish_file(destination, relative, content, expected_size, expected_hash=None, mode=0o644):
+              relative = safe_relative(str(relative))
+              if len(content) != expected_size:
+                  raise RuntimeError("File size mismatch")
+              digest = hashlib.sha256(content).hexdigest()
+              if expected_hash and digest != expected_hash:
+                  raise RuntimeError("SHA256 mismatch")
+              if any(pattern.search(content) for pattern in SECRET_PATTERNS):
+                  return None  # Do not print the matched value, or publish this file.
+              if relative.suffix.lower() in TEXT_SUFFIXES:
+                  try:
+                      content.decode("utf-8")
+                  except UnicodeDecodeError:
+                      return None
+                  if b"\x00" in content:
+                      return None
+              target = destination / relative
+              if target.exists() or target.is_symlink():
+                  raise RuntimeError("Refusing to overwrite an existing file")
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(content)
+              target.chmod(0o755 if mode & 0o111 else 0o644)
+              return {"path": str(relative), "bytes": len(content), "sha256": digest}
+          
+          
+          def migrate(api, download, destination):
+              manifest_file = download(REPO, BACKUP, revision=REVISION)
+              manifest = json.loads(Path(manifest_file).read_text())
+              if manifest["repo"] != REPO:
+                  raise RuntimeError("Unexpected manifest repository")
+              report = {"source_repository": REPO, "source_revision": REVISION,
+                        "manifest": BACKUP, "manifest_sha256": hashlib.sha256(Path(manifest_file).read_bytes()).hexdigest(),
+                        "included": [], "excluded": [], "symlinks_restored": False}
+              total = 0
+          
+              def exclude(source, reason):
+                  report["excluded"].append({"source": source, "reason": reason})
+          
+              def add(content, relative, size, source, sha=None, mode=0o644):
+                  nonlocal total
+                  if total + size > MAX_TOTAL:
+                      raise RuntimeError("Selected output exceeds 400 MiB; review scope before publishing")
+                  record = publish_file(destination, relative, content, size, sha, mode)
+                  if record is None:
+                      exclude(source, "credential_pattern_or_non_text_content")
+                      return
+                  record["source"] = source
+                  report["included"].append(record)
+                  total += size
+          
+              groups = defaultdict(list)
+              for row in manifest["files"]:
+                  source = row["source"]
+                  relative = output_for_source(source)
+                  reason = selection_reason(relative, row["size"])
+                  if reason:
+                      exclude(source, reason)
+                      continue
+                  remote = row["remote"]
+                  safe_relative(remote["path"])
+                  if not re.fullmatch(r"[a-f0-9]{40}", remote["revision"]):
+                      raise RuntimeError("Manifest remote revision is not immutable")
+                  groups[(remote["revision"], remote["path"], row["storage"])].append((row, relative))
+          
+              for (revision, remote_path, storage), rows in groups.items():
+                  cached = download(REPO, remote_path, revision=revision)
+                  if storage == "archive":
+                      with tarfile.open(cached, "r:gz") as archive:
+                          for row, relative in rows:
+                              member = archive.getmember(row["archive_member"])
+                              if not member.isfile() or member.size != row["size"]:
+                                  raise RuntimeError("Unsafe archive member or incorrect member size")
+                              with archive.extractfile(member) as stream:
+                                  content = stream.read(MAX_FILE + 1)
+                              add(content, relative, row["size"], row["source"], row["sha256"], row["mode"])
+                  else:
+                      for row, relative in rows:
+                          with open(cached, "rb") as stream:
+                              content = stream.read(MAX_FILE + 1)
+                          add(content, relative, row["size"], row["source"], row["sha256"], row["mode"])
+                  print("Verified source group", len(rows), flush=True)
+          
+              # Preserve code/configs/reports published separately from the October backup.
+              for entry in api.list_repo_tree(REPO, revision=REVISION, recursive=True, repo_type="model"):
+                  if not hasattr(entry, "size"):
+                      continue
+                  path = entry.path
+                  safe_relative(path)
+                  if path.startswith("backups/") or path == ".gitattributes":
+                      continue
+                  reason = selection_reason(path, entry.size)
+                  if reason:
+                      exclude("hf:" + path, reason)
+                      continue
+                  cached = download(REPO, path, revision=REVISION)
+                  with open(cached, "rb") as stream:
+                      content = stream.read(MAX_FILE + 1)
+                  add(content, PurePosixPath("hf_snapshot") / path, entry.size, "hf:" + path)
+          
+              if not any(item["path"].startswith("project/") for item in report["included"]):
+                  raise RuntimeError("No primary project source restored")
+              report["files"] = len(report["included"])
+              report["bytes"] = total
+              report["status"] = "selected_scope_restored"
+              meta = destination / "migration"
+              meta.mkdir(parents=True, exist_ok=True)
+              (meta / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+              (destination / "README.md").write_text(
+                  "# Reflection 0.6B / 4B\n\n"
+                  "Training and evaluation sources, configuration, and result documents migrated from "
+                  f"[Duj1acun/Reflect_Qwen3_4b](https://huggingface.co/{REPO}/tree/{REVISION}).\n\n"
+                  "## Contents\n\n"
+                  "- `project/`: the primary `/root/reflection_grpo_clean` source tree restored from the 2026-10-08 backup.\n"
+                  "- `recovered/`: additional code, configuration, and reports referenced by that backup, preserving original paths.\n"
+                  "- `hf_snapshot/`: separately published code, configuration, and reports, preserving HF paths.\n"
+                  "- `migration/report.json`: per-file SHA256 values, source provenance, and exclusions.\n\n"
+                  "The source HF repository remains private. Access is required to download model weights, "
+                  "datasets, and full recovery archives. These large artifacts remain on HF.\n\n"
+                  "## Download model artifacts\n\n"
+                  "Install `huggingface_hub`, run `hf auth login` with an authorized account, then use:\n\n"
+                  "```bash\n"
+                  f"hf download {REPO} --revision {REVISION} --include 'models/*' --local-dir artifacts\n"
+                  "```\n\n"
+                  "Choose the required checkpoint directory in the HF file browser; other checkpoints include "
+                  "`global_step_450/` and `qwen3-0.6b-sft-checkpoint-268/`. Some recovery states are Qwen3-0.6B "
+                  "despite the HF repository name; consult the source configuration before loading a model.\n\n"
+                  "## Migration scope\n\n"
+                  "No downloaded code was executed. Backup files were checked against their recorded size "
+                  "and SHA256. Symlinks, source Git metadata, source automation, raw datasets, tokenizer files, "
+                  "weights, caches, archives, credential candidates, and files over 10 MiB were excluded. "
+                  "The report lists exclusions, including files omitted after credential-pattern checks. "
+                  "This verifies the selected transfer, not training/evaluation correctness or a complete security audit.\n\n"
+                  "Original source files and their license notices are preserved. Consult the relevant source "
+                  "directories for dependency versions and execution instructions.\n"
+              )
+              print("Restored", report["files"], "files;", report["bytes"], "bytes", flush=True)
+              return report
+          
+          
+          if __name__ == "__main__":
+              from huggingface_hub import HfApi, hf_hub_download
+              token = os.environ.get("HF_TOKEN")
+              if not token:
+                  raise SystemExit("Configure the HF_TOKEN repository secret before running migration")
+              destination = Path(os.environ["MIGRATION_OUTPUT"]).resolve()
+              if destination.exists():
+                  raise SystemExit("Output directory must not already exist")
+              destination.mkdir(parents=True)
+              migrate(HfApi(token=token), lambda *a, **kw: hf_hub_download(*a, token=token, **kw), destination)
+          PYTHON
+      - name: Copy verified output without overwriting edited files
+        env:
+          MIGRATION_OUTPUT: ${{ runner.temp }}/reflect-selected-output
+        shell: bash
+        run: |
+          python - <<'PYTHON'
+          import os
+          import shutil
+          from pathlib import Path
+          output = Path(os.environ['MIGRATION_OUTPUT'])
+          target = Path.cwd()
+          pending = []
+          for source in output.rglob('*'):
+              if not source.is_file():
+                  continue
+              relative = source.relative_to(output)
+              destination = target / relative
+              if destination.is_symlink() or not destination.resolve().is_relative_to(target):
+                  raise SystemExit('Unsafe destination')
+              if destination.exists():
+                  if destination.read_bytes() != source.read_bytes():
+                      raise SystemExit('Refusing to overwrite edited file: ' + str(relative))
+              else:
+                  pending.append((source, destination))
+          for source, destination in pending:
+              destination.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(source, destination)
+          print('Copied', len(pending), 'verified files')
+          PYTHON
+      - name: Commit migration and report
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- README.md migration
+          for directory in project recovered hf_snapshot; do
+            if [ -d "$directory" ]; then
+              git add --force -- "$directory"
+            fi
+          done
+          if git diff --cached --quiet; then
+            echo 'Selected sources already match the pinned HF revision.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -m 'Migrate verified code, configuration and reports from Hugging Face'
+          git push origin HEAD:main
+          python - <<'PYTHON'
+          import json
+          import os
+          from pathlib import Path
+          report = json.loads(Path('migration/report.json').read_text())
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('# Selected HF migration completed\n\n')
+              summary.write(f"Restored {report['files']} files ({report['bytes']:,} bytes).\n\n")
+              summary.write('See `migration/report.json` for per-file SHA256 values and exclusions.\n')
+          PYTHON
