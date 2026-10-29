@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: How many distinct trees with exactly 7 vertices are there? A tree is defined in the language of graph theory as a connected graph with no cycles, simply understood as a graph that connects \\( n \\) vertices with \\( n-1 \\) edges. Express your answer as a whole number.\nGround Truth: 11\nWeak CoT: We are asked to find the number of **distinct trees** with **exactly 7 vertices**.\n\n---\n\n### Step 1: Understand the Problem\n\nIn graph theory, a **tree** is a **connected acyclic graph**. A key property of a tree is:\n\n> A tree with $ n $ vertices has exactly $ n - 1 $ edges.\n\nSo, a tree with 7 vertices has $ 7 - 1 = 6 $ edges.\n\nWe are to find the number of **distinct trees** on 7 vertices.\n\n---\n\n### Step 2: Use the Formula for the Number of Trees on $ n $ Vertices\n\nA well-known result in graph theory is:\n\n> The number of **distinct trees** on $ n $ labeled vertices is given by:\n\n$$\nn^{n-2}\n$$\n\nThis is **Cayley's Formula**.\n\nSo, for $ n = 7 $:\n\n$$\n\\text{Number of trees} = 7^{7-2} = 7^5\n$$\n\n---\n\n### Step 3: Compute $ 7^5 $\n\n$$\n7^5 = 7 \\times 7 \\times 7 \\times 7 \\times 7\n$$\n\n$$\n7^2 = 49 \\\\\n7^3 = 49 \\times 7 = 343 \\\\\n7^4 = 343 \\times 7 = 2401 \\\\\n7^5 = 2401 \\times 7 = 16807\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{16807}\n$$\n\nSo, there are **16,807 distinct trees** with exactly 7 vertices."
+    }
+  ]
+}

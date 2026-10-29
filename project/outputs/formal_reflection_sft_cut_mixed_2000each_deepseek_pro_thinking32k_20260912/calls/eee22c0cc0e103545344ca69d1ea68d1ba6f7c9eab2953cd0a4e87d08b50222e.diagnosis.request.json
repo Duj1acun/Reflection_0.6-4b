@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In triangle $ABC$, $a$, $b$, and $c$ are the sides opposite to angles $A$, $B$, and $C$ respectively. It is known that $b\\cos(C)+c\\cos(B)=2b$. Find the value of $\\frac{a}{b}$.\nGround Truth: 2\nWeak CoT: We are given a triangle $ ABC $, with sides $ a, b, c $ opposite angles $ A, B, C $, respectively. The equation given is:\n\n$$\nb\\cos(C) + c\\cos(B) = 2b\n$$\n\nWe are to find the value of:\n\n$$\n\\frac{a}{b}\n$$\n\n---\n\n### Step 1: Use the Law of Cosines\n\nFrom the Law of Cosines, we have:\n\n$$\n\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}, \\quad \\cos B = \\frac{a^2 + c^2 - b^2}{2ac}\n$$\n\nSubstitute these expressions into the given equation:\n\n$$\nb \\cdot \\frac{a^2 + b^2 - c^2}{2ab} + c \\cdot \\frac{a^2 + c^2 - b^2}{2ac} = 2b\n$$\n\nSimplify:\n\n$$\n\\frac{b(a^2 + b^2 - c^2)}{2ab} + \\frac{c(a^2 + c^2 - b^2)}{2ac} = 2b\n$$\n\n$$\n\\frac{a^2 + b^2 - c^2}{2a} + \\frac{a^2 + c^2 - b^2}{2c} = 2b\n$$\n\nMultiply through by 2:\n\n$$\n\\frac{a^2 + b^2 - c^2}{a} + \\frac{a^2 + c^2 - b^2}{c} = 4b\n$$\n\n---\n\n### Step 2: Combine Terms\n\nLet’s combine these two fractions:\n\n$$\n\\frac{(a^2 + b^2 - c^2)}{a} + \\frac{(a^2 + c^2 - b^2)}{c} = \\frac{c(a^2 + b^2 - c^2) + a(a^2 + c^2 - b^2)}{ac}\n$$\n\nCompute the numerator:\n\n$$\nc(a^2 + b^2 - c^2) + a(a^2 + c^2 - b^2) = a^3 + ac^2 + ab^2 - a^2c + a^2c - ab^2 = a^3 + ac^2 - a^2c + a^2c - ab^2 + ab^2 = a^3\n$$\n\nSo the equation becomes:\n\n$$\n\\frac{a^3}{ac} = 4b \\Rightarrow \\frac{a^2}{c} = 4b\n\\Rightarrow \\frac{a}{b} = \\frac{4b}{c}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{\\frac{a}{b} = 4}\n$$"
+    }
+  ]
+}

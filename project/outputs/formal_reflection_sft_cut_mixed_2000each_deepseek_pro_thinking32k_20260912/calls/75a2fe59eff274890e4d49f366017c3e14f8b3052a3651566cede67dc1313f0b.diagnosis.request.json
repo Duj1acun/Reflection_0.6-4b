@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The Shanghai Cooperation Organization summit will be held in Qingdao in June 2018. The organizing committee plans to allocate five staff members, A, B, C, D, and E, to two different locations to participate in reception work during the conference. If A and B must be in the same group, and each group must have at least 2 people, then the number of different allocation methods is ______.\nGround Truth: 8\nWeak CoT: We are given the following conditions:\n\n- There are **five staff members**: A, B, C, D, and E.\n- They will be allocated to **two different locations**.\n- **A and B must be in the same group**.\n- Each **group must have at least 2 people**.\n- We are to find the **number of different allocation methods**.\n\n---\n\n### Step 1: Total number of people\n\nThere are 5 people, so the two locations are:\n\n- Group 1  \n- Group 2\n\nEach group must have **at least 2 people**, so the possible group sizes can be:\n\n- **2 and 3**  \n- **3 and 2**\n\nLet's consider each case.\n\n---\n\n### Case 1: Group sizes are 2 and 3\n\n- Choose 2 people for Group 1.\n- The remaining 3 go to Group 2.\n\nNumber of ways to choose 2 people from 5:\n\n$$\n\\binom{5}{2} = 10\n$$\n\n- Since A and B must be in the same group, we need to place A and B into the same group. So we **fix** A and B into one group, and then choose 1 more person for that group.\n\nThat means:\n\n- Choose 1 more person from the remaining 3 (C, D, E) to complete the group of 2.\n\nSo the number of ways is:\n\n$$\n\\binom{3}{1} = 3\n$$\n\n- Then, the remaining 3 go to the other group, which has size 3.\n\nSo for this case, the total number of allocation methods is:\n\n$$\n10 \\times 3 = 30\n$$\n\n---\n\n### Case 2: Group sizes are 3 and 2\n\n- We can also consider the same logic as above.\n\n- Choose 2 people for Group 1.\n- Choose 1 more person for Group 2.\n\nThis is the same as Case 1.\n\nSo again, the total number of allocation methods is:\n\n$$\n10 \\times 3 = 30\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{30}\n$$"
+    }
+  ]
+}

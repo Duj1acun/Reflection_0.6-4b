@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given real numbers $x, y, z$ satisfy $x^2+y^2+z^2=4$, find the maximum value of $(2x-y)^2+(2y-z)^2+(2z-x)^2$. Express your answer as a single numerical value.\n\n<reflection>\nThe expansion gives (2x-y)^2+(2y-z)^2+(2z-x)^2 = 5(x^2+y^2+z^2)-4(xy+yz+zx). Using x^2+y^2+z^2=4, the expression equals 20-4(xy+yz+zx). Maximizing 20-4(xy+yz+zx) is equivalent to minimizing xy+yz+zx. Letting S=x+y+z, S^2=4+2(xy+yz+zx), so the expression equals 28-2S^2. Maximizing 28-2S^2 is equivalent to minimizing S^2=(x+y+z)^2.\nThe inequality xy+yz+zx >= -2 only implies S^2=4+2(xy+yz+zx) >= 0, not S^2 >= 4. The minimum of S^2 is actually 0, attainable when x+y+z=0.\nMinimize S^2=(x+y+z)^2 directly under x^2+y^2+z^2=4, using S^2>=0 and verifying that S=0 is attainable.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

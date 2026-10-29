@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A farmer has a flock of \\( n \\) sheep, where \\( 2000 \\leq n \\leq 2100 \\). The farmer puts some number of the sheep into one barn and the rest of the sheep into a second barn. The farmer realizes that if she were to select two different sheep at random from her flock, the probability that they are in different barns is exactly \\( \\frac{1}{2} \\). Determine the value of \\( n \\).\n\n<reflection>\nThe flock size n satisfies 2000 \\leq n \\leq 2100. If one barn has k sheep, the other has n-k sheep. The target probability is P(different barns)=1/2.\nThis formula does not count pairs of sheep from different barns. The number of favorable pairs is k(n-k), so the correct probability is k(n-k)/C(n,2), not C(n-1,2)/C(n,2).\nUse P(different barns)=\\frac{k(n-k)}{\\binom{n}{2}}=\\frac{2k(n-k)}{n(n-1)} and set it equal to \\frac{1}{2} to solve for n in [2000,2100].\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

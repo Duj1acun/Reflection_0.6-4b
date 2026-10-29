@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a table tennis match, it is a best-of-three format. The probability of player A winning any single game is $p\\left(0 \\lt p \\lt 1\\right)$, and the probability of player A winning the match is $q$. The maximum value of $8q-9p$ is ______.\n\n<reflection>\nThe match is best-of-three, so the first player to win two games wins the match. The probability of A winning any single game is p, with 0 < p < 1. The listed sequences AA, AB, BA, BB are possible results after the first two games; AB and BA mean the first two games are split 1-1.\nAB and BA are not match-winning outcomes; they only indicate the first two games are split, so a third game is still required. Therefore A has not won the match in those cases.\nCompute q using A's actual winning sequences: AA, ABA, and BAA, giving q = p^2 + 2p^2(1-p), then maximize 8q - 9p.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

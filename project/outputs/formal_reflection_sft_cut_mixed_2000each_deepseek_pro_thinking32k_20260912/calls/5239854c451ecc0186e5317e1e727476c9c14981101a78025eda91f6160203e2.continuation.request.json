@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A person fires 8 shots in succession, hitting the target 4 times with exactly 3 of those hits occurring consecutively. Find the number of different outcomes for this scenario. Express your answer as a single integer.\n\n<reflection>\nThere are 8 shots total: 4 hits and 4 misses. Exactly 3 consecutive hits means one block of 3 consecutive hits, with the fourth hit isolated from that block. A block of 3 consecutive hits can be chosen in 6 possible positions (start positions 1 through 6). After choosing the 3-hit block, 5 shot positions remain for the fourth hit.\nThis ignores that placing the remaining hit immediately adjacent to the 3-hit block would create a run of 4 consecutive hits, violating the 'exactly 3' consecutive condition.\nFor each possible 3-hit block, exclude the adjacent forbidden position(s) from the 5 remaining positions before counting.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

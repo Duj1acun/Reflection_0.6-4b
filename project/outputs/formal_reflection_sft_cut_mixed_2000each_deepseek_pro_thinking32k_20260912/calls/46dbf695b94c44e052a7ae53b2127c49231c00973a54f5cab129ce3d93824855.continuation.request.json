@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In triangle \\( \\triangle ABC \\), the sides opposite to angles \\( A \\), \\( B \\), and \\( C \\) are \\( a \\), \\( b \\), and \\( c \\) respectively. Given \\( \\sin C \\cos \\frac{A}{2} = (2 - \\cos C) \\sin \\frac{A}{2} \\), \\( \\cos A = \\frac{3}{5} \\), and \\( a = 4 \\), find the area of \\( \\triangle ABC \\).\n\n<reflection>\n$\\cos A = \\frac{3}{5}$ gives $\\sin A = \\frac{4}{5}$. $\\cos \\frac{A}{2} = \\frac{2}{\\sqrt{5}}$ and $\\sin \\frac{A}{2} = \\frac{1}{\\sqrt{5}}$. Substitution gives $2 \\sin C + \\cos C = 2$. Solving with $\\sin^2 C + \\cos^2 C = 1$ gives $(\\sin C, \\cos C) = (1,0)$ or $(\\frac{3}{5}, \\frac{4}{5})$. In Case 1, $C = \\frac{\\pi}{2}$, $a = 4$, and by the Law of Sines $c = \\frac{a}{\\sin A} = 5$. Since $C$ is the right angle, side $c$ is the hypotenuse, so $a$ and $b$ are the legs.\nIf the triangle is right-angled at C, then side c is opposite the right angle and is the hypotenuse, so c cannot also be a leg. Therefore b is not √(a²+c²).\nIn Case 1, treat c=5 as the hypotenuse and find the remaining leg b using b² = c² − a².\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

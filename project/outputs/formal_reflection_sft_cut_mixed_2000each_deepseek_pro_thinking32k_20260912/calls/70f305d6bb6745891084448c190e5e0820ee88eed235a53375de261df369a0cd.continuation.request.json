@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: From a group of 5 people, 3 are to be selected to participate in an entertainment activity that consists of three games: A, B, and C. The requirement is that each game is played by only one person, and each person can only participate in one game. If among these 5 people, individuals A and B cannot participate in game C, then the number of different selection schemes is \\_\\_\\_\\_\\_.\n\n<reflection>\nThere are 5 people, called A, B, C, D, E. We must select 3 people and assign them one-to-one to games A, B, and C. Only A and B are restricted from playing game C. There are C(5,3)=10 possible 3-person groups. For group {A,B,C}: game C must be played by C, and A/B can fill games A and B in 2 ways. For group {A,B,D}: game C must be played by D, and A/B can fill games A and B in 2 ways. For group {A,B,E}: game C must be played by E, and A/B can fill games A and B in 2 ways. For group {A,C,D}: A cannot play game C; neither C nor D is restricted from game C.\nThis incorrectly excludes person C from playing game C. In group {A,C,D}, only A is barred from game C, so game C can be assigned to either C or D.\nFor Case 4, count the number of permissible choices for game C as 2 (C or D), then assign the remaining two people to games A and B.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

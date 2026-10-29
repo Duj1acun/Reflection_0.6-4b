@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the ellipse $\\frac{x^{2}}{25}+ \\frac{y^{2}}{9}=1$, a point $P$ on the ellipse has lines connecting it to the two foci $F_{1}$ and $F_{2}$ that are perpendicular to each other. Find the area of $\\triangle PF_{1}F_{2}$.\n\n<reflection>\nThe ellipse is centered at the origin with semi-major axis a=5 and semi-minor axis b=3. c^2 = a^2 - b^2 = 16, so c=4 and the foci are F1=(-4,0), F2=(4,0). For P=(x,y), the slopes of PF1 and PF2 are y/(x+4) and y/(x-4). The perpendicular condition gives y^2/((x+4)(x-4)) = -1, hence y^2 = -x^2 + 16. Substitution into the ellipse equation gives x^2/25 + (-x^2+16)/9 = 1.\nWhen multiplying (-x^2+16)/9 by 225, the constant should be 225*16/9 = 400, not 360; the correct equation is 9x^2 - 25x^2 + 400 = 225.\nCorrect the constant term to 400 and solve -16x^2 + 400 = 225 for x^2, then use y^2 = 16 - x^2 to compute the triangle area.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

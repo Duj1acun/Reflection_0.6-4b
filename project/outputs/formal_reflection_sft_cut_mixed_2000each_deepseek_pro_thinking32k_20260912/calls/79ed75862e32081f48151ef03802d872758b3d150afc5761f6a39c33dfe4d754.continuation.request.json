@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find minimum of $x+y+z$ where $x$ , $y$ and $z$ are real numbers such that $x \\geq 4$ , $y \\geq 5$ , $z \\geq 6$ and $x^2+y^2+z^2 \\geq 90$\n\n<reflection>\nThe constraints are $x \\geq 4$, $y \\geq 5$, $z \\geq 6$, and $x^2+y^2+z^2 \\geq 90$; the objective is $x+y+z$. At $(x,y,z)=(4,5,6)$, $x^2+y^2+z^2=77<90$, so this point is infeasible. With $a=x-4$, $b=y-5$, $c=z-6$, $x^2+y^2+z^2 = 77+8a+10b+12c+a^2+b^2+c^2$ and $x+y+z=15+a+b+c$. Thus the square-sum constraint is equivalent to $8a+10b+12c+a^2+b^2+c^2 \\geq 13$. The trial $a=b=c=1$ gives $x+y+z=18$ and satisfies the square-sum constraint, so 18 is a feasible value.\nThis claims minimality from a single feasible trial; one feasible point with value 18 does not rule out smaller feasible sums.\nMinimize $a+b+c$ subject to $a,b,c \\ge 0$ and $8a+10b+12c+a^2+b^2+c^2 \\ge 13$, including boundary cases where some increments are zero.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

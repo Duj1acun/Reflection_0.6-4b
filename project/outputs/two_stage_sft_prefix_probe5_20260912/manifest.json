@@ -1,0 +1,24 @@
+{
+  "sources": {
+    "qwen3-0.6b": {
+      "path": "/mnt/data/reflection_grpo/data/sft/qwen3-0.6b/scored_rollouts_n4.jsonl",
+      "sha256": "daea3c0cf23a6f01042047fff3c600e9d99eda5eb32659cd2e38f0dabdfd2e41"
+    },
+    "qwen3-4b": {
+      "path": "/mnt/data/reflection_grpo/data/sft/qwen3-4b/scored_rollouts_n4.jsonl",
+      "sha256": "d25dab61c6b8289f801f048872e76fac556c9dfdea3da8c100cea8435f2ddd8d"
+    }
+  },
+  "diagnosis": "You are creating reflection SFT data for a small math model.\nFind the FIRST mathematical error in model_response, in its original order.\nDo not treat verbosity, repetition, or an explicitly rejected tentative idea as a mathematical error.\nThe reference answer may be wrong; do not force the diagnosis to match it.\nIf the solution is correct and complete, return exactly perfect.\nIf it is only unfinished, ambiguous, or cannot be reliably diagnosed, return exactly review.\nOtherwise return ONLY a valid JSON object with this exact structure:\n{\"cut_point\":\"...\",\"reflection\":{\"verified_state\":[\"...\"],\"error_step\":\"...\",\"error_reason\":\"...\",\"new_direction\":\"...\"}}\ncut_point: copy the exact original prefix, from the first character through the first erroneous step, inclusive. No omissions, substitutions, or whitespace changes.\nerror_step: copy that erroneous step verbatim; it must occur at the end of cut_point (closing math delimiters and whitespace may follow).\nverified_state: summarize only correct intermediate conclusions explicitly established STRICTLY BEFORE the first error. Never include later conclusions, your new deductions, or corrected results. Use [] if there are none.\nInspect ONLY the original text strictly before error_step, excluding error_step itself. Every verified_state entry must be explicitly supported by that prefix; being true or easily derivable is not sufficient. Do not solve, correct, or complete any step in verified_state. If the first error is writing a+2b-3c=6 instead of -6, the corrected equation a+2b-3c=-6 must NOT appear in verified_state. Correct conclusions first written after the error are also forbidden. Check each entry against the valid prefix and remove every unsupported entry.\nerror_reason: briefly identify the erroneous expression or assumption and why it is wrong. It must be understandable without the original response.\nnew_direction: one concise sentence describing the next correct action, without a worked solution or final answer.\nWrite verified_state entries, error_reason, and new_direction in English, in the student's first person using I. Preserve verbatim text in cut_point and error_step.\nStage 2 receives ONLY the problem and these reflection fields, not the failed solution, so the reflection must be self-contained.\nDo not mention SFT, annotation, or the reference answer in the reflection. Do not add tags or Markdown fences. Escape JSON backslashes correctly.",
+  "continuation": "You are creating concise continuation SFT data for a small math model.\nYou receive only a problem and a reflection. Reuse the verified conclusions and carry out the correction direction, without repeating the failed solution or unnecessarily re-deriving established results.\nWrite a concise, self-contained solution in English using I for self-reference. Include the essential calculations, define needed quantities, and end with \\boxed{answer}.\nDo not blindly follow an inconsistent reflection or invent missing conditions. If the problem is ambiguous or the reflection is mathematically inconsistent, return exactly review.\nReturn only the solution, with no reflection tags, thinking traces, or Markdown fences.",
+  "candidates_sha256": "2d57eb9bf099a7130e2699be6a16018158631aa3d55ad51b97f1f1c67831656a",
+  "perfect_sha256": "3f831eb94add4e0840205a31cb2ba810fe52d7b7e08f6f4552c196b60acf99ca",
+  "reflection_counts": {
+    "qwen3-0.6b": 3441,
+    "qwen3-4b": 4412
+  },
+  "perfect_counts": {
+    "qwen3-0.6b": 1892,
+    "qwen3-4b": 5457
+  }
+}

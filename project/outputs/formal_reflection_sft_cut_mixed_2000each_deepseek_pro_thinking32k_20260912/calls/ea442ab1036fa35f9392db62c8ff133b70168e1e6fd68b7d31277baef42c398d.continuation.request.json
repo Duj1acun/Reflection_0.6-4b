@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A quadrilateral $ABCD$ has a right angle at $\\angle ABC$ and satisfies $AB = 12$ , $BC = 9$ , $CD = 20$ , and $DA = 25$ . Determine $BD^2$ . .\n\n<reflection>\n$\\angle ABC = 90^\\circ$, $AB=12$, $BC=9$, $CD=20$, $DA=25$. By the Pythagorean theorem in right triangle $ABC$, $AC=\\sqrt{12^2+9^2}=15$. A valid coordinate placement is $B=(0,0)$, $A=(12,0)$, $C=(0,9)$. For $D=(x,y)$, the given side lengths give $x^2+(y-9)^2=400$ and $(x-12)^2+y^2=625$. Subtracting the first equation from the second gives $(x-12)^2+y^2-(x^2+(y-9)^2)=225$, expanding to $x^2-24x+144+y^2-x^2-(y^2-18y+81)=225$.\nThe expansion was simplified incorrectly: the constants are $144 - 81 = 63$, so the left side should be $-24x + 18y + 63$, not $-24x + 144 + 18y$.\nCorrect the constant arithmetic to get $-4x+3y=27$, then use it with one of the circle equations to solve for $D$ and compute $BD^2$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

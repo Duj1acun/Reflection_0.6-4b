@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let $A B C D$ be a rectangle with $A B=20$ and $A D=23$. Let $M$ be the midpoint of $C D$, and let $X$ be the reflection of $M$ across point $A$. Compute the area of triangle $X B D$.\n\n<reflection>\nRectangle $ABCD$ has $AB=20$ and $AD=23$. Coordinate placement: $A=(0,0)$, $B=(20,0)$, $D=(0,23)$, hence $C=(20,23)$. $M$ is defined as the midpoint of $CD$. $X$ is defined as the reflection of $M$ across $A$.\nThe midpoint of C=(20,23) and D=(0,23) has y-coordinate (23+23)/2=23, not (23+20)/2=21.5; the y-coordinate of C was incorrectly taken as 20.\nRecompute M using C=(20,23) and D=(0,23), then reflect the corrected M across A=(0,0) and recompute the triangle area.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: The sum of the first thirteen terms of an arithmetic progression is $50\\%$ of the sum of the last thirteen terms of this progression. The sum of all terms of this progression, excluding the first three terms, is related to the sum of all terms, excluding the last three terms, by a ratio of $6:5$. Find the number of terms in this progression.\n\n<reflection>\nLet the first term be a, the common difference d, and the number of terms n. The k-th term is T_k = a + (k - 1)d. The sum of the first n terms is S_n = n/2 [2a + (n - 1)d]. The sum of the first 13 terms is S_13 = 13/2 [2a + 12d]. The last 13 terms are the terms from T_{n-12} to T_n, and T_{n-12} = a + (n - 13)d.\nThis formula uses the wrong sum of first and last term indices. For the last 13 terms from T_{n-12} to T_n, the sum should be 13/2 [ (a+(n-13)d) + (a+(n-1)d) ] = 13/2 [2a+(2n-14)d], not 13/2 [2a+(2n-25)d].\nCorrect the sum of the last 13 terms to 13/2 [2a+(2n-14)d] and use it in the first condition to derive the right equation.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

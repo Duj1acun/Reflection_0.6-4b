@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Find the greatest common divisor (GCD) of the numbers 5280 and 12155.\nGround Truth: 55\nWeak CoT: To find the **greatest common divisor (GCD)** of the numbers **5280** and **12155**, we can use the **Euclidean algorithm**.\n\n---\n\n### Step 1: Apply the Euclidean Algorithm\n\nWe start with:\n\n$$\n\\text{GCD}(5280, 12155)\n$$\n\n1. Divide $12155$ by $5280$ and find the remainder:\n   - $12155 = 5280 \\times 2 + 1335$\n   - So, the remainder is $1335$\n\n2. Now compute the GCD of $5280$ and $1335$:\n\n$$\n\\text{GCD}(5280, 1335)\n$$\n\n3. Divide $5280$ by $1335$:\n   - $1335 \\times 3 = 4005$\n   - So, $5280 - 4005 = 1275$\n   - Remainder is $1275$\n\n4. Now compute GCD of $1335$ and $1275$:\n\n$$\n\\text{GCD}(1335, 1275)\n$$\n\n5. Divide $1335$ by $1275$:\n   - $1275 \\times 1 = 1275$, so remainder is $1335 - 1275 = 60$\n\n6. Now compute GCD of $1275$ and $60$:\n\n$$\n\\text{GCD}(1275, 60)\n$$\n\n7. Divide $1275$ by $60$:\n   - $60 \\times 21 = 1260$, remainder is $15$\n\n8. Now compute GCD of $60$ and $15$:\n\n$$\n\\text{GCD}(60, 15)\n$$\n\n9. Divide $60$ by $15$:\n   - $15 \\times 4 = 60$, remainder is 0\n\n---\n\n### Step 2: Stop when the remainder is 0\n\nWe stop when the remainder is 0, and the GCD is the last non-zero remainder.\n\n$$\n\\text{GCD}(5280, 12155) = 15\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{15}\n$$"
+    }
+  ]
+}

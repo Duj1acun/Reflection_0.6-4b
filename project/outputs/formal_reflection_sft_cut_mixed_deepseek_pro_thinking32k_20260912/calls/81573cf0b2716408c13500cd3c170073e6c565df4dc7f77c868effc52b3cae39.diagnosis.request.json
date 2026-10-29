@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Determine the following number: \\[ \\frac{12346 \\cdot 24689 \\cdot 37033 + 12347 \\cdot 37034}{12345^{2}} \\]\nGround Truth: 74072\nWeak CoT: We are given the expression:\n\n$$\n\\frac{12346 \\cdot 24689 \\cdot 37033 + 12347 \\cdot 37034}{12345^2}\n$$\n\n### Step 1: Note that the numerator has two terms:\n\n$$\nN = 12346 \\cdot 24689 \\cdot 37033 + 12347 \\cdot 37034\n$$\n\nWe can factor out terms from the two products:\n\n- Notice that $12346 = 12345 + 1$\n- $12347 = 12345 + 2$\n\nLet’s denote $a = 12345$, so:\n\n- $12346 = a + 1$\n- $12347 = a + 2$\n\nNow the numerator becomes:\n\n$$\n(a + 1)(a + 2)(a) + a(a + 1) = a(a + 1)[(a + 2) + 1] = a(a + 1)(a + 3)\n$$\n\nSo the entire expression becomes:\n\n$$\n\\frac{a(a + 1)(a + 3)}{a^2} = \\frac{(a + 1)(a + 3)}{a}\n$$\n\nNow, substitute $a = 12345$:\n\n$$\n\\frac{(12345 + 1)(12345 + 3)}{12345} = \\frac{12346 \\cdot 12348}{12345}\n$$\n\nNow compute:\n\n$$\n\\frac{12346 \\cdot 12348}{12345}\n$$\n\nLet’s compute this:\n\n### Step 2: Simplify the fraction\n\nNote that:\n\n$$\n\\frac{12346 \\cdot 12348}{12345} = \\frac{12346}{12345} \\cdot 12348\n$$\n\nNow compute:\n\n$$\n\\frac{12346}{12345} = 1.00049...\n$$\n\nSo:\n\n$$\n1.00049 \\cdot 12348 \\approx 12348\n$$\n\nSince $12346$ is very close to $12345$, and when multiplied by $12348$, the result is just slightly more than $12345 \\cdot 12348$, the fraction is actually slightly more than 12345.\n\nHowever, since this is a math problem and likely expects an exact value, we can leave the answer as:\n\n$$\n\\boxed{12348}\n$$"
+    }
+  ]
+}

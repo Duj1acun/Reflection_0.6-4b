@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A square \\(ABCD\\) has a side length of 40 units. Point \\(F\\) is the midpoint of side \\(AD\\). Point \\(G\\) lies on \\(CF\\) such that \\(3CG = 2GF\\). What is the area of triangle \\(BCG\\)?\nGround Truth: 320\nWeak CoT: We are given a square $ABCD$ with side length 40 units, and point $F$ is the midpoint of side $AD$. Point $G$ lies on segment $CF$, such that $3CG = 2GF$.\n\n---\n\n### Step 1: Assign coordinates\n\nLet’s place the square on the coordinate plane:\n\n- Let $A = (0, 0)$\n- Since the square has side length 40, $B = (40, 0)$\n- $C = (40, 40)$\n- $D = (0, 40)$\n\nThen, point $F$ is the midpoint of side $AD$, so:\n\n$$\nF = \\left(\\frac{0 + 40}{2}, \\frac{0 + 40}{2}\\right) = (20, 20)\n$$\n\n---\n\n### Step 2: Express point $G$ along segment $CF$\n\nWe are told that $3CG = 2GF$, so the ratio of lengths is:\n\n$$\n\\frac{CG}{GF} = \\frac{2}{3}\n$$\n\nThis means $G$ divides the segment $CF$ in the ratio $2:3$.\n\nThe coordinates of point $G$ can be found by using the section formula.\n\nSince $C = (40, 40)$ and $F = (20, 20)$, the coordinates of $G$ are:\n\n$$\nG = \\left( \\frac{2 \\cdot 40 + 3 \\cdot 20}{2 + 3}, \\frac{2 \\cdot 40 + 3 \\cdot 20}{2 + 3} \\right)\n$$\n\n$$\nG_x = \\frac{80 + 60}{5} = 140/5 = 28,\\quad G_y = 28\n$$\n\nSo, the coordinates of $G$ are $(28, 28)$.\n\n---\n\n### Step 3: Find the area of triangle $BCG$\n\nWe can use the formula for the area of a triangle given by coordinates:\n\n$$\n\\text{Area} = \\frac{1}{2} |x_1(y_2 - y_3) + x_2(y_3 - y_1) + x_3(y_1 - y_2)|\n$$\n\nLet’s assign:\n\n- $B = (40, 0)$\n- $C = (40, 40)$\n- $G = (28, 28)$\n\nPlug into the formula:\n\n$$\n\\text{Area} = \\frac{1}{2} |40(40 - 28) + 40(28 - 0) + 28(0 - 40)|\n$$\n\n$$\n= \\frac{1}{2} |40(12) + 40(28) - 28(40)|\n$$\n\n$$\n= \\frac{1}{2} |480 + 1120 - 1120| = \\frac{1}{2} |480| = \\boxed{240}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{240}\n$$"
+    }
+  ]
+}

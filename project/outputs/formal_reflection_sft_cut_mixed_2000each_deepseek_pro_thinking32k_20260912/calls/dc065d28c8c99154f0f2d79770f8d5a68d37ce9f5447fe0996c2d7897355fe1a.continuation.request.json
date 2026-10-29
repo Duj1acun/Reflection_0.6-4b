@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A company has newly recruited 8 employees, who are to be evenly distributed between two departments, A and B. Among them, two English translators cannot be in the same department, and likewise, the three computer programmers cannot all be in the same department. Calculate the total number of different distribution schemes that satisfy these conditions.\n\n<reflection>\nThere are 8 employees, and each department gets 4. Total unrestricted distributions = C(8,4)=70. Define X as distributions where E1 and E2 are together; |X|=30. Define Y as distributions where all 3 programmers are in one department; |Y|=10. Valid count = 70 - 30 - 10 + |X∩Y| by inclusion-exclusion. In |X∩Y|, the subcases where E1,E2 and all programmers are both in A or both in B are impossible because they put 5 people in one department. The two possible intersection subcases are symmetric: E1,E2 in A with programmers in B, or E1,E2 in B with programmers in A. In Case 2 (E1,E2 in A, programmers in B), A has 2 people assigned and B has 3 people assigned, so A needs 2 more and B needs 1 more.\nIn Case 2 the three programmers are already placed in B, so after assigning E1,E2 and P1,P2,P3, the only remaining employees are the 3 other employees, not 5. Thus A's two additional members must be chosen from those 3; the 'not all programmers' exclusion is irrelevant.\nFor Case 2, fill A by choosing 2 of the 3 remaining non-translator/non-programmer employees; the remaining one goes to B.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given 8 shots, with 3 hits and exactly 2 of these hits being consecutive, calculate the total number of distinct sequences that fit this condition. Express your answer as a single integer.\n\n<reflection>\nTotal shots = 8, total hits = 3, total misses = 5. Valid sequences have exactly one consecutive HH pair and the third H is not adjacent to that pair. The HH block can be placed starting at positions 1 through 7, giving 7 possible placements. For a fixed HH block at positions i and i+1, the third H must not be placed in position i-1, i, i+1, or i+2.\nThis is false for edge placements: when i=1 or i=7, only 3 actual shot positions are forbidden because i-1 or i+2 lies outside 1..8. Treating every HH placement as having 4 forbidden positions leads to incorrect counting.\nFor each HH placement i=1,...,7, count the single H positions j in {1,...,8} that are not in {i-1,i,i+1,i+2}, then sum over i.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

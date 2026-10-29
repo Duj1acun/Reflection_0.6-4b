@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Determine the number of different ways to color 8 cells black on a $4\\times4$ chessboard such that each row and each column contains exactly two black cells.\nGround Truth: 90\nWeak CoT: We are tasked with finding the number of different ways to color **8 cells** on a $4 \\times 4$ chessboard such that:\n\n- Each **row** contains **exactly two black cells**.\n- Each **column** contains **exactly two black cells**.\n\nThis is a well-known combinatorial problem. It corresponds to the number of **2-regular bipartite graphs** between two sets of size 4, with each vertex (cell) having degree 2.\n\n---\n\n### Step 1: Total number of ways to choose 2 black cells in a row\n\nWe can place **2 black cells** in any of the 4 cells of a row, and since the order doesn't matter in a row, the number of ways is:\n\n$$\n\\binom{4}{2} = 6\n$$\n\nThere are 4 rows, so the total number of colorings of 2 black cells per row is:\n\n$$\n6^4 = 1296\n$$\n\n---\n\n### Step 2: Use the principle of inclusion-exclusion\n\nHowever, we must account for the constraint that **each column also contains exactly two black cells**. This is more complex than just choosing colors per row.\n\nInstead, we can model the problem as a **graph** where each of the 4 rows is a **node**, and each of the 4 columns is a **edge** from each of the 4 rows. Each cell is a **point** in the graph.\n\nWe are looking for the number of **2-regular bipartite graphs** between 4 rows and 4 columns. A 2-regular graph means that every node has degree 2, and it is a **cycle**.\n\nThere are **exactly 6** such graphs that match this condition. These are the only possible ways to color the chessboard such that each row and column contains exactly two black cells.\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{6}\n$$"
+    }
+  ]
+}

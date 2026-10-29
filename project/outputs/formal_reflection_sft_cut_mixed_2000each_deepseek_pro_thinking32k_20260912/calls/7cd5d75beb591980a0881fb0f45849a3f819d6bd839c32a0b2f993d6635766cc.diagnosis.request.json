@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given the hyperbola $\\dfrac {x^{2}}{9}- \\dfrac {y^{2}}{16}=1$ with its left and right foci being $F_{1}$ and $F_{2}$ respectively, and a point $P$ on the hyperbola with $PF_{1}=4$, then the length of $PF_{2}$ is ______.\nGround Truth: 10\nWeak CoT: We are given a hyperbola:\n\n$$\n\\frac{x^2}{9} - \\frac{y^2}{16} = 1\n$$\n\nThis is a hyperbola centered at the origin, opening horizontally. The standard form of the hyperbola is:\n\n$$\n\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1\n$$\n\nComparing, we have:\n\n- $ a^2 = 9 \\Rightarrow a = 3 $\n- $ b^2 = 16 \\Rightarrow b = 4 $\n\n### Step 1: Find the foci\n\nFor a hyperbola of the form $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$, the foci are located at:\n\n$$\nF_1 = (-c, 0), \\quad F_2 = (c, 0)\n$$\n\nWhere:\n\n$$\nc = \\sqrt{a^2 + b^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5\n$$\n\nSo:\n\n- $ F_1 = (-5, 0) $\n- $ F_2 = (5, 0) $\n\n---\n\n### Step 2: Use the definition of a hyperbola\n\nFor any point $ P = (x, y) $ on the hyperbola and satisfying the definition:\n\n$$\n|PF_1| - |PF_2| = 2a = 6\n$$\n\nWe are given:\n\n$$\n|PF_1| = 4\n$$\n\nSince $ F_1 = (-5, 0) $, and $ P $ is a point on the hyperbola, we can calculate $ |PF_1| $ from the coordinates of $ P $:\n\n$$\n|PF_1| = \\sqrt{(x + 5)^2 + y^2} = 4\n$$\n\nWe are also given that $ |PF_1| = 4 $, and we are to find $ |PF_2| = \\sqrt{(x - 5)^2 + y^2} $.\n\nLet’s denote:\n\n- $ |PF_1| = 4 $\n- $ |PF_2| = x $\n\nWe can use the identity:\n\n$$\n|PF_1| - |PF_2| = 6 \\quad \\text{and} \\quad |PF_2| = x\n$$\n\nSo:\n\n$$\n4 - x = 6 \\Rightarrow x = -2\n$$\n\nTherefore, the length of $ PF_2 $ is:\n\n$$\n\\boxed{-2}\n$$\n\nBut since length is always positive, the correct answer is:\n\n$$\n\\boxed{2}\n$$"
+    }
+  ]
+}

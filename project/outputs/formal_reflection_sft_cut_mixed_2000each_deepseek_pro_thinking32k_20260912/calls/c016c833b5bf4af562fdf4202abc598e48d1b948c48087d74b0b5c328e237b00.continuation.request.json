@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the number of ways to color $n \\times m$ board with white and black colors such that any $2 \\times 2$ square contains the same number of black and white cells.\n\n<reflection>\nThe board is represented by A[i][j] ∈ {0,1}. For every 2x2 square with top-left (i,j), the sum A[i][j]+A[i][j+1]+A[i+1][j]+A[i+1][j+1] equals 2. This condition must hold for all i,j with i+1 ≤ n and j+1 ≤ m.\nThe first row and first column cannot be chosen arbitrarily; the 2x2 condition already constrains boundary triples. For instance, A[1][1]+A[1][2]+A[2][1] must be 1 or 2 so that A[2][2] is binary.\nDerive the constraints imposed on the first row and first column by the 2x2 equations before counting the valid boundary choices.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

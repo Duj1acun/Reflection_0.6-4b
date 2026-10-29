@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given \\(\\frac{\\cos \\alpha \\cos \\frac{\\beta}{2}}{\\cos \\left(\\alpha - \\frac{\\beta}{2}\\right)} + \\frac{\\cos \\beta \\cos \\frac{\\alpha}{2}}{\\cos \\left(\\beta - \\frac{\\alpha}{2}\\right)} = 1\\), find the value of \\(\\cos \\alpha + \\cos \\beta\\).\n\n<reflection>\nLet \\(x = \\alpha\\) and \\(y = \\beta\\); then the equation becomes \\(\\frac{\\cos x \\cos(y/2)}{\\cos(x-y/2)} + \\frac{\\cos y \\cos(x/2)}{\\cos(y-x/2)} = 1\\). Defining \\(A = \\cos x \\cos(y/2)\\) and \\(B = \\cos y \\cos(x/2)\\) gives \\(\\mathrm{LHS} = A/\\cos(x-y/2) + B/\\cos(y-x/2)\\). The product-to-sum identity \\(\\cos A \\cos B = \\frac{1}{2}[\\cos(A+B) + \\cos(A-B)]\\) is valid.\nThe product-to-sum identity was applied incorrectly: the numerator \\(\\cos x \\cos(y/2)\\) was replaced by \\(\\cos^2(x-y/2)\\), producing \\(\\frac12[\\cos(2x-y)+1]\\). Correct application to the numerator gives \\(\\frac12[\\cos(x+y/2)+\\cos(x-y/2)]\\).\nApply the product-to-sum identity to the numerators only: \\(\\cos x \\cos(y/2)=\\frac12[\\cos(x+y/2)+\\cos(x-y/2)]\\) and similarly for \\(\\cos y \\cos(x/2)\\), then simplify each fraction.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

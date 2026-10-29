@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $m=3\\int_{0}^{\\pi }{\\sin xdx}$, find the coefficient of $ab^{2}c^{m-3}$ in the expansion of the binomial ${{(a+2b-3c)}^{m}}$.\n\n<reflection>\n$$m=3\\int_{0}^{\\pi}\\sin x\\,dx$$ $$\\int_{0}^{\\pi}\\sin x\\,dx=2$$ $$m=6$$ The target term is $$ab^2c^{m-3}=ab^2c^3$$.\nThis is not the general term of the trinomial expansion of $(a+2b-3c)^m$. It incorrectly forces the powers of $b$ and $c$ to be equal and the total exponent is not $m$.\nUse the multinomial theorem with general term $\\frac{6!}{i!j!l!}a^i(2b)^j(-3c)^l$ where $i+j+l=6$, then set $i=1,j=2,l=3$ and compute the coefficient.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

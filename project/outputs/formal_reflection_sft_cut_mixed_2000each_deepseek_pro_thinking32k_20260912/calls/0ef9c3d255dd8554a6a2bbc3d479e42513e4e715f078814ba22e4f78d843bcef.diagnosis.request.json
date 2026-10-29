@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Circles with radii of 8 and 3 touch each other internally. From the center of the larger circle, a tangent is drawn to the smaller circle. Find the length of this tangent.\nGround Truth: 4\nWeak CoT: We are given:\n\n- Two circles with radii $ r_1 = 8 $ and $ r_2 = 3 $\n- They touch each other **internally** (i.e., the smaller circle lies inside the larger one, and they are tangent to the inside of the larger circle)\n- A tangent is drawn from the **center of the larger circle** to the smaller circle\n\nWe are to find the **length of this tangent**.\n\n---\n\n### Step 1: Understand the geometry\nThe two circles are tangent internally. So, the center of the larger circle is $ O $, the smaller circle is $ C $, and the distance between their centers is equal to the difference of their radii:\n\n$$\n\\text{Distance between centers} = r_1 - r_2 = 8 - 3 = 5\n$$\n\n---\n\n### Step 2: Use the tangent to find the length\n\nFrom the **center of the larger circle** to the **center of the smaller circle**, we draw a **tangent**. Let this tangent have length $ L $.\n\nSince the tangent is from the center of the larger circle to the smaller circle, and the two centers are 5 units apart, the triangle formed by the two centers and the point where the tangent touches the smaller circle is a **right triangle**, right-angled at the point of tangency.\n\nIn this triangle:\n\n- The side opposite to the right angle is the radius of the larger circle.\n- The other two sides are the radius of the smaller circle and the length of the tangent.\n\nSo, we have a 3-4-5 right triangle.\n\n---\n\n### Step 3: Use Pythagoras' Theorem\n\nIn the right triangle:\n\n$$\nr_1^2 = r_2^2 + L^2\n$$\n\n$$\n8^2 = 3^2 + L^2\n$$\n\n$$\n64 = 9 + L^2\n$$\n\n$$\nL^2 = 55\n$$\n\n$$\nL = \\sqrt{55}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{\\sqrt{55}}\n$$"
+    }
+  ]
+}

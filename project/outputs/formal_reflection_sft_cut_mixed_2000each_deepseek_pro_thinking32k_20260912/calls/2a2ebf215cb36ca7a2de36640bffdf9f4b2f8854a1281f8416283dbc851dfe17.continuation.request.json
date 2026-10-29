@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: If $(x^{2}+1)\\cdot \\left(x-1\\right)^{8}=a_{0}+a_{1}(x-2)+a_{2}(x-2)^{2}+\\cdots +a_{10}(x-2)^{10}$, then $a_{1}+a_{2}+\\cdots +a_{10}=$____.\n\n<reflection>\nThe left-hand side polynomial has degree 10. The right-hand side is the expansion of the polynomial in powers of (x-2), i.e. its Taylor polynomial around x=2.\nEvaluating at x=2 gives only a0, so subtracting a0 gives 0, not a1+...+a10. In the (x-2)-basis, the sum of all coefficients is obtained by setting x-2=1, i.e. x=3.\nEvaluate P at x=3 to obtain a0+a1+...+a10, then subtract a0=P(2)=5 to find the required sum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

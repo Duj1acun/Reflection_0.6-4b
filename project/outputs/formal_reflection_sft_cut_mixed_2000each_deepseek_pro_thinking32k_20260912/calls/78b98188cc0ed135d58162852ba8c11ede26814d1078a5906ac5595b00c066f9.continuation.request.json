@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the number of natural numbers \\( k \\), not exceeding 291000, such that \\( k^2 - 1 \\) is divisible by 291.\n\n<reflection>\nThe divisibility condition is equivalent to k^2 ≡ 1 (mod 291). 291 = 3 × 97, with 3 and 97 coprime. The congruence splits into k^2 ≡ 1 (mod 3) and k^2 ≡ 1 (mod 97). Modulo 3, there are 2 solutions: k ≡ ±1 (mod 3). Modulo 97, there are 2 solutions: k ≡ ±1 (mod 97). Combining via CRT gives 4 residue classes modulo 291.\nThe arithmetic is wrong: 291000 divided by 291 is 1000, not 100.\nRecompute the number of full periods of length 291 as 1000, then multiply by the 4 solutions per period.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

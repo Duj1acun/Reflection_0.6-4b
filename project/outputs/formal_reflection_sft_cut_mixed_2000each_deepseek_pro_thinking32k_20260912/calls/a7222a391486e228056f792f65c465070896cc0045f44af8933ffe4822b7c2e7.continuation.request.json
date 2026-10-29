@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: To celebrate the arrival of the new year, the \"Shadow Play\" club of a certain school plans to form a 4-person representative team to participate in the city-level \"Shadow Play\" competition, consisting of 6 male students and 2 female students. The team will have one captain, one vice-captain, and two other members. If it is required that there is at least one female student in the representative team, there are _______ possible ways.\n\n<reflection>\nThere are 6 male students and 2 female students, total 8. A valid 4-person representative team must include at least one female and has roles: 1 captain, 1 vice-captain, and 2 other members. Total 4-person teams from 8 students: C(8,4)=70. 4-person teams with no females: C(6,4)=15. 4-person teams with at least one female: 70-15=55. For each selected 4-person team, the captain and vice-captain positions still need to be assigned; the remaining two selected students are the other members.\nThis incorrectly treats the problem as counting only team composition. The roles of captain, vice-captain, and other members are distinct, so assigning positions within each selected team must be counted.\nFor each of the 55 valid 4-person teams, assign the captain and vice-captain to two of the 4 selected students (4 choices then 3 choices); the remaining two are automatically other members, then multiply.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

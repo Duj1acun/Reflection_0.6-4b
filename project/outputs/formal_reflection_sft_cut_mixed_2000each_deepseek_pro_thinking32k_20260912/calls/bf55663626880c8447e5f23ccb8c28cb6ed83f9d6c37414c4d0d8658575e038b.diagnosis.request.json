@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In the geometric sequence $a_n$, $a_5 + a_6 = 4$ and $a_{15} + a_{16} = 16$. Find the value of $a_{25} + a_{26}$. Express your answer as a single numerical value.\nGround Truth: 64\nWeak CoT: We are given two geometric sequences:\n\n- $ a_n $ is a geometric sequence.\n- $ a_5 + a_6 = 4 $\n- $ a_{15} + a_{16} = 16 $\n\nWe are to find the value of $ a_{25} + a_{26} $.\n\n---\n\n### Step 1: Use the general formula for a geometric sequence\n\nIn a geometric sequence, the $n$-th term is given by:\n\n$$\na_n = a_1 \\cdot r^{n-1}\n$$\n\nWhere:\n- $ a_1 $ is the first term\n- $ r $ is the common ratio\n\n---\n\n### Step 2: Write expressions for $ a_5, a_6, a_{15}, a_{16}, a_{25}, a_{26} $\n\n- $ a_5 = a_1 \\cdot r^4 $\n- $ a_6 = a_1 \\cdot r^5 $\n- $ a_{15} = a_1 \\cdot r^{14} $\n- $ a_{16} = a_1 \\cdot r^{15} $\n- $ a_{25} = a_1 \\cdot r^{24} $\n- $ a_{26} = a_1 \\cdot r^{25} $\n\n---\n\n### Step 3: Use the given information\n\nWe are given:\n\n$$\na_5 + a_6 = 4 \\Rightarrow a_1 \\cdot (r^4 + r^5) = 4 \\tag{1}\n$$\n\n$$\na_{15} + a_{16} = 16 \\Rightarrow a_1 \\cdot (r^{14} + r^{15}) = 16 \\tag{2}\n$$\n\nWe can factor these expressions:\n\n$$\na_1 \\cdot r^4 (1 + r) = 4 \\tag{3}\n$$\n\n$$\na_1 \\cdot r^{14} (1 + r) = 16 \\tag{4}\n$$\n\n---\n\n### Step 4: Solve for $ r^4 $\n\nFrom equation (3):\n\n$$\nr^4 (1 + r) = \\frac{4}{a_1}\n$$\n\nFrom equation (4):\n\n$$\nr^{14} (1 + r) = \\frac{16}{a_1}\n$$\n\nSo:\n\n$$\n\\frac{r^{14}}{r^4} = \\frac{16}{4} \\Rightarrow r^{10} = 4\n\\Rightarrow r^4 = \\sqrt[4]{4} = \\sqrt{2}\n$$\n\nSo:\n\n$$\nr^4 = \\sqrt{2}\n$$\n\n---\n\n### Step 5: Substitute back to find $ a_{25} + a_{26} $\n\n$$\na_{25} + a_{26} = a_1 \\cdot r^{24} + a_1 \\cdot r^{25} = a_1 \\cdot r^{25}(1 + r)\n$$\n\nFrom equation (3):\n\n$$\nr^4 (1 + r) = \\frac{4}{a_1} \\Rightarrow r^{25}(1 + r) = r^{24} \\cdot r (1 + r) = a_1 \\cdot r^{24} (1 + r) = 4 \\cdot r\n$$\n\nSo:\n\n$$\na_{25} + a_{26} = 4 \\cdot r\n$$\n\n---\n\n### Step 6: Find $ r $\n\nWe already know $ r^4 = \\sqrt{2} $\n\nSo:\n\n$$\nr^4 = \\sqrt{2} \\Rightarrow r = 2^{1/4}\n$$\n\nTherefore:\n\n$$\na_{25} + a_{26} = 4 \\cdot 2^{1/4} = 2^{2 + 1/4} = 2^{\\frac{9}{4}} = \\frac{2^9}{2^4} = \\frac{512}{16} = 32\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{32}\n$$"
+    }
+  ]
+}

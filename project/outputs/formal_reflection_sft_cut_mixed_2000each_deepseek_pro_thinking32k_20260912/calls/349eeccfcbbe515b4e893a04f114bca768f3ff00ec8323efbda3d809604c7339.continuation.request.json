@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A class has 5 students participating in the duty roster from Monday to Friday, with one student arranged each day. Among them, student A can only be arranged on Monday or Tuesday, and student B cannot be arranged on Friday. Find the number of different duty arrangements for them.\n\n<reflection>\nThere are 5 students: A, B, C, D, and E. One student is assigned each day from Monday to Friday. Student A can only be assigned Monday or Tuesday. Student B cannot be assigned Friday. Without constraints, the total number of arrangements would be 5! = 120. Student A has 2 choices: Monday or Tuesday.\nThis contradicts the stated constraint: B cannot be assigned Friday, so B is not required to be on Friday.\nSplit into cases for A assigned on Monday versus Tuesday, then count valid placements for B avoiding Friday and assign the remaining students to the remaining days.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

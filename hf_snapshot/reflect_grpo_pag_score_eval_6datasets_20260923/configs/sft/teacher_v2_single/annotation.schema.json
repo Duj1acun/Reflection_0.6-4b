@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdict", "verified_states", "error_reason", "new_direction", "reasoning", "final_answer", "review_note"],
+  "properties": {
+    "verdict": {"enum": ["incorrect", "actually_correct", "format_only", "incomplete", "reference_conflict", "unusable"]},
+    "verified_states": {"type": "string"},
+    "error_reason": {"type": "string"},
+    "new_direction": {"type": "string"},
+    "reasoning": {"type": "string"},
+    "final_answer": {"type": "string"},
+    "review_note": {"type": "string"}
+  },
+  "if": {"properties": {"verdict": {"const": "incorrect"}}},
+  "then": {
+    "properties": {
+      "verified_states": {"minLength": 1},
+      "error_reason": {"minLength": 1},
+      "new_direction": {"minLength": 1},
+      "reasoning": {"minLength": 1},
+      "final_answer": {"minLength": 1},
+      "review_note": {"const": ""}
+    }
+  },
+  "else": {
+    "properties": {
+      "verified_states": {"const": ""},
+      "error_reason": {"const": ""},
+      "new_direction": {"const": ""},
+      "reasoning": {"const": ""},
+      "final_answer": {"const": ""},
+      "review_note": {"minLength": 1}
+    }
+  }
+}

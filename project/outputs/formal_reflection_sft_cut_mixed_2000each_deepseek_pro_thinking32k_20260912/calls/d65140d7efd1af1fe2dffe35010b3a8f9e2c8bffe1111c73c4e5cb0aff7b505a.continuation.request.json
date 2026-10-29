@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the parabola $y^2 = -6x$ with focus $F$, and points $M$, $N$ on the parabola satisfying $\\overrightarrow{FM} = k \\overrightarrow{FN}$ ($k \\neq 0$), find the minimum value of $|MN|$.\n\n<reflection>\nThe focus of $y^2=-6x$ is $F=\\left(-\\frac{3}{2},0\\right)$. Parametrization: $M=\\left(-\\frac{t_1^2}{6},t_1\\right)$, $N=\\left(-\\frac{t_2^2}{6},t_2\\right)$. $\\vec{FM}=\\left(-\\frac{t_1^2}{6}+\\frac{3}{2},t_1\\right)$ and $\\vec{FN}=\\left(-\\frac{t_2^2}{6}+\\frac{3}{2},t_2\\right)$. The vector condition gives $-\\frac{t_1^2}{6}+\\frac{3}{2}=k\\left(-\\frac{t_2^2}{6}+\\frac{3}{2}\\right)$ and $t_1=k t_2$. Since $k\\neq 0$, $t_2=\\frac{t_1}{k}$.\nWhen substituting $t_2=\\frac{t_1}{k}$ into $k\\left(-\\frac{t_2^2}{6}+\\frac{3}{2}\\right)$, the constant term $\\frac{3}{2}$ should remain $\\frac{3}{2}$, not become $\\frac{3}{2k}$. The correct substituted equation is $-\\frac{t_1^2}{6}+\\frac{3}{2}=k\\left(-\\frac{t_1^2}{6k^2}+\\frac{3}{2}\\right)$.\nCorrect the substitution and simplify the resulting equation to solve for the relation between $t_1$ and $k$ before minimizing $|MN|$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

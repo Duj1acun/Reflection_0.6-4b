@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let non-zero complex numbers x and y satisfy the equation x^2 + xy + y^2 = 0. Determine the value of the algebraic expression (x/(x+y))^1990 + (y/(x+y))^1990. Express your answer as a single numerical value.\n\n<reflection>\nx and y are nonzero complex numbers satisfying x^2 + xy + y^2 = 0. The equation can be treated as a quadratic in x: x^2 + yx + y^2 = 0. Applying the quadratic formula gives x = (-y ± sqrt(-3y^2))/2 before simplifying the square root.\nThe simplification from sqrt(-3 y^2) to y sqrt(3) is invalid because it omits the factor i (and the branch of the square root). For instance, if y = 1, sqrt(-3) = i sqrt(3), not sqrt(3).\nReplace the incorrect square-root simplification with sqrt(-3 y^2) = i y sqrt(3) (up to sign), or equivalently divide by y and solve t^2 + t + 1 = 0, giving x/y = (-1 ± i sqrt(3))/2.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

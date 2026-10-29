@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: What is the sum of 80% of 1750 and 35% of 3000, subtracted from the product of 60% of 4500 and 40% of 2800?\nGround Truth: 3021550\nWeak CoT: We are asked to compute the following expression:\n\n$$\n\\text{Product of } 60\\% \\text{ of } 4500 \\text{ and } 40\\% \\text{ of } 2800 - \\text{(Sum of } 80\\% \\text{ of } 1750 \\text{ and } 35\\% \\text{ of } 3000)\n$$\n\n---\n\n### Step 1: Compute each percentage\n\n#### 60% of 4500:\n$$\n0.60 \\times 4500 = 2700\n$$\n\n#### 40% of 2800:\n$$\n0.40 \\times 2800 = 1120\n$$\n\n#### Product of 2700 and 1120:\n$$\n2700 \\times 1120 = 3,024,000\n$$\n\n#### 80% of 1750:\n$$\n0.80 \\times 1750 = 1400\n$$\n\n#### 35% of 3000:\n$$\n0.35 \\times 3000 = 1050\n$$\n\n#### Sum of 1400 and 1050:\n$$\n1400 + 1050 = 2450\n$$\n\n---\n\n### Step 2: Subtract the sum from the product\n\n$$\n3,024,000 - 2450 = \\boxed{3,021,550}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{3,021,550}\n$$"
+    }
+  ]
+}

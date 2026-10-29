@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given 8 equally spaced points on a circle, calculate the number of combinations to form an acute triangle by selecting any three of them. Express your answer as a single integer.\n\n<reflection>\nThe 8 equally spaced points form a regular octagon, and the total number of triangles is C(8,3)=56. For an inscribed triangle, the angles are acute iff the three arcs between consecutive selected vertices are each less than 180°. With cyclic gap lengths a=j-i, b=k-j, c=i+8-k satisfying a+b+c=8, the triangle is acute iff a,b,c<4.\nThis condition is not equivalent to the required gap condition a,b,c<4. For example, points P0,P1,P2 have pairwise circular distances at most 2, but their gap triple is (1,1,6), which violates c<4 and is not acute.\nCount the cyclic gap triples (a,b,c) of positive integers summing to 8 with each strictly less than 4, then count the corresponding triangles.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

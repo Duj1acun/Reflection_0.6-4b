@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the largest real $C$ such that for all pairwise distinct positive real $a_{1}, a_{2}, \\ldots, a_{2019}$ the following inequality holds $$\\frac{a_{1}}{\\left|a_{2}-a_{3}\\right|}+\\frac{a_{2}}{\\left|a_{3}-a_{4}\\right|}+\\ldots+\\frac{a_{2018}}{\\left|a_{2019}-a_{1}\\right|}+\\frac{a_{2019}}{\\left|a_{1}-a_{2}\\right|}>C$$\n\n<reflection>\nThe cyclic sum can be written as S = sum_{i=1}^{2019} a_i / |a_{i+1}-a_{i+2}| with indices modulo 2019. All denominators are positive because the a_i are pairwise distinct. The target C is the infimum of this sum over all admissible sequences.\nThe numerators a_i are not fixed; changing the sequence to enlarge denominators can also enlarge numerators, so maximizing denominators does not necessarily minimize S.\nDerive a rigorous lower bound using the ordering of the a_i or a related inequality, without assuming denominators can be maximized independently.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Kelvin the frog jumps along the number line starting at 0. Every time he jumps, he jumps either one unit left or one unit right. How many ways are there for Kelvin to make exactly 10 jumps and land on a prime number? (The prime numbers are the sequence 2, 3, 5, 7, ... Negative numbers are not considered prime.)\n\n<reflection>\nKelvin starts at 0 and makes exactly 10 jumps, each either +1 or -1. There are 2^{10}=1024 total possible jump sequences. Negative numbers are not considered prime, so only positive landing positions can be prime. The positive prime numbers are 2,3,5,7,... Any landing position that is prime must be a positive prime.\nThis ignores reachability constraints: after exactly 10 jumps of ±1, the landing position must be an even integer between -10 and 10. Among positive primes, only 2 satisfies this; 3, 5, and 7 cannot be reached.\nRestrict to reachable positions after exactly 10 jumps (even integers from -10 to 10), identify the positive primes among them, then count the number of jump sequences ending at each such prime using binomial coefficients.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

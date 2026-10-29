@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given that F is the focus of the parabola $C: y^2 = 8x$, and let M be a point on C. The extension line of FM intersects the y-axis at point N. If M is the midpoint of FN, then $|FN| =$ __________ .\nGround Truth: 6\nWeak CoT: We are given that:\n\n- $ C: y^2 = 8x $, the parabola.\n- A point $ M $ lies on $ C $, and the extension of $ FM $ intersects the **y-axis** at point $ N $.\n- $ M $ is the **midpoint** of $ FN $.\n\nWe are to find $ |FN| $.\n\n---\n\n### Step 1: Use parametric form of the parabola\n\nThe standard form of a parabola $ y^2 = 4ax $ has parametric coordinates:\n\n- $ x = at^2 $\n- $ y = 2at $\n\nIn the given equation $ y^2 = 8x $, we can match with $ y^2 = 4ax $, so:\n\n- $ a = 2 $\n\nThus, the parametric coordinates of any point $ M $ on the parabola $ C $ are:\n\n$$\nM = (2t^2, 4t)\n$$\n\n---\n\n### Step 2: Let the coordinates of $ N $ be $ (0, y_N) $\n\nWe are told that $ M $ is the **midpoint** of $ FN $.\n\nLet’s suppose $ F = (x_F, y_F) $, and $ N = (0, y_N) $.\n\nThen:\n\n$$\n\\frac{x_F + x_M}{2} = 0 \\Rightarrow x_F = -x_M\n$$\n$$\n\\frac{y_F + y_M}{2} = y_N \\Rightarrow y_N = \\frac{y_F + y_M}{2}\n$$\n\nLet’s substitute the coordinates of $ M = (2t^2, 4t) $ into these equations.\n\n#### Step 2.1: $ x_F = -x_M = -2t^2 $\n\nSo, $ F = (-2t^2, y_F) $\n\nThen, since $ y_F + y_M = 2y_N $, and $ y_M = 4t $, we have:\n\n$$\n2y_N = y_F + 4t \\Rightarrow y_N = \\frac{y_F + 4t}{2}\n$$\n\nWe now know that point $ F = (-2t^2, y_F) $, and $ y_F $ is the y-coordinate of $ F $.\n\nBut we need to find $ |FN| $. Let's compute this.\n\nPoints:\n\n- $ F = (-2t^2, y_F) $\n- $ N = (0, y_N) $\n\nThen:\n\n$$\n|FN| = \\sqrt{(0 - (-2t^2))^2 + (y_N - y_F)^2}\n= \\sqrt{(2t^2)^2 + (y_N - y_F)^2}\n= \\sqrt{4t^4 + (y_N - y_F)^2}\n$$\n\nBut we also have:\n\n$$\ny_N = \\frac{y_F + 4t}{2}\n\\Rightarrow y_N - y_F = \\frac{4t}{2} = 2t\n$$\n\nSo:\n\n$$\n|FN| = \\sqrt{4t^4 + (2t)^2} = \\sqrt{4t^4 + 4t^2} = 2t\\sqrt{t^2 + 1}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{2t\\sqrt{t^2 + 1}}\n$$\n\nThis is the value of $ |FN| $ for a general point $ M $ on the parabola $ C $."
+    }
+  ]
+}

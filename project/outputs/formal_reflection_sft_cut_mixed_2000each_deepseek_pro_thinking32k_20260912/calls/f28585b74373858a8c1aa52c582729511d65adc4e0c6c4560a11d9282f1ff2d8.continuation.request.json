@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: How many different ways are there to partition the number 2004 into natural summands that are approximately equal? There can be one or several summands. Numbers are called approximately equal if their difference is no more than 1. Ways that differ only by the order of summands are considered the same.\n\n<reflection>\nApproximately equal means all summands differ by at most 1. For a fixed number k of summands, the summands must be either floor(2004/k) or ceil(2004/k), and must sum to 2004. With a = floor(2004/k) and r = 2004 - k*a, validity requires 0 <= r < k. The model has set up a check over all k from 1 to 2004.\nThis false step replaces the check over all k with a count of divisors. The condition 0 <= r < k holds for every positive integer k <= 2004 by the division algorithm, so every k gives a valid partition, not only divisors.\nCount all positive integers k from 1 to 2004 satisfying the already derived condition, instead of counting divisors of 2004.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

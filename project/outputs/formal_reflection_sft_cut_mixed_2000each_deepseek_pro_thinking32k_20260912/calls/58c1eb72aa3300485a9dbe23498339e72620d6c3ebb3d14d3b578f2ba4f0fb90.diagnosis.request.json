@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given that $a_1, a_2, a_3, . . . , a_{99}$ is a permutation of $1, 2, 3, . . . , 99,$ find the maximum possible value of $$ |a_1 - 1| + |a_2 - 2| + |a_3 - 3| + \\dots + |a_{99} - 99|. $$\nGround Truth: 4900\nWeak CoT: We are given that $ a_1, a_2, a_3, \\dots, a_{99} $ is a **permutation** of the numbers $ 1, 2, 3, \\dots, 99 $. We are to **maximize** the sum:\n\n$$\n|a_1 - 1| + |a_2 - 2| + \\dots + |a_{99} - 99|\n$$\n\n---\n\n### Step 1: Understand the goal\n\nEach term $ |a_i - i| $ depends on the position $ i $ and the value $ a_i $. The idea is to **place each number as far to the left as possible** (since $ a_i $ is a permutation of $ 1 $ to $ 99 $, the numbers are fixed).\n\nSo, for each number $ k $, we want to place it at the **\"worst-case\"** position: the position where $ |k - i| $ is maximized.\n\n---\n\n### Step 2: Find the optimal permutation\n\nWe want to **maximize** the sum of absolute differences:\n\n$$\n\\sum_{i=1}^{99} |a_i - i|\n$$\n\nTo maximize this sum, we should place the number $ i $ at the position where $ |a_i - i| $ is **as large as possible**. The difference $ |a_i - i| $ is maximized when $ a_i $ is as far **away** from $ i $ as possible.\n\nSo, to maximize the sum, we should **reverse the order** of the numbers.\n\nLet’s define the permutation $ a = [99, 98, 97, \\dots, 1] $.\n\nThen:\n\n- $ |a_1 - 1| = |99 - 1| = 98 $\n- $ |a_2 - 2| = |98 - 2| = 96 $\n- $ |a_3 - 3| = |97 - 3| = 94 $\n- ...\n- $ |a_{99} - 99| = |1 - 99| = 98 $\n\nSo, the sum becomes:\n\n$$\n98 + 96 + 94 + \\dots + 98\n$$\n\nNow, let’s compute the sum.\n\n---\n\n### Step 3: Compute the sum\n\nLet’s observe that the sequence is an arithmetic sequence with:\n\n- First term $ a = 98 $\n- Last term $ l = 98 $\n- Number of terms: 99\n\nSo the sum is:\n\n$$\n\\frac{99}{2} \\times (98 + 98) = \\frac{99}{2} \\times 196 = 99 \\times 98 = 9702\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{9702}\n$$"
+    }
+  ]
+}

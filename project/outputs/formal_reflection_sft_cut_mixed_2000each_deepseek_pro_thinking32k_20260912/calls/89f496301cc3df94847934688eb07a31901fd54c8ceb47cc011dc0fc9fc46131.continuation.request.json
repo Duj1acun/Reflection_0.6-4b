@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A 600 meter long train crosses a signal post in 40 seconds. How long will it take to cross a bridge of a certain length at the same speed if it takes 20 minutes to cross the bridge?\n\n<reflection>\nThe train length is $L = 600$ m. The signal-post crossing time is $t_1 = 40$ s. The train speed is $15$ m/s. To completely clear a bridge, the train must travel $600 + L_b$ meters. $20$ minutes $= 1200$ seconds.\nThis equation treats the 20-minute/1200-second interval as the time to cover the total distance $600 + L_b$, but the given 20 minutes should be used for the bridge length alone. Including the train length here leads to the wrong bridge length and final time.\nTreat 20 minutes as the time to traverse the bridge length only, compute $L_b$ from that, then calculate the total crossing time using total distance $600 + L_b$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

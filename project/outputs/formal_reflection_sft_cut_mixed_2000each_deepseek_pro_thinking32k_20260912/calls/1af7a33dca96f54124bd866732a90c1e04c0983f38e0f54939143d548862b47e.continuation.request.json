@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A number is called ascending if each of its digits is greater than the digit to its left. For example, 2568 is ascending, and 175 is not. How many ascending numbers are there between 400 and 600?\n\n<reflection>\nAscending numbers have digits in strictly increasing order from left to right. The range is the 3-digit numbers from 400 up to 600. 400, 401, and 423 are invalid because their digits are not increasing. 456 is valid because 4 < 5 < 6.\n467 is actually ascending because 4 < 6 < 7; the step incorrectly claims 6 > 7.\nReclassify 467 as valid, then continue checking all remaining 3-digit numbers in the range with strictly increasing digits.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

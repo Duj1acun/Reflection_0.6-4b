@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: It takes 60 grams of paint to paint a cube on all sides. How much paint is needed to paint a \"snake\" composed of 2016 such cubes? The beginning and end of the snake are shown in the illustration, while the rest of the cubes are represented by ellipsis.\n\n<reflection>\nThe snake is a linear chain of 2016 cubes. Each cube has 6 faces, so the total number of individual cube faces is 2016 × 6 = 12,096. Faces covered by adjacent cubes do not need to be painted. In a linear chain, interior cubes have 2 adjacent cubes; the first and last cubes are exceptions.\nEach internal connection hides two cube faces (one face on each of the two touching cubes), so counting it as only one shared face undercounts the unpainted faces by a factor of 2.\nSubtract 2 × 2015 hidden faces from the total 12,096 individual faces before converting faces to grams.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

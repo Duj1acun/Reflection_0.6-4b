@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Drew is reseeding his lawn with grass seed. One bag of grass seed covers 250 square feet of lawn. His lawn is 22 feet from the house to the curb and has a certain width from side to side. He bought four bags of seed and had enough to cover an extra 208 square feet. What is the width of his lawn from side to side?\nGround Truth: 36\nWeak CoT: We are given the following information:\n\n- **1 bag of grass seed covers 250 square feet.**\n- **He bought 4 bags of seed, so he used 4 × 250 = 1000 square feet.**\n- He had **enough to cover an extra 208 square feet**, meaning he had **1000 + 208 = 1208 square feet** to cover the entire lawn.\n\nLet the width of the lawn from side to side be $ w $ feet.\n\n- Since the lawn is **22 feet from the house to the curb**, it forms a rectangle with length 22 feet and width $ w $ feet.\n- The area of the lawn is:  \n  $$\n  \\text{Area} = 22 \\times w\n  $$\n\nSo, we have the equation:  \n$$\n22w = 1208\n$$\n\nSolving for $ w $:  \n$$\nw = \\frac{1208}{22} = 55\n$$\n\n### Final Answer:  \n$$\n\\boxed{55}\n$$"
+    }
+  ]
+}

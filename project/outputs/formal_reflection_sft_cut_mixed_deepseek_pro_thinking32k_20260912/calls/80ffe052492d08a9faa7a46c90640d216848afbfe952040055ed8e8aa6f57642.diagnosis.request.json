@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Fred spent half of his allowance on movie tickets, with each ticket costing x dollars. After going to the movies, he had a lunch that cost y dollars less than the cost of the tickets. Then he washed the family car to earn 6 dollars and mowed the neighbor's lawn for 5 dollars. At the end of the day, he counted a total of 20 dollars. What is his weekly allowance if it's the only money he started the day with? Solve the problem by setting up and solving a system of equations involving the allowance (A), cost of movie tickets (x), and the cost of lunch (y).\nGround Truth: 9\nWeak CoT: We are told that Fred's weekly allowance is the **only** money he started the day with. Let's break down the information:\n\n1. **He spent half of his allowance on movie tickets**.  \n   So, the amount spent on tickets is:  \n   $ \\frac{A}{2} $\n\n2. **After buying the movie tickets, he had a lunch that cost $ y $ dollars less than the cost of the tickets**.  \n   So, the lunch cost was:  \n   $ \\frac{A}{2} - y $\n\n3. **He washed the family car and earned $6, and mowed the neighbor's lawn for $5**.  \n   So, the total money earned is:  \n   $ 6 + 5 = 11 $ dollars\n\n4. **At the end of the day, he counted a total of 20 dollars**.  \n   That means:  \n   $ \\frac{A}{2} + (\\frac{A}{2} - y) + 11 = 20 $\n\nNow, let's set up the system of equations:\n\n$$\n\\frac{A}{2} + \\left( \\frac{A}{2} - y \\right) + 11 = 20\n$$\n\nSimplify:\n\n$$\n\\frac{A}{2} + \\frac{A}{2} - y + 11 = 20\n$$\n\n$$\nA - y + 11 = 20\n$$\n\n$$\nA - y = 9\n$$\n\nNow solve for $ A $:\n\n$$\nA = y + 9\n$$\n\n### Final Answer:\n\n$$\n\\boxed{A = y + 9}\n$$\n\nThis means Fred's weekly allowance depends on the cost of the lunch, $ y $, and is $ 9 $ dollars more than that."
+    }
+  ]
+}

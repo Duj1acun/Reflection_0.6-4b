@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Compute the sum of all integers $1 \\leq a \\leq 10$ with the following property: there exist integers $p$ and $q$ such that $p, q, p^{2}+a$ and $q^{2}+a$ are all distinct prime numbers.\n\n<reflection>\n$p, q, p^2 + a, q^2 + a$ must all be distinct prime numbers, so $p$ and $q$ themselves must be prime. The distinctness conditions from Step 1 are: $p^2 + a \\neq p$, $p^2 + a \\neq q$, $p^2 + a \\neq q^2 + a$, $p \\neq q$, $p \\neq q^2 + a$, and $q \\neq p^2 + a$. To solve, it suffices to test each $a \\in [1,10]$ for existence of distinct primes $p,q$ satisfying primality of $p^2+a$ and $q^2+a$.\n$p=1$ is not a prime number, so it cannot be one of the required distinct prime numbers; therefore this example does not show that $a=1$ is valid.\nRestrict $p$ and $q$ to actual prime numbers such as $2,3,5,\\ldots$, and re-evaluate $a=1$ using only prime candidates.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

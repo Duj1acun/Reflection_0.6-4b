@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Consider a \\(2008 \\times 2008\\) chess board. Let \\(M\\) be the smallest number of rectangles that can be drawn on the chess board so that the sides of every cell of the board are contained in the sides of one of the rectangles. Find the value of \\(M\\).\nGround Truth: 2009\nWeak CoT: We are given a $2008 \\times 2008$ chessboard, and we are to find the **smallest number of rectangles** that can be drawn such that **every side of the chessboard is contained in one of the rectangles**.\n\n---\n\n### Step 1: Understanding the problem\n\nA rectangle must contain **all four sides** of the chessboard. For each side of the chessboard, we need to cover it **at least once** by placing a rectangle. Therefore, we need at most **2008** such rectangles. However, we must ensure that **no side is left uncovered**.\n\nThus, the problem reduces to covering the **2008 × 2008 board** with the **smallest number of rectangles**, such that each rectangle covers **at least one side** of the board.\n\n---\n\n### Step 2: Covering the board with rectangles\n\nLet's consider a small chessboard, say $2 \\times 2$.\n\nSuppose we want to cover all sides. That is, we need to cover all four sides of the square. Each side is a **horizontal or vertical** side of the square.\n\nIn this case, if we draw one rectangle (which is the square itself), then all sides are covered. So for a $2 \\times 2$ board, we only need **1 rectangle**.\n\nThus, for a $2008 \\times 2008$ board, we need **only 1 rectangle** to cover all the sides.\n\n---\n\n### Step 3: Generalizing\n\nFor a $n \\times n$ chessboard, to cover **all four sides** of the board, we can draw **one rectangle** that covers the entire board. Since **each side of the board lies on the edges of that rectangle**, this satisfies the condition.\n\n- The **four sides** of the board are each covered by the rectangle.\n- In this case, **no rectangle is needed**, because the rectangle itself covers all sides.\n\nThus, for the given problem, the **smallest number of rectangles** needed is:\n\n$$\n\\boxed{1}\n$$"
+    }
+  ]
+}

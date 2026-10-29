@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Simplify first, then evaluate: $\\frac{m-1}{{m}^{2}-2m}÷(m+\\frac{1}{m-2})$, where $m$ is a root of the equation $x^{2}-x-1=0$.\n\n<reflection>\nWe are given the expression \\(\\frac{m-1}{m^2 - 2m} \\div \\left( m + \\frac{1}{m - 2} \\right)\\). Division by a quantity is rewritten as multiplication by its reciprocal. \\(m + \\frac{1}{m - 2} = \\frac{m(m - 2) + 1}{m - 2} = \\frac{m^2 - 2m + 1}{m - 2}\\). After substituting the reciprocal, the expression is \\(\\frac{m - 1}{m^2 - 2m} \\times \\frac{m - 2}{m^2 - 2m + 1}\\). \\(m^2 - 2m = m(m - 2)\\), so the product numerator is \\((m - 1)(m - 2)\\).\nThis incorrectly replaces \\(m^2 - 2m = m(m - 2)\\) with \\((m - 1)(m - 2)\\) in the denominator. The correct denominator after multiplying is \\(m(m - 2)(m^2 - 2m + 1)\\), so the subsequent cancellation of \\(m - 1\\) is invalid.\nCorrect the denominator to \\(m(m - 2)(m^2 - 2m + 1)\\), cancel only the common factor \\(m - 2\\), and rewrite \\(m^2 - 2m + 1\\) as \\((m - 1)^2\\) before evaluating.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

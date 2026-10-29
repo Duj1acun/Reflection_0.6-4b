@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the hyperbola $\\frac{x^{2}}{16} - \\frac{y^{2}}{20} = 1$ with foci $F\\_1$ and $F\\_2$, and point $P$ on the hyperbola, if the distance between point $P$ and focus $F\\_1$ is $|PF\\_1| = 9$, calculate the distance between point $P$ and focus $F\\_2$, $|PF\\_2|$. Express your answer as a single number.\n\n<reflection>\nThe hyperbola is horizontal with a^2=16, so a=4. b^2=20. c = sqrt(a^2+b^2) = sqrt(36) = 6, so foci are at (±6,0), with F1=(-6,0), F2=(6,0). Given |PF1| = 9. The hyperbola definition gives ||PF1| - |PF2|| = 2a = 8. Substituting |PF1|=9 gives |9 - |PF2|| = 8, so the only possible focal distances are |PF2| = 1 or |PF2| = 17. On the right branch, |PF1| > |PF2|; on the left branch, |PF2| > |PF1|. The vertices are at x=±4, so the right branch is x≥4 and the left branch is x≤-4.\nOn the right branch, the minimum distance to F1=(-6,0) occurs at the vertex (4,0) and is 10, so |PF1|=9 cannot occur on the right branch. Thus |PF2|=1 is incompatible and the conclusion that P is on the right branch is invalid.\nUse the branch constraints or focal-distance formulas to determine which branch is compatible with |PF1|=9, then choose the corresponding candidate for |PF2|.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given that $A_{n}^{m}=11×10×9×...×5$, determine the value of $m+n$.\nGround Truth: 18\nWeak CoT: We are given:\n\n$$\nA_n^m = 1 \\times 2 \\times 3 \\times \\cdots \\times (m-1)\n$$\n\nThis is the falling factorial, and it is also equal to:\n\n$$\nA_n^m = \\frac{m!}{(m-n)!}\n$$\n\nWe are told:\n\n$$\nA_n^m = 11 \\times 10 \\times 9 \\times \\cdots \\times 5 = 11! / 6!\n$$\n\nSo:\n\n$$\n11! / 6! = 11 \\times 10 \\times 9 \\times 8 \\times 7 \\times 6!\n$$\n\nCanceling the $6!$ from both sides:\n\n$$\n11 \\times 10 \\times 9 \\times 8 \\times 7 = 11! / 6!\n$$\n\nThis is the value of $A_n^m$, and we are to find $m + n$, where:\n\n$$\nA_n^m = 11 \\times 10 \\times 9 \\times 8 \\times 7\n$$\n\nSo:\n\n- $m = 11$\n- $n = 6$\n\nTherefore:\n\n$$\nm + n = 11 + 6 = \\boxed{17}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A person fires 8 shots in succession, hitting the target 4 times with exactly 3 of those hits occurring consecutively. Find the number of different outcomes for this scenario. Express your answer as a single integer.\n\n<reflection>\nA valid outcome is a sequence of length 8 with exactly 4 hits and 4 misses. Exactly 3 hits are consecutive, so the 4 hits consist of one block HHH and one single H that is not adjacent to that block. The HHH block can be treated as one block, and the single H as a second block; the two blocks must be non-adjacent with all remaining positions misses. The HHH block can start in positions 1 through 6, giving 6 possible placements for the HHH block. For an HHH block starting at position i, the single H is forbidden from any valid shot position adjacent to that block, i.e. positions i-1 or i+3 when within 1..8, plus the occupied positions i, i+1, i+2.\nThis treats all five forbidden positions as valid shot positions for every i, but when i=1 the position i-1=0 is outside the 8 shots, and when i=6 the position i+3=9 is outside. In those edge cases only 4 positions are forbidden, so the available count is 4, not 3.\nCount the available positions for the single H separately for edge placements of the HHH block (i=1 or i=6, giving 4 available positions each) and interior placements (i=2 through i=5, giving 3 available positions each), then sum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

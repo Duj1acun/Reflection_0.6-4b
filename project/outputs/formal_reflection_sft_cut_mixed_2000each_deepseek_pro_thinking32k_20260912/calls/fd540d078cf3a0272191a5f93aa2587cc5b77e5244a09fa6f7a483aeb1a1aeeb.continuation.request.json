@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: If positive numbers x and y satisfy the equation 3/x + 1/y = 5, find the minimum value of 3x + 4y. Express your answer as a single number.\n\n<reflection>\nThe constraint is 3/x + 1/y = 5 and the expression to minimize is 3x + 4y. With f(x,y)=3x+4y and g(x,y)=3/x+1/y-5=0, the Lagrange condition is ∇f = λ∇g. ∇f = (3,4) and ∇g = (-3/x^2, -1/y^2). The Lagrange equations are (a) 3 = λ(-3/x^2) and (b) 4 = λ(-1/y^2).\nSolving 3 = λ(-3/x^2) gives 3x^2 = -3λ, so λ = -x^2, not -x^2/3.\nCorrectly solve equation (a) for λ as λ = -x^2, then substitute this into equation (b).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

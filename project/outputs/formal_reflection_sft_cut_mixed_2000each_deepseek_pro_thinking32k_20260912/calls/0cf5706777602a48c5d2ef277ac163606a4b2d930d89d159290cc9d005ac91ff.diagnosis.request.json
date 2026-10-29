@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The budget of the Petrov family consists of the following sources of income: - Parents' salary after income tax deduction: 56000 rubles; - Grandmother's pension: 14300 rubles; - Son's scholarship: 2500 rubles. The average monthly expenses of the family include: - Payment for communal services: 9800 rubles; - Food expenses: 21000 rubles; - Transport expenses: 3200 rubles; - Leisure: 5200 rubles; - Other expenses: 15000 rubles. 10 percent of the remaining amount is transferred to a deposit for forming a financial safety cushion. Determine the amount that the Petrov family can save monthly for an upcoming vacation. In the answer, indicate only the number without units of measurement!\nGround Truth: 16740\nWeak CoT: We are given the following:\n\n### **Income:**\n- Parents' salary: 56000 rubles  \n- Grandmother's pension: 14300 rubles  \n- Son's scholarship: 2500 rubles  \n**Total Income = 56000 + 14300 + 2500 = 72800 rubles**\n\n---\n\n### **Expenses:**\n- Communal services: 9800 rubles  \n- Food: 21000 rubles  \n- Transport: 3200 rubles  \n- Leisure: 5200 rubles  \n- Other: 15000 rubles  \n**Total Expenses = 9800 + 21000 + 3200 + 5200 + 15000 = 54200 rubles**\n\n---\n\n### **Remaining Amount After Expenses:**\n$$\n\\text{Remaining} = \\text{Income} - \\text{Expenses} = 72800 - 54200 = 18600 \\text{ rubles}\n$$\n\n---\n\n### **10% of the remaining amount is saved for the financial safety cushion:**\n$$\n\\text{Amount saved} = 0.10 \\times 18600 = 1860 \\text{ rubles}\n$$\n\n---\n\n### **Amount saved monthly for vacation:**\n$$\n\\boxed{1860}\n$$"
+    }
+  ]
+}

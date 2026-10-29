@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SFT teacher v1 continuation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "reasoning", "review_note"],
+  "properties": {
+    "status": {"enum": ["ok", "invalid_reflection", "unsolved"]},
+    "reasoning": {"type": "string"},
+    "review_note": {"type": "string"}
+  },
+  "if": {
+    "properties": {"status": {"const": "ok"}},
+    "required": ["status"]
+  },
+  "then": {
+    "properties": {
+      "reasoning": {"pattern": "\\S"},
+      "review_note": {"const": ""}
+    }
+  },
+  "else": {
+    "properties": {
+      "reasoning": {"const": ""},
+      "review_note": {"pattern": "\\S"}
+    }
+  }
+}

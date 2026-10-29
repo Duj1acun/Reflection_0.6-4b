@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a positive geometric sequence $\\{a_n\\}$, if $a_4+a_3-2a_2-2a_1=6$, then the minimum value of $a_5+a_6$ is ______.\n\n<reflection>\nThe sequence is geometric with first term \\(a_1>0\\) and common ratio \\(r>0\\). The terms are \\(a_2=a_1r,\\ a_3=a_1r^2,\\ a_4=a_1r^3,\\ a_5=a_1r^4,\\ a_6=a_1r^5\\).\nThe term \\(-2a_2\\) should be \\(-2a_1r\\), but the model wrote \\(-2a_1r^2\\), so the substituted equation is incorrect.\nSubstitute correctly to get \\(a_1r^3+a_1r^2-2a_1r-2a_1=6\\), factor it as \\(a_1(r^3+r^2-2r-2)=6\\), then minimize \\(a_1r^4(1+r)\\) under \\(a_1>0,r>0\\).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

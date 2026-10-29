@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: How many of the integers between 25 and a certain number are even if the total number of even integers is 10?\nGround Truth: 44\nWeak CoT: We are told:\n\n- The **total number of even integers** is **10**.\n- The range of numbers we are considering is between **25** and a **certain number**.\n\nWe are to find the **certain number**.\n\n---\n\n### Step 1: Understand the range\n\nLet the **certain number** be $ x $.\n\nSo, the range of numbers is from **25** to $ x $, inclusive.\n\nThe number of **integers in a range** from $ a $ to $ b $ (inclusive) is:\n\n$$\nx - a + 1\n$$\n\nIn this case:\n\n- $ a = 25 $\n- $ x $ is the **certain number**\n\nSo the total number of integers is:\n\n$$\nx - 25 + 1 = x - 24\n$$\n\n---\n\n### Step 2: Use the information given\n\nWe are told that **the total number of even integers is 10**, so:\n\n$$\nx - 24 = 10 \\Rightarrow x = 34\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{34}\n$$"
+    }
+  ]
+}

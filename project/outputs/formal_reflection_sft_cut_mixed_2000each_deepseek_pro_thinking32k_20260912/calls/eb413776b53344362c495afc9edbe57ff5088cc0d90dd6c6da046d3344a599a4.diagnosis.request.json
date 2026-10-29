@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given a moving point P(x, y) on the circle $(x-2)^2+y^2=1$, find the maximum value of $|3x+4y-3|$.\nGround Truth: 8\nWeak CoT: We are given a point $ P(x, y) $ that lies on the circle:\n\n$$\n(x - 2)^2 + y^2 = 1\n$$\n\nWe are to find the **maximum value** of the expression:\n\n$$\n|3x + 4y - 3|\n$$\n\n---\n\n### Step 1: Understand the Geometry\n\nThe circle is centered at $ (2, 0) $ with radius 1. So the point $ P(x, y) $ lies on this circle.\n\nWe are to **maximize** the absolute value of the linear expression $ 3x + 4y - 3 $.\n\n---\n\n### Step 2: Use the Geometry of the Problem\n\nWe can think of the expression $ |3x + 4y - 3| $ as the **distance from the point $ (x, y) $ to the line**:\n\n$$\n3x + 4y - 3 = 0\n$$\n\nBut since $ (x, y) $ lies on the circle, we are looking for the **maximum distance** from the line $ 3x + 4y - 3 = 0 $ to points on the circle.\n\nThis is a classic **geometric optimization** problem.\n\n---\n\n### Step 3: Use the Distance from a Point to a Line\n\nThe distance from a point $ (x, y) $ to the line $ ax + by + c = 0 $ is:\n\n$$\nD = \\frac{|ax + by + c|}{\\sqrt{a^2 + b^2}}\n$$\n\nSo, the expression $ |3x + 4y - 3| $ is the **numerator** of the distance from $ (x, y) $ to the line $ 3x + 4y - 3 = 0 $, and the denominator is $ \\sqrt{3^2 + 4^2} = 5 $.\n\nSo, the **maximum** value of $ |3x + 4y - 3| $ is related to the **maximum distance** from the line to the circle.\n\n---\n\n### Step 4: Use the Circle's Center and Radius\n\nLet’s find the **distance from the center of the circle to the line**, and then add the radius to get the **maximum distance** from the line to any point on the circle.\n\n- The center of the circle is $ (2, 0) $\n- The line is $ 3x + 4y - 3 = 0 $\n\nSo the distance from the center to the line is:\n\n$$\nD_{\\text{center}} = \\frac{|3(2) + 4(0) - 3|}{\\sqrt{3^2 + 4^2}} = \\frac{|6 - 3|}{5} = \\frac{3}{5}\n$$\n\nThen the **maximum distance** from the line to any point on the circle is:\n\n$$\nD_{\\text{max}} = D_{\\text{center}} + \\text{radius} = \\frac{3}{5} + 1 = \\frac{8}{5}\n$$\n\n---\n\n### Step 5: Final Answer\n\nSo the **maximum value** of $ |3x + 4y - 3| $ is:\n\n$$\n\\boxed{\\frac{8}{5}}\n$$"
+    }
+  ]
+}

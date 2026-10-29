@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the real numbers \\( a \\geq b \\geq c \\geq d \\) with \\( a + b + c + d = 9 \\) and \\( a^2 + b^2 + c^2 + d^2 = 21 \\), find the minimum possible value of \\( \\text{ab} - \\text{cd} \\).\n\n<reflection>\nUsing (a+b+c+d)^2 with the given sum and square constraints gives ab+ac+ad+bc+bd+cd=30. The tuple (a,b,c,d)=(3,2,2,2) satisfies a>=b>=c>=d, a+b+c+d=9, and a^2+b^2+c^2+d^2=21, and it gives ab-cd=2, so the minimum is at most 2.\nThis tuple has b=2 and c=3, so b>=c is false; it violates the required ordering a>=b>=c>=d, even though the sum and square-sum constraints hold.\nReject this tuple and prove a lower bound for ab-cd under the full constraints, including the ordering a>=b>=c>=d.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

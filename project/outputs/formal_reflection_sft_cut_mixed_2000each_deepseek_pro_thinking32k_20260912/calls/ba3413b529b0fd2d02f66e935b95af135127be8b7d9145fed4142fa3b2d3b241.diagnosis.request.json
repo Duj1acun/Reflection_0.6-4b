@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Simplify first, then evaluate: $[\\left(a-2b\\right)^{2}-\\left(a-2b\\right)\\left(a+2b\\right)-4b]\\div \\left(-2b\\right)$, where $a=1$ and $b=-2$.\nGround Truth: 6\nWeak CoT: We are given the expression:\n\n$$\n\\left[\\left(a-2b\\right)^{2}-\\left(a-2b\\right)\\left(a+2b\\right)-4b\\right] \\div (-2b)\n$$\n\nand the values $ a = 1 $, $ b = -2 $.\n\n---\n\n### Step 1: Simplify the expression\n\nFirst, simplify the expression inside the brackets:\n\n$$\n\\left(a - 2b\\right)^2 - \\left(a - 2b\\right)(a + 2b) - 4b\n$$\n\nLet’s compute each term.\n\n#### First term: $ (a - 2b)^2 $\n\n$$\n(a - 2b)^2 = a^2 - 4ab + 4b^2\n$$\n\n#### Second term: $ (a - 2b)(a + 2b) $\n\nUse the difference of squares:\n\n$$\n(a - 2b)(a + 2b) = a^2 - (2b)^2 = a^2 - 4b^2\n$$\n\nSo the expression becomes:\n\n$$\n(a^2 - 4ab + 4b^2) - (a^2 - 4b^2) - 4b\n$$\n\nSimplify:\n\n$$\na^2 - 4ab + 4b^2 - a^2 + 4b^2 - 4b = -4ab + 8b^2 - 4b\n$$\n\nNow, divide by $ -2b $:\n\n$$\n\\frac{-4ab + 8b^2 - 4b}{-2b}\n$$\n\nFactor numerator:\n\n$$\n\\frac{-2b(2a - 4b + 2)}{-2b} = 2a - 4b + 2\n$$\n\n---\n\n### Step 2: Plug in the values\n\nWe are given:\n\n- $ a = 1 $\n- $ b = -2 $\n\nSo:\n\n$$\n2a - 4b + 2 = 2(1) - 4(-2) + 2 = 2 + 8 + 2 = 12\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{12}\n$$"
+    }
+  ]
+}

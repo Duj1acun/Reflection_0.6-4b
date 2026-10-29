@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a square grid, some cells are painted black. It turns out that no black cell shares a side with more than one other black cell. What is the maximum number of cells that could be painted black?\n\n<reflection>\nThe condition is equivalent to requiring every black cell to have degree at most 1 in the subgraph induced by the black cells. Thus each connected component of black cells must be either a single isolated cell or a pair of cells sharing a side. The 2x2 example is labeled as A B / C D.\nIn a 2x2 grid, if A, B, C, and D are all black, then A is adjacent to both B and C, so A has degree 2. Similarly, B, C, and D also violate the condition.\nRecheck the 2x2 case by counting all side adjacencies, including A-C and B-D, and choose a valid subset instead.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

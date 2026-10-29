@@ -1,0 +1,67 @@
+{
+  "source_clarification": "Existing clean _teacher_prompt, NOT verified as the original /root/reflection_grpo historical prompt.",
+  "checks": [
+    {
+      "probe_id": "qwen3-0.6b_k1",
+      "answer": "325",
+      "score": 1,
+      "has_boxed": true,
+      "lengths": {
+        "phase1": 677,
+        "phase2": 386
+      }
+    },
+    {
+      "probe_id": "qwen3-0.6b_k2",
+      "answer": "1",
+      "score": 1,
+      "has_boxed": true,
+      "lengths": {
+        "phase1": 1037,
+        "phase2": 427
+      }
+    },
+    {
+      "probe_id": "qwen3-4b_k2",
+      "answer": "-2",
+      "score": 1,
+      "has_boxed": true,
+      "lengths": {
+        "phase1": 717,
+        "phase2": 377
+      }
+    },
+    {
+      "probe_id": "qwen3-4b_k3",
+      "answer": "1",
+      "score": 1,
+      "has_boxed": true,
+      "lengths": {
+        "phase1": 1650,
+        "phase2": 659
+      }
+    }
+  ],
+  "actual_requests": 4,
+  "source_hashes_unchanged": true,
+  "raw_content_unmodified": true,
+  "production_training_exported": false,
+  "records": [
+    {
+      "probe_id": "qwen3-0.6b_k1",
+      "review": "主要诊断与组合计数证明正确，得到 325；方向没有给出最终答案。按合并至只剩一个数的自然理解成立。verified_states 中每次少一个数是直接操作推论，不按新增基础结论拒收。"
+    },
+    {
+      "probe_id": "qwen3-0.6b_k2",
+      "review": "准确定位学生更早丢失 -8/9 的错误；verified_states 只保留原有坐标关系，修正坐标放在 new_direction，计算 b=-1 后得到 1。这比同组 M3 返回更符合首错和字段语义。"
+    },
+    {
+      "probe_id": "qwen3-4b_k2",
+      "review": "准确区分 x 与 x+2 的展开基底，代入 x=-1 得到 -2；诊断与续推均合理。"
+    },
+    {
+      "probe_id": "qwen3-4b_k3",
+      "review": "正确指出学生停在等价但未完全化简的表达式，没有捏造错误代数变形。续推得到 1，但 error_reason 已提前说出最终值 1；这不违反该 prompt 明文限制，却可能不利于反思与续推的训练分工。"
+    }
+  ]
+}

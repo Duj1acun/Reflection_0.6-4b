@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Consider the hyperbola $\\dfrac{x^2}{4} - y^2 = 1$ with foci $F_1$ and $F_2$. If point $P$ lies on this hyperbola and $|PF_1| = 3$, then find the value of $|PF_2|$.\nGround Truth: 7\nWeak CoT: We are given the hyperbola:\n\n$$\n\\frac{x^2}{4} - y^2 = 1\n$$\n\nThis is a **horizontal hyperbola** of the form:\n\n$$\n\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1\n$$\n\nFrom the equation, we identify:\n\n- $ a^2 = 4 \\Rightarrow a = 2 $\n- $ b^2 = 1 \\Rightarrow b = 1 $\n\n### Step 1: Find the foci of the hyperbola\n\nFor a horizontal hyperbola, the foci are located at:\n\n$$\n(\\pm c, 0) \\quad \\text{where} \\quad c = \\sqrt{a^2 + b^2}\n$$\n\nSo:\n\n$$\nc = \\sqrt{4 + 1} = \\sqrt{5}\n$$\n\nThus, the foci are:\n\n$$\nF_1 = (-\\sqrt{5}, 0), \\quad F_2 = (\\sqrt{5}, 0)\n$$\n\n### Step 2: Use the hyperbola definition\n\nA key property of a hyperbola is that the **absolute difference of distances** from any point on the hyperbola to the two foci is constant and equal to $ 2a $.\n\nSo for any point $ P $ on the hyperbola:\n\n$$\n|PF_1| - |PF_2| = \\pm 2a\n$$\n\nBut in this case, since the hyperbola is horizontal, the difference is:\n\n$$\n|PF_1| - |PF_2| = 2a = 4\n$$\n\nWe are told that $ |PF_1| = 3 $. Let’s denote $ |PF_2| = d $. Then:\n\n$$\n|PF_1| - |PF_2| = 3 - d = 4 \\Rightarrow d = 3 - 4 = -1\n$$\n\nBut since distance cannot be negative, we take the **absolute value**:\n\n$$\n|PF_2| = 1\n$$\n\nSo the answer is:\n\n$$\n\\boxed{1}\n$$"
+    }
+  ]
+}

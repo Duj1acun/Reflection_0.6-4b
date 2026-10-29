@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: How many positive integers satisfy the double inequality $2000<\\sqrt{n(n-1)}<2005$? Express your answer as a single integer.\n\n<reflection>\nSquaring the original positive inequality gives $4,000,000 < n(n-1) < 4,020,025$. The lower boundary approximation is about n = 2000 because 2000^2 = 4,000,000.\nThe test range is wrong: n=2000 gives n(n-1)=3,998,000, below the lower bound, while n=2005 gives n(n-1)=4,018,020, still below the upper bound, so n=2005 should be included and n=2000 should not.\nSolve the exact inequalities n(n-1)>4,000,000 and n(n-1)<4,020,025 to find the valid integer range, then count the integers in it.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

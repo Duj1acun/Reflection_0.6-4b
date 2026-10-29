@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: After the start of the school year, a high school randomly selected 90 students from the freshman class for a family situation survey. After some time, they randomly selected 100 students from the same grade for an academic situation survey and found that 20 students had been selected in both surveys. Estimate the total number of students in the freshman class of this school.\nGround Truth: 450\nWeak CoT: We are given the following information:\n\n- A **random sample of 90 students** was selected from the freshman class for a **family situation survey**.\n- Later, a **random sample of 100 students** was selected from the same grade for an **academic situation survey**.\n- Of these, **20 students were selected in both surveys**.\n\nWe are to **estimate the total number of students in the freshman class**.\n\n---\n\n### Step 1: Understand the problem\n\nWe are told that:\n\n- 90 students were in the first sample (Family Survey).\n- 100 students were in the second sample (Academic Survey).\n- The overlap between the two samples is 20 students.\n\nThis is a classic **set intersection** problem. We can model the two sets as:\n\n- Let $ A $ be the set of students in the Family Survey: $ |A| = 90 $\n- Let $ B $ be the set of students in the Academic Survey: $ |B| = 100 $\n- The intersection $ |A \\cap B| = 20 $\n\nWe are to estimate the **total number of students in the freshman class**, i.e., the size of the **union** of these two sets:\n\n$$\n|A \\cup B| = |A| + |B| - |A \\cap B| = 90 + 100 - 20 = 170\n$$\n\nSo, the **estimated total number of students** in the freshman class is:\n\n$$\n\\boxed{170}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{170}\n$$"
+    }
+  ]
+}

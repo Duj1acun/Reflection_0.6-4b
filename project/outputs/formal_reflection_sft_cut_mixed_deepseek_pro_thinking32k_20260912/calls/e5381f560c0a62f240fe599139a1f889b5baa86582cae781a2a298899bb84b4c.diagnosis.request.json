@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A chemical factory plans to improve the technology for a chemical product and has decided to optimize the processing temperature, with the experimental range set between 60°C and 81°C, requiring an accuracy of ±1°C. If the technician prepares to use the method of fractions to optimize, what is the maximum number of experiments needed to find the optimal temperature?\nGround Truth: 4\nWeak CoT: To determine the **maximum number of experiments** needed using the **method of fractions** to optimize the temperature in the range between **60°C to 81°C**, with **accuracy of ±1°C**, we can follow these steps:\n\n---\n\n### **Step 1: Determine the Total Interval**\n\nThe temperature range is from **60°C** to **81°C**, inclusive.\n\n$$\n\\text{Total interval} = 81 - 60 + 1 = 22°C\n$$\n\n---\n\n### **Step 2: Understand the Method of Fractions**\n\nThe method of fractions (also known as **trial and error**, or **linear search**) works by dividing the interval into smaller segments and testing within each segment. The number of experiments needed corresponds to the **number of intervals** (or steps) needed to narrow down the optimal point.\n\nIn a **range of N steps (e.g., 22°C)**, the **maximum number of experiments** is given by:\n\n$$\n\\text{Number of experiments} = N\n$$\n\nBecause each experiment narrows the interval toward the optimal point.\n\n---\n\n### **Step 3: Apply to the Given Range**\n\nWe have a total interval of **22°C**, so the **maximum number of experiments** required is:\n\n$$\n\\boxed{22}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{22}\n$$"
+    }
+  ]
+}

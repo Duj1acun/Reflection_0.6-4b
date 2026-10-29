@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Find \\( f(2013) \\) if for all real numbers \\( x \\) and \\( y \\) the following equality holds: \\[ f(x-y) = f(x) + f(y) - 2 x y \\]\nGround Truth: 4052169\nWeak CoT: We are given the functional equation:\n\n$$\nf(x - y) = f(x) + f(y) - 2xy\n$$\n\nWe are to find $ f(2013) $.\n\n---\n\n### Step 1: Try a specific value to understand the form of $ f $\n\nLet’s try $ x = y $. Then:\n\n$$\nf(x - x) = f(x) + f(x) - 2x \\cdot x\n$$\n$$\nf(0) = 2f(x) - 2x^2\n$$\n\nThis gives a recursive formula for $ f(0) $ in terms of $ f(x) $:\n\n$$\nf(0) = 2f(x) - 2x^2\n$$\n\n---\n\n### Step 2: Try $ x = 0 $\n\nLet’s plug in $ x = 0 $:\n\n$$\nf(0 - y) = f(0) + f(y) - 2 \\cdot 0 \\cdot y\n$$\n$$\nf(-y) = f(0) + f(y)\n$$\n\nFrom the previous equation:\n\n$$\nf(-y) = f(0) + f(y)\n$$\n\nSo we get:\n\n$$\nf(-y) = f(y) + f(0)\n$$\n\nThis is symmetric in $ f(-y) $, which suggests that $ f $ might be an additive function (or linear in some sense). Let’s try to assume a linear form for $ f $:\n\nLet’s suppose:\n\n$$\nf(x) = ax + b\n$$\n\nPlug this into the original functional equation:\n\n$$\nf(x - y) = a(x - y) + b = ax - ay + b\n$$\n\nOn the right-hand side:\n\n$$\nf(x) + f(y) - 2xy = (ax + b) + (ay + b) - 2xy = ax + ay + 2b - 2xy\n$$\n\nNow equate the two expressions:\n\n$$\nax - ay + b = ax + ay + 2b - 2xy\n$$\n\nSubtract $ ax $ from both sides:\n\n$$\n-ay + b = ay + 2b - 2xy\n$$\n\nMove terms:\n\n$$\n-2ay = b - 2xy\n$$\n\nThis is a contradiction unless we pick a specific value for $ a $.\n\nLet’s instead assume that:\n\n$$\nf(x) = x^2\n$$\n\nNow check:\n\n$$\nf(x - y) = (x - y)^2 = x^2 - 2xy + y^2\n$$\n\nOn the right-hand side:\n\n$$\nf(x) + f(y) - 2xy = (x^2 + y^2) - 2xy = (x - y)^2\n$$\n\nSo the equation holds.\n\n---\n\n### Step 3: Final Answer\n\nWe found that:\n\n$$\nf(x) = x^2\n$$\n\nTherefore:\n\n$$\nf(2013) = 2013^2 = \\boxed{2013^2}\n$$\n\n$$\n\\boxed{405609}\n$$"
+    }
+  ]
+}

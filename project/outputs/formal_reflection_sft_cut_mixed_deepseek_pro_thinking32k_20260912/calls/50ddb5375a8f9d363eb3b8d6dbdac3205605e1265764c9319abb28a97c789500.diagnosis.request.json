@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given the line $l_{1}$: $mx+y+2m-3=0$ always passes through a fixed point $A$, and the line $l_{2}$: $mx+y-m+1=0$ always passes through a fixed point $B$, then the distance between point $A$ and point $B$ is ______.\nGround Truth: 5\nWeak CoT: We are told:\n\n- Line $ l_1: mx + y + 2m - 3 = 0 $ **always passes through a fixed point** $ A $.\n- Line $ l_2: mx + y - m + 1 = 0 $ **always passes through a fixed point** $ B $.\n\nWe are to find the **distance between points $ A $ and $ B $**.\n\n---\n\n### Step 1: Find the fixed point $ A $\n\nWe are given that the line $ l_1: mx + y + 2m - 3 = 0 $ **always passes through a fixed point**.\n\nLet’s denote this fixed point as $ (x, y) $. Since this line **always** passes through this point, **no matter the value of $ m $**, the equation must be satisfied for all $ m $.\n\nSo, substitute $ m $ with a value (e.g., any fixed value) into the equation and equate the coefficients.\n\nLet’s test for $ m = 1 $:\n\n$$\n1x + y + 2(1) - 3 = 0 \\Rightarrow x + y - 1 = 0\n$$\n\nThis gives us the line $ l_1 $ passes through **(1, 1)**, regardless of the value of $ m $.\n\nSo, point $ A = (1, 1) $.\n\n---\n\n### Step 2: Find the fixed point $ B $\n\nSimilarly, given the line $ l_2: mx + y - m + 1 = 0 $ **always passes through a fixed point** $ B $.\n\nAgain, we can find this fixed point by choosing a value of $ m $ (e.g., 1).\n\nLet’s test for $ m = 1 $:\n\n$$\n1x + y - 1 + 1 = 0 \\Rightarrow x + y = 0 \\Rightarrow y = -x\n$$\n\nThis gives us the line $ l_2 $ passes through **(0, 0)**, regardless of the value of $ m $.\n\nSo, point $ B = (0, 0) $.\n\n---\n\n### Step 3: Find the distance between $ A = (1, 1) $ and $ B = (0, 0) $\n\n$$\n\\text{Distance} = \\sqrt{(1 - 0)^2 + (1 - 0)^2} = \\sqrt{1^2 + 1^2} = \\sqrt{2}\n$$\n\n---\n\n### ✅ Final Answer:\n$$\n\\boxed{\\sqrt{2}}\n$$"
+    }
+  ]
+}

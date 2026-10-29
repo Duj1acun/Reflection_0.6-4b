@@ -1,0 +1,26 @@
+{
+  "sources": {
+    "qwen3-0.6b": {
+      "path": "/mnt/data/reflection_grpo/data/sft/qwen3-0.6b/scored_rollouts_n4.jsonl",
+      "sha256": "daea3c0cf23a6f01042047fff3c600e9d99eda5eb32659cd2e38f0dabdfd2e41"
+    },
+    "qwen3-4b": {
+      "path": "/mnt/data/reflection_grpo/data/sft/qwen3-4b/scored_rollouts_n4.jsonl",
+      "sha256": "d25dab61c6b8289f801f048872e76fac556c9dfdea3da8c100cea8435f2ddd8d"
+    }
+  },
+  "diagnosis": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect or redundant step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first error or redundant step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect or redundant step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect or redundant step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n",
+  "continuation": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}",
+  "diagnosis_user_template": "Question: {problem}\nGround Truth: {ground_truth}\nWeak CoT: {model_response}",
+  "continuation_user_template": "Problem: {problem}\n\n{reflection_text}\n\nContinue the solution strictly based on the reflection above. Be concise.",
+  "candidates_sha256": "1c9967f982cfcdbaece9d73b5713f021a7ddad779645f8d26201945571a536e6",
+  "perfect_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reflection_counts": {
+    "qwen3-0.6b": 3,
+    "qwen3-4b": 2
+  },
+  "perfect_counts": {},
+  "probe_selection": "Five distinct problem IDs; alternating backbone, first eligible candidate in frozen source order.",
+  "reference_manifest": "/root/reflection_grpo_clean/outputs/two_stage_sft_original_prompts_20260912/manifest.json",
+  "thinking_baseline": "/root/reflection_grpo_clean/outputs/two_stage_sft_original_prompt_probe5_20260912"
+}

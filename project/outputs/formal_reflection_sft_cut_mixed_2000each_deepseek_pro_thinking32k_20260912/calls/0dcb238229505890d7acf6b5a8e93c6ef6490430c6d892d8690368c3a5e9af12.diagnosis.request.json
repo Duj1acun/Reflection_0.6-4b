@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are 100 chickens, 150 piglets, 120 goats, 60 cows, 75 sheep, and 30 horses at Stacy's farm. During a horrible storm, 2/5 of the chickens, 5/6 of the piglets, 1/2 of the goats, 3/5 of the cows, 2/3 of the sheep, and 9/10 of the horses get sick. How many animals in total get sick?\nGround Truth: 338\nWeak CoT: We are given the number of animals and the fraction of them that get sick. To find the **total number of animals that get sick**, we need to:\n\n- Multiply the number of animals by the fraction that get sick.\n\nLet’s go through each group step by step:\n\n---\n\n### **Chickens:**\n- Total = 100\n- Fraction sick = $ \\frac{2}{5} $\n- Sick animals = $ 100 \\times \\frac{2}{5} = 40 $\n\n---\n\n### **Piglets:**\n- Total = 150\n- Fraction sick = $ \\frac{5}{6} $\n- Sick animals = $ 150 \\times \\frac{5}{6} = 125 $\n\n---\n\n### **Goats:**\n- Total = 120\n- Fraction sick = $ \\frac{1}{2} $\n- Sick animals = $ 120 \\times \\frac{1}{2} = 60 $\n\n---\n\n### **Cows:**\n- Total = 60\n- Fraction sick = $ \\frac{3}{5} $\n- Sick animals = $ 60 \\times \\frac{3}{5} = 36 $\n\n---\n\n### **Sheep:**\n- Total = 75\n- Fraction sick = $ \\frac{2}{3} $\n- Sick animals = $ 75 \\times \\frac{2}{3} = 50 $\n\n---\n\n### **Horses:**\n- Total = 30\n- Fraction sick = $ \\frac{9}{10} $\n- Sick animals = $ 30 \\times \\frac{9}{10} = 27 $\n\n---\n\n### **Total Sick Animals:**\n$$\n40 + 125 + 60 + 36 + 50 + 27 = \\boxed{318}\n$$\n\n---\n\n### ✅ Final Answer: **318 animals get sick**."
+    }
+  ]
+}

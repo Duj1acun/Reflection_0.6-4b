@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A tangent from the point $(2 \\cdot 1994, 2 \\cdot 1994)$ to the circle $x^2 + y^2 = 1994^2$ touches circle at the point $(a,b).$ Compute $a + b.$\nGround Truth: 997\nWeak CoT: We are given a point $(2 \\cdot 1994, 2 \\cdot 1994)$, and we are told that a **tangent** from this point to the circle $ x^2 + y^2 = 1994^2 $ touches the circle at the point $(a, b)$. We are to compute $a + b$.\n\n---\n\n### Step 1: Understand the geometry\nThe circle is centered at the origin $(0, 0)$ and has radius $1994$.\n\nThe point from which the tangent is drawn is $(2 \\cdot 1994, 2 \\cdot 1994)$. This point is **outside** the circle, since its distance from the origin is:\n\n$$\n\\sqrt{(2 \\cdot 1994)^2 + (2 \\cdot 1994)^2} = 2 \\cdot 1994 \\sqrt{2}\n$$\n\nWhich is **greater than** the circle's radius, so **there exists exactly one tangent** from this point to the circle.\n\n---\n\n### Step 2: Use the property of tangent lines\n\nThe **tangent from a point $P$ to a circle** has the property that the radius to the point of tangency is perpendicular to the tangent.\n\nLet $P = (2 \\cdot 1994, 2 \\cdot 1994)$, center $C = (0, 0)$, and point of tangency $T = (a, b)$.\n\nThen the **vector from center to point of tangency** is:\n\n$$\n\\vec{CT} = (a, b)\n$$\n\nThe **vector from center to point $P$** is:\n\n$$\n\\vec{CP} = (2 \\cdot 1994, 2 \\cdot 1994)\n$$\n\nSince the radius at point $T$ is perpendicular to the tangent at $T$, their dot product is zero:\n\n$$\n\\vec{CT} \\cdot \\vec{CP} = 0\n$$\n\n$$\na \\cdot (2 \\cdot 1994) + b \\cdot (2 \\cdot 1994) = 0\n$$\n\nDivide both sides by $2 \\cdot 1994$:\n\n$$\na + b = 0\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{0}\n$$"
+    }
+  ]
+}

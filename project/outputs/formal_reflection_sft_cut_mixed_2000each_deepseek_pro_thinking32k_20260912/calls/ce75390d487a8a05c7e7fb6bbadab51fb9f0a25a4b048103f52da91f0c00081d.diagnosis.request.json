@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are 5 mathematics trainee teachers to be allocated among three second-year high school classes for internship, with at least 1 and at most 2 teachers in each class. How many different allocation schemes are there?\nGround Truth: 90\nWeak CoT: We are given:\n\n- 5 math trainee teachers.\n- To be allocated to **three second-year high school classes**.\n- Each class **must have between 1 and 2 teachers** (i.e., the number of teachers per class is 1 or 2).\n- We need to find the total number of **different allocation schemes**.\n\n---\n\n### Step 1: Determine the number of valid groups for each class\n\nSince each class must have **at most 2 teachers** and **at least 1**, the valid groupings are:\n\n- 1 teacher and 1 teacher\n- 2 teachers and 1 teacher\n\nSo, for each class, we can choose a group of 1 or 2 teachers.\n\n---\n\n### Step 2: Count the number of allocation schemes\n\nLet’s consider the different ways to split the 5 teachers into 3 classes, with the valid groupings.\n\n#### Case 1: 1 teacher in each of the 3 classes  \n**Number of ways**:  \n- Choose 1 teacher out of 5: $ \\binom{5}{1} = 5 $\n- Assign this teacher to one of the 3 classes: $ 3^1 = 3 $\n\n**Total for this case**:  \n$$ 5 \\times 3 = 15 $$\n\n#### Case 2: 2 teachers in one class, 1 teacher in another, and 2 teachers in the third class  \n**Number of ways**:\n\n- Choose 2 teachers out of 5: $ \\binom{5}{2} = 10 $\n- Choose 1 teacher out of the remaining 3: $ \\binom{3}{1} = 3 $\n- Assign these to the 3 classes: $ 3! = 6 $\n\n**Total for this case**:  \n$$ 10 \\times 3 \\times 6 = 180 $$\n\n---\n\n### Step 3: Total number of allocation schemes\n\n$$ \\text{Total} = 15 + 180 = \\boxed{195} $$\n\n---\n\n### ✅ Final Answer: $ \\boxed{195} $"
+    }
+  ]
+}

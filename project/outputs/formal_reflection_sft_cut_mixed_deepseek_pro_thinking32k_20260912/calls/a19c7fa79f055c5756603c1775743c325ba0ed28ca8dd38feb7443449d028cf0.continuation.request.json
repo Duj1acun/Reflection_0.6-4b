@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given $f(x)=2x^{3}-6x^{2}+a$ (where $a$ is a constant) has a minimum value of $3$ on the interval $[-2,2]$, find the maximum value of $f(x)$ on the interval $[-2,2]$.\n\n<reflection>\nf'(x)=6x^2-12x=6x(x-2). The critical points of f on [-2,2] are x=0 and x=2. f(-2)=-40+a. f(0)=a. f(2)=-8+a. The minimum on [-2,2] must be the smallest of f(-2), f(0), and f(2).\nThis comparison is invalid: the chain -40+a < a < -8+a would require a < -8+a, i.e. 0 < -8, which is false. In fact, -40+a is smaller than both -8+a and a, so f(-2) is the minimum, not f(0).\nIdentify the actual smallest value among f(-2), f(0), and f(2), set it equal to 3 to solve for a, then evaluate f at -2, 0, and 2 to find the maximum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

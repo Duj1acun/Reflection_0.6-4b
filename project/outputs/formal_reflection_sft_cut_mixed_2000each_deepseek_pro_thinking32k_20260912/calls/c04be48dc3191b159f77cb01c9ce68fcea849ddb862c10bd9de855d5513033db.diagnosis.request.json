@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In a week, Mortdecai collects eggs from two different sources. From Source A, he collects 8 dozen eggs every Tuesday and Thursday, and from Source B, he collects 6 dozen eggs every Monday and Wednesday. He delivers 3 dozen eggs to the market, 5 dozen eggs to the mall, and 2 dozen eggs to a local bakery. He then uses 4 dozen eggs to make a pie every Saturday. Additionally, on Fridays, Mortdecai gives away 1 dozen eggs to his neighbor. Mortdecai donates the remaining eggs to the charity by Sunday. How many eggs does he donate to the charity?\nGround Truth: 13\nWeak CoT: We need to calculate how many eggs Mortdecai **donates to the charity**. Let's break it down step by step.\n\n---\n\n### Step 1: Calculate the total number of eggs collected over the week\n\n- **Source A**: 8 dozen per Tuesday and Thursday → 2 days × 8 dozen = **16 dozen**\n- **Source B**: 6 dozen per Monday and Wednesday → 2 days × 6 dozen = **12 dozen**\n\nSo, total eggs collected:\n\n- From A: 16 dozen  \n- From B: 12 dozen  \n- **Total collected = 16 + 12 = 28 dozen**\n\n---\n\n### Step 2: Calculate the eggs delivered to the market, mall, and bakery\n\n- Market: 3 dozen  \n- Mall: 5 dozen  \n- Bakery: 2 dozen  \n- **Total delivered = 3 + 5 + 2 = 10 dozen**\n\n---\n\n### Step 3: Calculate the eggs used for the pie and given away on Friday\n\n- Pie: 4 dozen  \n- Friday: 1 dozen  \n- **Total delivered to other places = 10 dozen**\n\n---\n\n### Step 4: Subtract the eggs delivered from the total collected to find the remaining eggs\n\n- Total eggs collected: **28 dozen**  \n- Total eggs delivered: **10 dozen**\n\nSo, remaining eggs:  \n$$\n28 - 10 = 18 \\text{ dozen}\n$$\n\n---\n\n### Step 5: Donate the remaining eggs to the charity\n\n- The remaining eggs = **18 dozen**\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{18}\n$$\n\nMortdecai donates **18 dozen** eggs to the charity."
+    }
+  ]
+}

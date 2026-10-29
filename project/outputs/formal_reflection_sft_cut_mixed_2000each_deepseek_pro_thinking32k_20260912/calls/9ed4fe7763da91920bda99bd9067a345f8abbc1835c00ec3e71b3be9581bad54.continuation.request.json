@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let $(a,b,c,d)$ be a solution to the system\\begin{align*}a+b&=15,\\\\ab+c+d&=78,\\\\ad+bc&=160,\\\\cd&=96.\\end{align*}Find the greatest possible value of $a^2+b^2+c^2+d^2$.\n\n<reflection>\nFrom (1), b=15-a. Substituting into (2) gives c+d=78-(15a-a^2)=a^2-15a+78. Substituting into (3) gives a(d-c)+15c=160, equivalently ad-ac=160-15c. The identity a^2+b^2+c^2+d^2=(a+b)^2+(c+d)^2-2(ab+cd) holds. Using a+b=15, ab=15a-a^2, cd=96, and c+d=a^2-15a+78, the target equals 15^2+(a^2-15a+78)^2-2(15a-a^2+96).\nThe expansion of (a^2-15a+78)^2 is algebraically incorrect; the term (2·15a·78+2·78^2)a is not part of the correct expansion.\nCorrectly expand (a^2-15a+78)^2, simplify the target as a polynomial in a, and then use equation (3) with cd=96 to find the feasible values of a before maximizing.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

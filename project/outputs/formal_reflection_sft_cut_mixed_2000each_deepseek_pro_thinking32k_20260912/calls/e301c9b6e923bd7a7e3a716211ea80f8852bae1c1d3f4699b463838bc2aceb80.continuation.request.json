@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: We write one of the numbers 0 and 1 into each unit square of a chessboard with 40 rows and 7 columns. If any two rows have different sequences, what is the maximum number of 1's that can be written into the unit squares? Express your answer as a single integer.\n\n<reflection>\nEach row is a distinct 7-bit binary string; there are 128 possible such strings. For m=0,...,7, the number of length-7 strings with exactly m ones is C(7,m): 1,7,21,35,35,21,7,1. To maximize the total number of 1s, choose the 40 distinct strings with the largest possible numbers of ones, starting from m=7 downward. Cumulative counts from m=7 down are: m=7:1, m=6:8, m=5:29, m=4:64.\nThis selection skips the single string with 7 ones. The top-40 set must include the unique m=7 string first, so after taking m=7, m=6, and m=5 (1+7+21=29 rows), only 11 strings with 4 ones are needed, not 12.\nStart the selection with the one string having 7 ones, then include all 7 strings with 6 ones and all 21 with 5 ones, and finally take 11 strings with 4 ones.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

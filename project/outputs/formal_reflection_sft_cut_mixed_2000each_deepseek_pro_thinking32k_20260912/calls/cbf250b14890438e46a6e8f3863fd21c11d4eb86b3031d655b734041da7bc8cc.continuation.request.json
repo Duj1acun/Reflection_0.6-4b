@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let \\(\\left\\{a_{n}\\right\\}\\) be a sequence of positive integers such that \\(a_{1}=1\\), \\(a_{2}=2009\\) and for \\(n \\geq 1\\), \\(a_{n+2} a_{n} - a_{n+1}^{2} - a_{n+1} a_{n} = 0\\). Determine the value of \\(\\frac{a_{993}}{100 a_{991}}\\).\n\n<reflection>\nThe recurrence rearranges to a_{n+2}a_n=a_{n+1}^2+a_{n+1}a_n. Since a_n>0, a_{n+2}=a_{n+1}(1+a_{n+1}/a_n). Defining r_n=a_{n+1}/a_n gives a_{n+2}=a_{n+1}(1+r_n). a_3=2009*2010. For a_4, the recurrence gives a_4*2009=(2009*2010)^2+2009*2009*2010.\nThe factorization is wrong: (2009*2010)^2 = 2009^2*2010^2, so factoring out 2009 gives a term 2009*2010^2, not another 2009*2010. The correct sum is 2009^2*2010*(2010+1).\nCorrect the factorization to obtain a_4=2009*2010*2011, then use the ratio recurrence r_{n+1}=r_n+1 to find the general term.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

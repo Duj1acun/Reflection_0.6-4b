@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In the diagram, $\\triangle PQR$ is right-angled at $P$ and $PR = 12$. If point $S$ is on $PQ$ so that $SQ = 11$ and $SR = 13$, find the perimeter of $\\triangle QRS$. Express your answer as a whole number.\n\n<reflection>\nTriangle PQR is right-angled at P, with PR=12. Point S lies on PQ, with SQ=11 and SR=13. Letting PQ=x and QR=y, the Pythagorean theorem in triangle PQR gives 144 + x^2 = y^2. Since S lies on PQ and SQ=11, SP = x - 11. The perimeter of triangle QRS is y + 11 + 13 = y + 24. The coordinate assignment P=(0,0), R=(12,0), Q=(0,y) places Q on the y-axis, so PQ is vertical.\nWith P=(0,0) and Q=(0,y), the distance PQ is |y|, not sqrt((12-0)^2+(0-y)^2). That expression is the distance QR, and it incorrectly reuses y, which was already defined as QR.\nUse Q=(0,y) and S=(0,y-11), then impose SR^2 = 12^2 + (y-11)^2 = 13^2 to solve for y before computing QR.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

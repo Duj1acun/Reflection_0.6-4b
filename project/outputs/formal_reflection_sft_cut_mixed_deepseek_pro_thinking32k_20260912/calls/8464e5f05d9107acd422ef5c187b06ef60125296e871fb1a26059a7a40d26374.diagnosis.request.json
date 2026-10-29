@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given that $a$ and $b$ are the two roots of the equation $x^{2}+3x-2010=0$ with respect to $x$, calculate the value of $a^{2}-a-4b$. Express your answer as a single integer.\nGround Truth: 2022\nWeak CoT: We are given the quadratic equation:\n\n$$\nx^2 + 3x - 2010 = 0\n$$\n\nLet $ a $ and $ b $ be the roots of this equation.\n\n---\n\n### Step 1: Use Vieta's formulas\n\nFor a quadratic equation of the form:\n\n$$\nx^2 + px + q = 0\n$$\n\nthe sum of the roots is:\n\n$$\na + b = -p\n$$\n\nand the product is:\n\n$$\nab = q\n$$\n\nIn this case:\n\n- $ p = 3 $\n- $ q = -2010 $\n\nSo:\n\n- $ a + b = -3 $\n- $ ab = -2010 $\n\n---\n\n### Step 2: Use the expression we need to find: $ a^2 - a - 4b $\n\nWe are given:\n\n$$\na^2 - a - 4b\n$$\n\nWe can try to express this in terms of $ a + b $ and $ ab $, or perhaps find values of $ a $ and $ b $ directly.\n\nAlternatively, we can manipulate the expression:\n\n$$\na^2 - a - 4b\n$$\n\nLet’s try expressing $ a^2 $ and $ b $.\n\nBut maybe it's easier to write:\n\n$$\na^2 - a - 4b = a(a - 1) - 4b\n$$\n\nBut not sure if helpful.\n\nAlternatively, try to find $ a^2 - a - 4b $ directly.\n\n---\n\n### Step 3: Find values of $ a $ and $ b $\n\nWe can solve the quadratic equation to find the roots.\n\n$$\nx^2 + 3x - 2010 = 0\n$$\n\nUsing the quadratic formula:\n\n$$\nx = \\frac{-3 \\pm \\sqrt{3^2 + 4 \\cdot 2010}}{2} = \\frac{-3 \\pm \\sqrt{9 + 8040}}{2} = \\frac{-3 \\pm \\sqrt{8049}}{2}\n$$\n\nNow compute $ \\sqrt{8049} $:\n\n$$\n8049 = 9 \\cdot 894 = 9 \\cdot 9 \\cdot 99 = 9^3 \\cdot 11\n$$\n\nSo:\n\n$$\n\\sqrt{8049} = 9 \\cdot \\sqrt{11} \\approx 9 \\cdot 3.3166 = 29.85\n$$\n\nThen,\n\n$$\na = \\frac{-3 + 29.85}{2} = \\frac{26.85}{2} = 13.425\n$$\n\n$$\nb = \\frac{-3 - 29.85}{2} = \\frac{-32.85}{2} = -16.425\n$$\n\nNow compute the expression:\n\n$$\na^2 - a - 4b\n$$\n\nPlug in the approximate values:\n\n- $ a \\approx 13.425 $\n- $ b \\approx -16.425 $\n\n$$\na^2 \\approx 13.425^2 \\approx 180.46\n$$\n$$\n- a \\approx -13.425\n$$\n$$\n-4b \\approx -4 \\cdot (-16.425) = 65.7\n$$\n\n$$\na^2 - a - 4b \\approx 180.46 - 13.425 + 65.7 = 232.73\n$$\n\nSo the value is approximately:\n\n$$\n\\boxed{233}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{233}\n$$"
+    }
+  ]
+}

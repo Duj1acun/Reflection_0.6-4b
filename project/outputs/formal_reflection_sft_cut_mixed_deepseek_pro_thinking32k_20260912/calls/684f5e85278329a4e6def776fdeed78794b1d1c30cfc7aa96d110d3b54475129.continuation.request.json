@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Calculate the exact value of the expression: $\\frac{\\sqrt{3}}{\\cos 10^{\\circ}}-\\frac{1}{\\sin 170^{\\circ}}$. Provide your answer as a single integer.\n\n<reflection>\n\\sin 170^{\\circ} = \\sin(180^{\\circ} - 10^{\\circ}) = \\sin 10^{\\circ}, so \\frac{1}{\\sin 170^{\\circ}} = \\frac{1}{\\sin 10^{\\circ}}. The original expression simplifies to \\frac{\\sqrt{3}}{\\cos 10^{\\circ}} - \\frac{1}{\\sin 10^{\\circ}}. \\sin 10^{\\circ} = \\cos 80^{\\circ} and \\cos 10^{\\circ} = \\sin 80^{\\circ}.\nSince \\(\\cos 10^\\circ = \\sin 80^\\circ\\), the reciprocal relation gives \\(\\frac{1}{\\cos 10^\\circ} = \\frac{1}{\\sin 80^\\circ}\\), not \\(\\sin 80^\\circ\\). The step incorrectly replaces division by \\(\\cos 10^\\circ\\) with multiplication by \\(\\sin 80^\\circ\\).\nRewrite \\(\\frac{\\sqrt{3}}{\\cos 10^\\circ}\\) as \\(\\frac{\\sqrt{3}}{\\sin 80^\\circ}\\) and combine the two fractions over a common denominator to find the exact value.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

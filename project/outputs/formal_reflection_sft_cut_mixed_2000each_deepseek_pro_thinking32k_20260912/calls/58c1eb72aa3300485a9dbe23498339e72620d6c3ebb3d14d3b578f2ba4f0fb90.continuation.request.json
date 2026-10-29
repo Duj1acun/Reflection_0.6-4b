@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $a_1, a_2, a_3, . . . , a_{99}$ is a permutation of $1, 2, 3, . . . , 99,$ find the maximum possible value of $$ |a_1 - 1| + |a_2 - 2| + |a_3 - 3| + \\dots + |a_{99} - 99|. $$\n\n<reflection>\nWe want to maximize $S=\\sum_{i=1}^{99}|a_i-i|$ over permutations $a$ of $1,\\ldots,99$. The reverse permutation $a=[99,98,\\ldots,1]$ is a valid candidate. For this reverse permutation, the listed differences include $|a_1-1|=98$, $|a_2-2|=96$, $|a_3-3|=94$, and $|a_{99}-99|=98$.\nThe sequence of differences for the reverse permutation is not arithmetic: it decreases from 98 to 0, then increases back to 98. Therefore the arithmetic-series sum formula cannot be applied.\nCompute the sum of the symmetric sequence $98,96,\\ldots,2,0,2,\\ldots,98$ correctly, for example by summing the two equal halves.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Simplify the expression: \\[ \\frac{\\left(p q^{-1}+1\\right)^{2}}{p q^{-1}-p^{-1} q} \\cdot \\frac{p^{3} q^{-3}-1}{p^{2} q^{-2}+p q^{-1}+1} \\div \\frac{p^{3} q^{-3}+1}{p q^{-1}+p^{-1} q-1} \\]\n\n<reflection>\nLet $a = p q^{-1} = p/q$, $b = p^{-1} q = q/p$, and $c = p^3 q^{-3} = a^3$. The original expression rewrites as $\\frac{(a+1)^2}{a-b} \\cdot \\frac{c-1}{a^2+a+1} \\div \\frac{c+1}{a+b-1}$. $c-1 = a^3-1 = (a-1)(a^2+a+1)$ and $c+1 = a^3+1 = (a+1)(a^2-a+1)$. After substituting the cube identities, the expression is $\\frac{(a+1)^2}{a-b} \\cdot \\frac{(a-1)(a^2+a+1)}{a^2+a+1} \\div \\frac{(a+1)(a^2-a+1)}{a+b-1}$, and the factor $(a^2+a+1)$ cancels in the second fraction.\nThe third term is the divisor fraction $\\frac{(a+1)(a^2-a+1)}{a+b-1}$; $(a+1)$ appears only in its numerator, not in its denominator, so this cancellation claim is false at this stage.\nDo not cancel $(a+1)$ inside the divisor fraction; rewrite the division as multiplication by the reciprocal, then use $b=1/a$ to simplify $(a+b-1)/(a-b)$ and cancel the remaining factors.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

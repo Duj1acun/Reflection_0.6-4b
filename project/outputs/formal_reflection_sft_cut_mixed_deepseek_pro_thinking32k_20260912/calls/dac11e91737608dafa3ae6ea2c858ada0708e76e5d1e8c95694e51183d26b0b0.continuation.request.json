@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Petya and Vasya took a math test. Petya answered $80\\%$ of all the questions correctly, while Vasya answered exactly 35 questions correctly. The number of questions both answered correctly is exactly half the total number of questions. No one answered 7 questions. How many questions were on the test?\n\n<reflection>\nLet the total number of questions be $ x $. Petya answered $ 0.8x $ questions correctly. Vasya answered exactly 35 questions correctly. The number of questions both answered correctly is $ \\frac{x}{2} $. No one answered 7 questions, so 7 questions are outside the set of questions answered correctly by at least one of them.\nThe expression $ |A| + |B| - |A \\cap B| $ equals the number of questions answered correctly by at least one of Petya or Vasya, i.e., $ |A \\cup B| $. Since no one answered 7 questions, $ |A \\cup B| = x - 7 $, not $ x $.\nReplace the incorrect equation with $ 0.8x + 35 - \\frac{x}{2} = x - 7 $ and solve for $ x $.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

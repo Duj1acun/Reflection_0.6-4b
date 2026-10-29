@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Aerith timed herself solving a contest and noted the time both as days:hours:minutes:seconds and in seconds. For example, if she spent 1,000,000 seconds, she recorded it as 11:13:46:40 and 1,000,000 seconds. Bob subtracts these numbers, ignoring punctuation. In this case, he computes: \\[ 11134640 - 1000000 = 10134640 \\] What is the largest number that always must divide his result?\n\n<reflection>\nLet D, H, M, S denote days, hours, minutes, seconds. The total seconds is T = 86400D + 3600H + 60M + S. Bob computes the result as Digits - T, where Digits is the digit-only representation of days:hours:minutes:seconds.\nThis formula treats each time component as a single decimal digit, but hours, minutes, and seconds are written as two-digit values, so the actual digit-only representation is D*10^6 + H*10^4 + M*10^2 + S.\nReplace with the correct digit-only representation and then simplify Digits - T.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

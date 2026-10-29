@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given a cube \\( ABCD A_1 B_1 C_1 D_1 \\). A point is called \"equidistant\" if there are two vertices of the cube for which this point is the midpoint of the segment connecting them. How many \"equidistant\" points are there in the cube?\n\n<reflection>\nThe cube has 8 vertices. There are 28 unordered pairs of distinct vertices. Under the standard coordinate assignment from (0,0,0) to (1,1,1), a midpoint of two vertices has each coordinate in {0, 1/2, 1}. There are 3^3 = 27 coordinate triples with entries in {0, 1/2, 1}.\nThis is false for two distinct vertices: if no coordinate is 1/2, the only way to get that midpoint is to pair a vertex with itself. Thus all 8 cube vertices are not valid midpoints, not just (0,0,0).\nFrom the 27 coordinate triples, exclude the 8 triples with no coordinate equal to 1/2, then count the remaining distinct midpoints.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Let $ABCD$ be a square with side length $100$ . Denote by $M$ the midpoint of $AB$ . Point $P$ is selected inside the square so that $MP = 50$ and $PC = 100$ . Compute $AP^2$ . *Based on a proposal by Amogh Gaitonde*\nGround Truth: 2000\nWeak CoT: We are given a square $ABCD$ with side length $100$, and a point $P$ inside the square such that:\n\n- $MP = 50$\n- $PC = 100$\n\nWe are to compute $AP^2$.\n\n---\n\n### Step 1: Coordinate Setup\n\nLet’s place the square $ABCD$ in the coordinate plane for easier computation.\n\n- Let $A = (0, 0)$\n- $B = (100, 0)$\n- $C = (100, 100)$\n- $D = (0, 100)$\n\nThe midpoint $M$ of side $AB$ is:\n\n$$\nM = \\left( \\frac{0 + 100}{2}, \\frac{0 + 0}{2} \\right) = (50, 0)\n$$\n\n---\n\n### Step 2: Coordinates of Point $P$\n\nLet the coordinates of $P = (x, y)$.\n\nWe are given:\n\n- $MP = 50$\n- $PC = 100$\n\n#### Using $MP = 50$\n\n$$\n\\sqrt{(x - 50)^2 + (y - 0)^2} = 50 \\quad \\Rightarrow \\quad (x - 50)^2 + y^2 = 2500 \\quad \\text{(1)}\n$$\n\n#### Using $PC = 100$\n\n$$\n\\sqrt{(x - 100)^2 + (y - 100)^2} = 100 \\quad \\Rightarrow \\quad (x - 100)^2 + (y - 100)^2 = 10000 \\quad \\text{(2)}\n$$\n\n---\n\n### Step 3: Subtract Equation (1) from Equation (2)\n\n$$\n(x - 100)^2 + (y - 100)^2 - [(x - 50)^2 + y^2] = 10000 - 2500\n$$\n\nExpand both squares:\n\n$$\n(x - 100)^2 + y^2 - (x - 50)^2 - y^2 = 7500\n$$\n\n$$\n(x^2 - 200x + 10000) - (x^2 - 100x + 2500) = 7500\n$$\n\nSimplify:\n\n$$\nx^2 - 200x + 10000 - x^2 + 100x - 2500 = 7500\n$$\n\n$$\n-100x + 7500 = 7500 \\quad \\Rightarrow \\quad x = 0\n$$\n\nSo, the x-coordinate of $P$ is $x = 0$.\n\n---\n\n### Step 4: Plug $x = 0$ into Equation (1) to find $y$\n\n$$\n(0 - 50)^2 + y^2 = 2500 \\quad \\Rightarrow \\quad 2500 + y^2 = 2500 \\quad \\Rightarrow \\quad y^2 = 0 \\quad \\Rightarrow \\quad y = 0\n$$\n\nSo, $P = (0, 0)$, which is the center of the square.\n\n---\n\n### Step 5: Compute $AP^2$\n\nSince $A = (0, 0)$ and $P = (0, 0)$, then:\n\n$$\nAP^2 = (0 - 0)^2 + (0 - 0)^2 = 0\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{0}\n$$"
+    }
+  ]
+}

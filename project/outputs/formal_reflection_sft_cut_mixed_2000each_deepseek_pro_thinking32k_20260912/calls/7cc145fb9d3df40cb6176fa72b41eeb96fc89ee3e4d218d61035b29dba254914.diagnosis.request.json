@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are three volunteers, A, B, and C, who are scheduled to participate in a volunteer activity from Monday to Friday, with the requirement that each person participates for one day and no more than one person is scheduled per day. It is also required that A is scheduled before the other two. Calculate the total number of different scheduling methods. Express your answer as a whole number.\nGround Truth: 20\nWeak CoT: We are given:\n\n- Three volunteers: A, B, and C.\n- They are scheduled from **Monday to Friday**, with **one day per person**.\n- **No more than one person per day**.\n- **A must be scheduled before B and C**.\n\nWe need to find the total number of different **scheduling methods** satisfying these constraints.\n\n---\n\n### Step 1: Understand the constraints\n\n- Each person must be assigned exactly one unique day (Monday to Friday).\n- A must be scheduled **before B and C**.\n- Since A must come before B and C, the only possible orderings are:\n\n  1. A → B → C  \n  2. A → C → B  \n  3. B → A → C  \n  4. C → A → B  \n\nThese are the **4 possible valid permutations** of A, B, and C where A comes before both B and C.\n\n---\n\n### Step 2: Count the total number of ways\n\n- The number of ways to arrange 3 volunteers where A must come **before B and C** is the same as the number of ways to arrange 3 people in order, **since A must be first**.\n\n- Total number of valid permutations = $ 3! = 6 $\n\nThus, the total number of valid scheduling methods is:\n\n$$\n\\boxed{6}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: We have a grid with 40 rows and 7 columns, where each unit square can be filled with either 0 or 1. Each row must have a unique sequence of 0's and 1's. What is the maximum number of 1's that can be placed in the unit squares under these conditions?\n\n<reflection>\nThere are 2^7 = 128 possible unique length-7 binary rows. To maximize the number of 1's, select the 40 rows with the largest numbers of 1's. The numbers of rows with exactly 7, 6, 5, and 4 ones are 1, 7, 21, and 35, respectively. Taking all rows with 7, 6, and 5 ones gives 1 + 7 + 21 = 29 rows. Those rows contribute 7, 42, and 105 ones respectively. After adding one 4-one row, the selected count is 30 rows, leaving 10 more rows to select.\nThis uses only 10 rows with 4 ones, but the preceding selection of 1 four-one row plus 10 more would make 11 four-one rows. Selecting only 10 gives 39 total rows and undercounts the maximum by 4 ones.\nUse 11 rows with 4 ones in total, then recompute the total ones as 7 + 42 + 105 + 11 × 4.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In △ABC, there are 2008 arbitrary points that are not collinear, plus the three vertices A, B, and C, making a total of 2011 points. If these 2011 points are connected to form non-overlapping small triangles, calculate the total number of small triangles that can be formed.\n\n<reflection>\nThere are 2011 total points: the 3 vertices A, B, C plus 2008 arbitrary points. The task is to triangulate the triangle region using these 2011 points into non-overlapping small triangles. The points are assumed to be in general position, with no three collinear.\nThe formula T = n - 2 applies only when all n points are vertices of a convex polygon. Here the 2008 arbitrary points lie inside the triangle, so many are interior points, and the correct triangulation count is not n - 2.\nUse the formula for triangulating a polygon with interior points: T = 2I + B - 2, where I = 2008 and B = 3 for the triangle boundary vertices.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Clever Cat sleeps under the oak tree from noon till midnight and is awake telling stories from midnight till noon. A poster on the tree above him says \"Two hours ago, Clever Cat was doing the same thing as he will be doing in one hour's time\". Calculate the number of hours a day the poster tells the truth.\n\n<reflection>\nClever Cat sleeps from noon to midnight (12 hours). Clever Cat is awake from midnight to noon (12 hours). Let the current time be T; two hours ago is T - 2 and one hour from now is T + 1. The poster is true exactly when the activity at T - 2 is the same as the activity at T + 1.\nT mod 12 is insufficient to determine whether the cat is awake or asleep because the full activity cycle has period 24 hours; the same T mod 12 value occurs twice a day in opposite states.\nUse T modulo 24, with awake as 0 ≤ (T mod 24) < 12 and sleeping as 12 ≤ (T mod 24) < 24, then count times T where T - 2 and T + 1 fall in the same 12-hour interval.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

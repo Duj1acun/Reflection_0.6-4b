@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Call an ordered triple $(a, b, c)$ of integers feral if $b -a, c - a$ and $c - b$ are all prime. Find the number of feral triples where $1 \\le a < b < c \\le 20$ .\n\n<reflection>\n$x=b-a$, $y=c-b$, and $z=c-a=x+y$ are the three differences. All three differences $x,y,z$ must be prime, so $x,y,x+y$ are all prime. For each valid prime gap triple $(x,y,z)$ with $z=x+y$, the number of possible $a$ values is $20-z$. The primes up to 20 are $\\{2,3,5,7,11,13,17,19\\}$.\nThe condition $a < b < c$ only gives $x>0$ and $y>0$; it does not imply $x<y$. The ordered gaps $x=b-a$ and $y=c-b$ are not interchangeable, so valid pairs with $y=2$ and $x$ an odd prime (e.g., $(3,2)$) are omitted, undercounting the feral triples.\nEnumerate all ordered prime pairs $(x,y)$ with $x+y$ prime, including both $(2,p)$ and $(p,2)$ for odd prime $p$, then sum $20-(x+y)$ over those ordered pairs.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

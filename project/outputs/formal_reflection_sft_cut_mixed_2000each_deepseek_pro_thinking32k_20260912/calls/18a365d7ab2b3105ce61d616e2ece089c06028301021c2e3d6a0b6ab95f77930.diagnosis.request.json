@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Barney's grocery store sold out all of its items at the beginning of the pandemic, so they ordered extra items to restock the shelves. They sold another 1561 items that day, and have 575 items in the storeroom. They have 3,472 items left in the whole store. How many items did they order to restock the shelves?\nGround Truth: 5608\nWeak CoT: We are given the following information:\n\n- The store **sold out all of its items** at the beginning of the pandemic.\n- That day, they **sold another 1,561 items**.\n- They now have **575 items in the storeroom**.\n- The **total number of items left in the whole store** is **3,472**.\n\nWe are asked to find: **How many items did they order to restock the shelves?**\n\n---\n\n### Step 1: Understand the total number of items now in the store\n\nThe store has **3,472 items left in total**, which includes both the **storeroom items (575)** and the **shelves (remaining items)**.\n\nSo, the number of items **on the shelves** is:\n\n$$\n3,472 - 575 = 2,897 \\text{ items on the shelves}\n$$\n\n---\n\n### Step 2: Calculate how many items were in the store before the sale\n\nThey sold **1,561 items** that day. That means **before the sale**, the store had:\n\n$$\n2,897 + 1,561 = 4,458 \\text{ items}\n$$\n\n---\n\n### Step 3: Determine how many items were ordered to restock\n\nThe store had **sold out all of its items** at the beginning of the pandemic, meaning they had **0 items** before ordering.\n\nTherefore, the number of items they **ordered to restock** is:\n\n$$\n\\boxed{4,458}\n$$\n\n---\n\n### ✅ Final Answer:\n$$\n\\boxed{4458}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $x > y > z > 0$, find the maximum value of $\\lambda$ such that the inequality $\\frac{1}{x-y}+\\frac{1}{y-z}+\\frac{\\lambda }{z-x}\\geqslant 0$ always holds.\n\n<reflection>\nLet $a=x-y$ and $b=y-z$; then $a,b>0$, and $z-x=-(a+b)$. The inequality is equivalent to $\\frac{1}{a}+\\frac{1}{b}-\\frac{\\lambda}{a+b}\\ge 0$. With $S=a+b$, $S>0$. For positive $a,b$, $\\frac{1}{a}+\\frac{1}{b}\\ge \\frac{2}{a+b}$.\nThis derives a condition from only a lower bound for 1/a+1/b, not from the original expression. It is a sufficient but not necessary condition, and the bound 2/S is too weak to find the true maximum λ.\nUse the sharp lower bound 1/a+1/b ≥ 4/S for fixed S (or minimize 1/a+1/b) before comparing with λ/S.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

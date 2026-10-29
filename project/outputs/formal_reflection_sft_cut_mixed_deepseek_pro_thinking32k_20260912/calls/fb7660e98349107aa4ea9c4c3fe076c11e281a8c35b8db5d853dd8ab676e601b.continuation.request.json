@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $x^2 + 5x - 990 = 0$, evaluate the expression $x^3 + 6x^2 - 985x + 1012$. Express your answer as a single integer.\n\n<reflection>\n$x^2 = -5x + 990$ $x^3 = x \\cdot x^2 = x(-5x + 990) = -5x^2 + 990x$ $x^3 = -5(-5x + 990) + 990x = 1015x - 4950$ Substituting into the target expression gives $(1015x - 4950) + 6(-5x + 990) - 985x + 1012$ $6(-5x + 990) = -30x + 5940$ After simplifying, the expression is $(1015x - 4950) + (-30x + 5940) - 985x + 1012$ The $x$-terms combine to $0x$ The constant terms to combine are $-4950$, $5940$, and $1012$\nThe final arithmetic in this step is incorrect: $990 + 1012 = 2002$, not $1992$.\nRecompute the constant sum correctly and use the corrected value as the final answer.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

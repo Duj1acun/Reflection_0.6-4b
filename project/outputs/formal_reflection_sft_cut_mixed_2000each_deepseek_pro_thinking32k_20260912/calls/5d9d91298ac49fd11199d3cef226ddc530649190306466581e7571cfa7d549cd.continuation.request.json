@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: $PA \\perp$ plane of $\\triangle ABC$, with $AB = AC = 13$, $BC = 10$, and $PA = 5$. Find the distance from point $P$ to line $BC$.\n\n<reflection>\nPA is perpendicular to the plane of triangle ABC, so A is the foot of the perpendicular from P to the plane. Placing B=(0,0,0), C=(10,0,0), and A=(x,y,0) gives AB=AC=13, so A=(5,12,0) or (5,-12,0). Choosing A=(5,12,0) and PA=5 perpendicular to the xy-plane gives P=(5,12,5). Line BC lies along the x-axis with direction vector v=(10,0,0) and contains B=(0,0,0).\nThis formula uses the vector from P to A, but A is not on line BC. The point-to-line distance formula requires a vector from a point on the line, such as B, to P.\nUse the point-to-line distance formula with B as the point on line BC: distance = |(P - B) × v| / |v|.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A number, when divided by the sum of a certain number and 445, gives 2 times their difference as quotient and 30 as remainder. The number is 220030. What is the first number?\nGround Truth: 555\nWeak CoT: We are given the following information:\n\n- A number, when **divided by the sum of a certain number and 445**, gives:\n  - **Quotient = 2 times their difference**\n  - **Remainder = 30**\n- The number being divided is **220030**\n- We are to find **the first number** (the divisor), which is the **sum of a certain number and 445**.\n\n---\n\n### Step 1: Define variables\n\nLet:\n- $ N = 220030 $ (the number being divided)\n- $ x $ = the certain number (unknown)\n- The **divisor** is $ x + 445 $\n\nWe are told that when $ N $ is divided by $ x + 445 $, the quotient is $ 2(x - 445) $ and the remainder is 30.\n\n---\n\n### Step 2: Use the division algorithm\n\nThe division algorithm says:\n\n$$\n\\text{Dividend} = (\\text{Divisor} \\times \\text{Quotient}) + \\text{Remainder}\n$$\n\nSo:\n\n$$\n220030 = (x + 445) \\cdot 2(x - 445) + 30\n$$\n\n---\n\n### Step 3: Simplify the equation\n\nFirst, expand the product:\n\n$$\n(x + 445) \\cdot 2(x - 445) = 2(x + 445)(x - 445)\n$$\n\nThat's a **difference of squares**:\n\n$$\n(x + 445)(x - 445) = x^2 - 445^2 = x^2 - 198025\n$$\n\nSo:\n\n$$\n2(x^2 - 198025) + 30 = 220030\n$$\n\nNow simplify:\n\n$$\n2x^2 - 396050 + 30 = 220030\n$$\n\n$$\n2x^2 - 396020 = 220030\n$$\n\n$$\n2x^2 = 220030 + 396020 = 616050\n$$\n\n$$\nx^2 = \\frac{616050}{2} = 308025\n$$\n\nNow take the square root:\n\n$$\nx = \\sqrt{308025}\n$$\n\nLet’s compute that:\n\n$$\n\\sqrt{308025} = 555\n$$\n\nSo, $ x = 555 $\n\n---\n\n### Step 4: Find the divisor\n\nThe divisor is:\n\n$$\nx + 445 = 555 + 445 = 1000\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{1000}\n$$\n\nThis is the **first number**, which is the **divisor**."
+    }
+  ]
+}

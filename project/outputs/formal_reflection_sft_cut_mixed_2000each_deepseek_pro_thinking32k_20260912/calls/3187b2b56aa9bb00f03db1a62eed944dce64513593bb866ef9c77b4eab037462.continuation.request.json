@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let \\( a_{n} \\) be the coefficient of the linear term in \\( x \\) of the expansion of \\( (\\sqrt{x}+3)^{n} \\) (with \\( n \\geqslant 2 \\) and \\( n \\in \\mathbb{N} \\)). Calculate the value of: \\[ \\frac{2009}{2008}\\left(\\frac{3^{2}}{a_{2}}+\\frac{3^{3}}{a_{3}}+\\cdots+\\frac{3^{2009}}{a_{2009}}\\right). \\] Express your answer as a single numerical value.\n\n<reflection>\nThe general term in the expansion of \\((\\sqrt{x}+3)^n\\) is \\(\\binom{n}{k}3^{n-k}x^{k/2}\\). The linear term in \\(x\\) corresponds to \\(k=2\\). \\(a_n=\\binom{n}{2}3^{n-2}\\). \\(\\frac{3^n}{a_n}=\\frac{9}{\\binom{n}{2}}\\). The target sum equals \\(\\frac{2009}{2008}\\cdot 9\\sum_{n=2}^{2009}\\frac{1}{\\binom{n}{2}}\\). \\(\\frac{1}{\\binom{n}{2}}=\\frac{2}{n(n-1)}\\).\nThe partial-fraction decomposition is missing a factor of 2; the correct identity is \\(\\frac{2}{n(n-1)}=2\\left(\\frac{1}{n-1}-\\frac{1}{n}\\right)\\), so the subsequent telescoping sum is off by a factor of 2.\nUse the corrected partial-fraction decomposition and then telescope the sum before multiplying by \\(\\frac{2009}{2008}\\).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

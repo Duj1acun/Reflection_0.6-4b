@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $F_1$ and $F_2$ are the two foci of the hyperbola $\\frac{x^2}{4} - y^2 = 1$, and point $P$ is on the hyperbola such that $\\overrightarrow{PF_1} \\cdot \\overrightarrow{PF_2} = 0$, find the area of $ riangle F_1PF_2$. Express your answer as a single number.\n\n<reflection>\nThe hyperbola is \\(\\frac{x^2}{4}-y^2=1\\), centered at the origin and opening along the x-axis. \\(a^2=4\\), \\(b^2=1\\), so \\(c=\\sqrt{4+1}=\\sqrt5\\). The foci are \\(F_1=(-\\sqrt5,0)\\) and \\(F_2=(\\sqrt5,0)\\). For \\(P=(x,y)\\), \\(\\overrightarrow{PF_1}=(-x-\\sqrt5,-y)\\) and \\(\\overrightarrow{PF_2}=(\\sqrt5-x,-y)\\). The dot product equals \\(x^2-5+y^2\\), so the condition gives \\(x^2+y^2=5\\). The shoelace setup gives area \\(=\\frac12|(-\\sqrt5)(0-y)+\\sqrt5(y-0)+x(0-0)|\\).\nThis simplification is algebraically wrong: from the previous line, the terms combine to \\(2\\sqrt5 y\\), not \\(\\sqrt5 y + \\sqrt5 x\\), because \\(x(0-0)=0\\) and both y-terms are \\(\\sqrt5 y\\).\nSimplify the shoelace expression correctly to \\(\\frac12|2\\sqrt5 y|=\\sqrt5|y|\\), then use \\(x^2+y^2=5\\) and \\(x^2-4y^2=4\\) to determine \\(|y|\\).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

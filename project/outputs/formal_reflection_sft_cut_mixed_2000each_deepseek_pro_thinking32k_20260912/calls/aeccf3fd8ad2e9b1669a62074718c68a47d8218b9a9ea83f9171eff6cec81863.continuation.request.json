@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given a trapezoid \\(ABCD\\) with bases \\(AD = 3\\) and \\(BC = 18\\). Point \\(M\\) is located on the diagonal \\(AC\\), with the ratio \\(AM : MC = 1 : 2\\). A line passing through point \\(M\\) parallel to the bases of the trapezoid intersects the diagonal \\(BD\\) at point \\(N\\). Find the length of \\(MN\\).\n\n<reflection>\nTrapezoid $ABCD$ has bases $AD=3$ and $BC=18$. Point $M$ lies on diagonal $AC$ and $AM:MC=1:2$. The line through $M$ is parallel to the bases and intersects diagonal $BD$ at $N$. Coordinate setup: $A=(0,0)$, $D=(3,0)$, $B=(x,h)$, $C=(x+18,h)$. Diagonal $AC$ can be parameterized as $(t(x+18), th)$, $t\\in[0,1]$. From the ratio, $M=(2A+1C)/3=A+\\frac13(C-A)$.\nThis mixes the arbitrary parameter $t$ from the parametrization of $AC$ with the fixed coordinate of $C$. Since $C=(x+18,h)$, the point $M$ should be $((x+18)/3, h/3)$, not $(6t, th/3)$.\nCompute $M$ correctly as $A+\\frac13(C-A)=\\left(\\frac{x+18}{3},\\frac{h}{3}\\right)$, then find $N$ on $BD$ with the same $y$-coordinate and take the horizontal difference.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

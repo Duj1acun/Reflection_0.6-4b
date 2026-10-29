@@ -1,0 +1,81 @@
+{
+  "experiment": "reflect_math7500_0.6b_gpu0_main_3rounds",
+  "output": "/data/reflection_grpo/experiments/reflect_math7500_0.6b_gpu0_main_3rounds",
+  "python": "/data/reflection_grpo/envs/reflect_math7500/bin/python",
+  "reflection_repo": "/root/reflect_math7500_0.6b_20260914/code/reflection_grpo_clean",
+  "pag_repo": "/root/reflect_math7500_0.6b_20260914/code/Policy-As-GenVerifier",
+  "base_model": "/root/reflect_math7500_0.6b_20260914/models/Qwen3-0.6B",
+  "sft_adapter": "/root/reflect_math7500_0.6b_20260914/models/adapter",
+  "train_source": "/root/reflect_math7500_0.6b_20260914/assets/sources/math7500.parquet",
+  "math500_source": "/root/reflect_math7500_0.6b_20260914/assets/sources/math500.parquet",
+  "amc23_source": "/root/reflect_math7500_0.6b_20260914/assets/sources/amc23.dataset.jsonl",
+  "seed": 1234,
+  "steps": 500,
+  "score_stage1_steps": 250,
+  "train_batch_size": 64,
+  "train_n": 8,
+  "ppo_mini_batch_size": 64,
+  "ppo_micro_batch_size_per_gpu": 2,
+  "actor_lr": 1e-06,
+  "critic_lr": 2e-06,
+  "max_prompt_length": 2048,
+  "max_model_len": 16384,
+  "total_generated_tokens": {
+    "grpo": 4096,
+    "reflect": 12288,
+    "pag": 10240,
+    "score": 8192
+  },
+  "stage_tokens": {
+    "grpo": [
+      4096
+    ],
+    "reflect": [
+      4096,
+      4096,
+      4096
+    ],
+    "pag": [
+      4096,
+      2048,
+      4096
+    ],
+    "score": [
+      4096,
+      4096
+    ]
+  },
+  "train_sampling": {
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": -1
+  },
+  "validation": {
+    "frequency": 50,
+    "n": 4,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "seed": 1234,
+    "batch_size": 128
+  },
+  "gpu_memory_utilization": 0.5,
+  "max_num_seqs": 32,
+  "max_num_batched_tokens": 8192,
+  "tokens_per_gpu": 16384,
+  "gpus": "0",
+  "train_dataset": "math7500",
+  "expected_train_questions": 7496,
+  "verified_overlap_source_ids": {
+    "304": "test/algebra/170.json"
+  },
+  "scorer_version": "fourway-math-v5-20260914",
+  "train_source_sha256": "d10fad2d7d8b30dda2649ffc6a1ac6c9f5e047e02d9253d6c06fba9b4edcba03",
+  "enforce_eager": false,
+  "judge_failure_policy": "skip_batch",
+  "judge_max_consecutive_failures": 3,
+  "ray_num_cpus": 12,
+  "ray_tmp_dir": "/tmp/rf-f1e66afb1b",
+  "lock_dir": "/root/reflect_math7500_0.6b_20260914/runtime/locks",
+  "hf_home": "/root/reflect_math7500_0.6b_20260914/runtime/huggingface"
+}

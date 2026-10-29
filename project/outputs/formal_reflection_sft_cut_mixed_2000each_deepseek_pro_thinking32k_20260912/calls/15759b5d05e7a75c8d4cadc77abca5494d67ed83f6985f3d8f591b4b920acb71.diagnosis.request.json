@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: John can complete a given task in some days. Jane will take only 12 days to complete the same task. They set out to complete the task by beginning to work together. However, Jane was indisposed 6 days before the work got over. The work got over in 10.8 days from the time they started to work on it together. How many days does it take for John to complete the task alone?\nGround Truth: 18\nWeak CoT: We are given:\n\n- John can complete the task in $ x $ days.\n- Jane can complete the task in 12 days.\n- They work together for 10.8 days, but Jane was indisposed for 6 days before the work ended.\n- The total time taken is 10.8 days.\n\nLet's denote the work done by John and Jane in the 10.8 days as:\n\nLet $ \\frac{1}{x} + \\frac{1}{12} = \\frac{1}{10.8} $, since they work together for 10.8 days, and Jane is absent for 6 days, meaning she is only slightly contributing.\n\nSo:\n\n$$\n\\frac{1}{x} + \\frac{1}{12} = \\frac{1}{10.8}\n$$\n\nNow solve for $ x $:\n\n$$\n\\frac{1}{x} = \\frac{1}{10.8} - \\frac{1}{12}\n$$\n\n$$\n\\frac{1}{x} = \\frac{12 - 10.8}{10.8 \\times 12}\n$$\n\n$$\n\\frac{1}{x} = \\frac{1.2}{129.6}\n$$\n\n$$\nx = \\frac{129.6}{1.2} = 108\n$$\n\n**Final Answer: $ \\boxed{108} $** days."
+    }
+  ]
+}

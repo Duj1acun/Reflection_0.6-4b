@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the line $mx+ny+2=0$ (where $m>0$ and $n>0$) intercepts the circle $(x+3)^2+(y+1)^2=1$ at a chord of length 2, find the minimum value of $\\frac{1}{m}+\\frac{3}{n}$.\n\n<reflection>\nThe circle center is (-3,-1) and radius is 1. A chord length of 2 equals the diameter, so the distance d from the center to the line is 0. Thus the line passes through (-3,-1), giving the constraint 3m+n=2. Using n=2-3m, the objective is f(m)=1/m+3/(2-3m) on 0<m<2/3. The derivative is f'(m)=-1/m^2+9/(2-3m)^2, so critical points satisfy 9/(2-3m)^2=1/m^2.\nCross-multiplying 9/(2-3m)^2=1/m^2 gives 9m^2=(2-3m)^2, not m^2=(2-3m)^2; the factor 9 is missing.\nCorrectly cross-multiply to obtain 9m^2=(2-3m)^2, then solve the resulting linear cases.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

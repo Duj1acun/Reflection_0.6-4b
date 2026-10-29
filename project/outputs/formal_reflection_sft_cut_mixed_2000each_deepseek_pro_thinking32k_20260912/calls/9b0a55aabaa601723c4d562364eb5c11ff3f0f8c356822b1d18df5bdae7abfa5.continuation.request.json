@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Each of the first $150$ positive integers is painted on a different marble, and the $150$ marbles are placed in a bag. If $n$ marbles are chosen (without replacement) from the bag, what is the smallest value of $n$ such that we are guaranteed to choose three marbles with consecutive numbers?\n\n<reflection>\nThe goal is to find the smallest n such that every n-subset of {1,...,150} contains three consecutive integers. If M is the maximum size of a subset of {1,...,150} with no three consecutive integers, then the required smallest n is M+1. The odd numbers {1,3,5,...,149} form a 75-element subset with no three consecutive integers, so M is at least 75.\nThis conclusion does not follow from the construction; showing one 75-element example only proves the maximum is at least 75, not that no larger set exists.\nPartition {1,...,150} into 50 blocks of three consecutive integers and show at most two can be chosen from each block to prove the true maximum is 100.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

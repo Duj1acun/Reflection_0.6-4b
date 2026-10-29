@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given positive numbers \\(x\\) and \\(y\\) satisfying \\(x+3y=5xy\\), find the minimum value of \\(3x+4y\\).\nGround Truth: 5\nWeak CoT: We are given:\n\n$$\nx + 3y = 5xy\n$$\n\nand we are to find the **minimum value** of:\n\n$$\n3x + 4y\n$$\n\n---\n\n### Step 1: Express one variable in terms of the other\n\nFrom the equation:\n\n$$\nx + 3y = 5xy\n$$\n\nLet’s solve for $x$:\n\n$$\nx = \\frac{3y}{1 - 5y}\n$$\n\nWe can now substitute this expression for $x$ into the expression $3x + 4y$.\n\nSubstitute:\n\n$$\n3x + 4y = 3 \\cdot \\frac{3y}{1 - 5y} + 4y\n$$\n\n$$\n3x + 4y = \\frac{9y}{1 - 5y} + 4y\n$$\n\n---\n\n### Step 2: Combine terms (optional for further simplification)\n\nTo combine terms, get a common denominator:\n\n$$\n3x + 4y = \\frac{9y + 4y(1 - 5y)}{1 - 5y}\n$$\n\n$$\n= \\frac{9y + 4y - 20y^2}{1 - 5y}\n$$\n\n$$\n= \\frac{13y - 20y^2}{1 - 5y}\n$$\n\n---\n\n### Step 3: Find the minimum of the expression\n\nWe now need to minimize:\n\n$$\nf(y) = \\frac{13y - 20y^2}{1 - 5y}\n$$\n\nWe can try to find the critical points by taking the derivative. Let’s denote:\n\n$$\nf(y) = \\frac{13y - 20y^2}{1 - 5y}\n$$\n\nLet’s denote numerator as $N(y)$ and denominator as $D(y) = 1 - 5y$, so $f(y) = \\frac{N}{D}$.\n\nThen:\n\n$$\nf'(y) = \\frac{N' D - N D'}{D^2}\n$$\n\nLet’s compute:\n\n- $N(y) = 13y - 20y^2$\n- $D(y) = 1 - 5y$\n\nThen:\n\n- $N'(y) = 13 - 40y$\n- $D'(y) = -5$\n\nSo:\n\n$$\nf'(y) = \\frac{(13 - 40y)(1 - 5y) - (13y - 20y^2)(-5)}{(1 - 5y)^2}\n$$\n\n---\n\n### Step 4: Simplify the numerator\n\nFirst expand:\n\n- $ (13 - 40y)(1 - 5y) = 13 - 65y - 40y + 200y^2 = 13 - 105y + 200y^2 $\n- $ (13y - 20y^2)(-5) = -65y + 100y^2 $\n\nSo the numerator becomes:\n\n$$\n(13 - 65y + 200y^2) - (-65y + 100y^2) = 13 - 65y + 200y^2 + 65y - 100y^2 = 30y^2 + 13\n$$\n\nThus:\n\n$$\nf'(y) = \\frac{30y^2 + 13}{(1 - 5y)^2}\n$$\n\nSince $30y^2 + 13 > 0$ for all real $y$, $f'(y) > 0$ for all $y$.\n\nThis means the function $f(y)$ is **increasing**.\n\nTherefore, its **minimum** occurs when $y = 0$.\n\n---\n\n### Step 5: Find the minimum value\n\nIf $y = 0$, then:\n\n$$\nx = \\frac{3 \\cdot 0}{1 - 0} = 0\n$$\n\nSo:\n\n$$\n3x + 4y = 3(0) + 4(0) = 0\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{0}\n$$"
+    }
+  ]
+}

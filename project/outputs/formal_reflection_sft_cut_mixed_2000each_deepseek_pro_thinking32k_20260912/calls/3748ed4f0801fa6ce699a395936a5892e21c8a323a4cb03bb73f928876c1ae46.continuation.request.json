@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Phoebe has two pizzas to share with her and three friends. One has pepperoni and the other has cheese. They both have 16 slices. They all eat the same amount. One friend eats only pepperoni, while the rest have an equal number of slices of each. At the end, there is one slice of pepperoni left. How many slices of cheese are left?\n\n<reflection>\nThere are 32 total slices: 16 pepperoni and 16 cheese. There are 4 people total (Phoebe plus 3 friends), and all eat the same total amount of pizza. One friend eats only pepperoni; the other 3 people (Phoebe and the other two friends) eat equal numbers of pepperoni and cheese slices. Since 1 pepperoni slice is left, total pepperoni slices eaten = 15. Total cheese slices eaten is unknown; cheese left = 16 - cheese eaten. If x is the total slices eaten by each of the three non-pepperoni-only people and y is the total slices eaten by the pepperoni-only friend, then total eaten = 3x + y.\nThe model subtracts only the one leftover pepperoni slice from the total, but cheese slices may also remain. Since cheese left is unknown, total eaten is not 32 - 1; it should be 32 - (1 + cheese_left).\nLet c be the number of cheese slices left, so total eaten = 32 - (1 + c); then use pepperoni eaten = 15 and the equal-total-amount condition to solve for c.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

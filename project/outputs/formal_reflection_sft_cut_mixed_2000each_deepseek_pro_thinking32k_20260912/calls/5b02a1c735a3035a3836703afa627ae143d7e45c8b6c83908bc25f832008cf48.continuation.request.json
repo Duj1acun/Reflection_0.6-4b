@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a region, there are three settlements A, B, and C connected by country roads. Each pair of settlements is connected by several (more than one) roads. The roads are bidirectional. A route between two settlements is defined as either a direct road connecting them or a chain of two roads passing through the third settlement. It is known that there are 34 routes connecting settlements A and B, and 29 routes connecting settlements B and C. What is the minimum number of routes that can connect settlements A and C?\n\n<reflection>\nLet a, b, c be the numbers of direct roads from A to B, B to C, and A to C respectively; each is an integer greater than 1. The number of A-B routes is a + bc = 34. The number of B-C routes is b + ac = 29. The desired quantity is the total number of routes from A to C, not just the direct-road count c.\nThis identifies the total A-C route count with c, but c is only the number of direct A-C roads. Total A-C routes also include two-road chains through B.\nMinimize c + ab subject to a + bc = 34 and b + ac = 29, with integers a,b,c > 1.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

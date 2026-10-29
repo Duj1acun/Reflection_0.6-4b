@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: If the distance between two parallel lines $l_{1}$: $x-2y+m=0\\left(m \\gt 0\\right)$ and $l_{2}$: $2x+ny-6=0$ is $2\\sqrt{5}$, then $m+n=\\_\\_\\_\\_\\_\\_$.\nGround Truth: 3\nWeak CoT: We are given two parallel lines:\n\n- $ l_1: x - 2y + m = 0 $, with $ m > 0 $\n- $ l_2: 2x + ny - 6 = 0 $\n\nWe are told that the **distance between the two parallel lines is $ 2\\sqrt{5} $**.\n\n---\n\n### Step 1: Find the distance between parallel lines\n\nThe general formula for the distance $ d $ between two parallel lines:\n\n$$\nd = \\frac{|A_1B_2 - A_2B_1|}{\\sqrt{A_1^2 + B_1^2 + A_2^2 + B_2^2}}\n$$\n\nWhere:\n- $ l_1: A_1x + B_1y + C_1 = 0 $\n- $ l_2: A_2x + B_2y + C_2 = 0 $\n- The distance is $ d = \\frac{|C_1 - C_2|}{\\sqrt{A_1^2 + B_1^2}} $\n\n---\n\n### Step 2: Identify coefficients\n\nFrom the equations:\n\n- $ l_1: x - 2y + m = 0 \\Rightarrow A_1 = 1, B_1 = -2, C_1 = m $\n- $ l_2: 2x + ny - 6 = 0 \\Rightarrow A_2 = 2, B_2 = n, C_2 = -6 $\n\nWe are told the distance between the lines is $ 2\\sqrt{5} $, so:\n\n$$\n2\\sqrt{5} = \\frac{|m - (-6)|}{\\sqrt{1^2 + (-2)^2}} = \\frac{|m + 6|}{\\sqrt{5}}\n$$\n\n$$\n2\\sqrt{5} = \\frac{|m + 6|}{\\sqrt{5}} \\Rightarrow |m + 6| = 2\\sqrt{5} \\cdot \\sqrt{5} = 2 \\cdot 5 = 10\n$$\n\nSo:\n\n$$\nm + 6 = \\pm 10 \\Rightarrow m = \\pm 10 - 6\n$$\n\nBut since $ m > 0 $, the only valid solution is:\n\n$$\nm = 4\n$$\n\n---\n\n### Step 3: Find $ n $\n\nWe now know $ m = 4 $, and we can find $ n $ from the equation:\n\n$$\n2x + ny - 6 = 0\n$$\n\nBut we **do not need to find $ n $** because the **distance is already given**, and the question only asks for $ m + n $. So:\n\n$$\nm + n = 4 + n\n$$\n\nWe don't have a value for $ n $, so the answer is **not uniquely determined**. However, the question might have intended us to find both $ m $ and $ n $, and we are told $ m > 0 $. Therefore, the value of $ n $ can be any real number as long as the original line $ l_2 $ is parallel to $ l_1 $.\n\nBut since the problem only asks for $ m + n $, and we have $ m = 4 $, we can write the final answer as:\n\n$$\n\\boxed{4 + n}\n$$\n\nHowever, since the problem is likely set up to have a unique solution, and we don’t have enough information to determine $ n $, the correct answer is:\n\n$$\n\\boxed{4}\n$$"
+    }
+  ]
+}

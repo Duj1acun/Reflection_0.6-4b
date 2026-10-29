@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: We say that three distinct natural numbers form an additive triplet if the sum of the first two is equal to the third. Find, with reasoning, the maximum number of additive triplets that can exist in a given set of 20 natural numbers.\n\n<reflection>\nLet S be the set of 20 distinct natural numbers. An additive triplet is a triple of distinct elements a,b,c in S with a+b=c. For the candidate set S={1,2,...,20}, counting additive triplets reduces to counting unordered pairs (a,b) with a<b and a+b≤20. For each such pair (a,b), the triple (a,b,a+b) is an additive triplet in S.\nThe formula is false; for n=20 it gives 95, but the actual number of unordered distinct pairs with sum at most 20 is 90.\nCount the pairs correctly by summing over a the number of b satisfying a<b≤n−a, or use the correct formula floor((n−1)^2/4).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

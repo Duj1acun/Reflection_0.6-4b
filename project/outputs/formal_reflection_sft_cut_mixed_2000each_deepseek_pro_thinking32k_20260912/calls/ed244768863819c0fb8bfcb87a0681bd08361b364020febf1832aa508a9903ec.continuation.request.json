@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In triangle $\\triangle ABC$, the sides opposite to the internal angles $A$, $B$, and $C$ are $a$, $b$, and $c$ respectively. Given the equation $a\\sin A - b\\sin B = 4c\\sin C$ and the condition $\\cos A = -\\frac{1}{4}$, calculate the ratio $\\frac{b}{c}$. Express your answer as a single numerical value.\n\n<reflection>\nFrom the Law of Sines, let a/\\sin A = b/\\sin B = c/\\sin C = k, so a = k\\sin A, b = k\\sin B, c = k\\sin C. Substituting into the given equation and dividing by k gives \\sin^2 A - \\sin^2 B = 4\\sin^2 C. The given condition is \\cos A = -1/4.\nSince cos A = -1/4, squaring gives cos^2 A = 1/16, not 1/4. This line also contradicts the later use of 1/16.\nCompute cos^2 A = (-1/4)^2 = 1/16 so sin^2 A = 15/16, then use sin^2 A - sin^2 B = 4 sin^2 C and A + B + C = π to solve for b/c.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

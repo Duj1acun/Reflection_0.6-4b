@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A three-digit number ends with the digit 3. If this digit is moved two places to the left, i.e., placed at the beginning, then the new number will be 1 more than three times the original number. Find this number.\n\n<reflection>\nLet the original number be $ x $. $ x $ is a three-digit number, so $ 100 \\le x \\le 999 $. The last digit of $ x $ is 3.\nThis treats $x-3$ as the remaining two-digit prefix, but $x-3$ is actually 10 times that prefix. Removing the units digit requires dividing by 10, so the new number is $300+(x-3)/10$, not $300+x-3$.\nForm the new number as $300+(x-3)/10$ (or write $x=100a+10b+3$ and use $300+10a+b$), then set it equal to $3x+1$ and solve.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

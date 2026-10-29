@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A large circular table has 60 chairs around it. What is the largest number of people who can sit around the table so that each person is only sitting next to exactly one other person?\n\n<reflection>\nThere are 60 chairs arranged in a circle. Each seated person must have exactly one adjacent seated person among their two neighboring chairs.\nThis incorrectly assumes both neighboring chairs are occupied. Having exactly one adjacent person means the other neighboring chair must be empty, so a person is not sitting between two people.\nModel the seating as a circular binary string and require each block of occupied chairs to have length exactly 2, separated by at least one empty chair; then maximize the number of occupied chairs.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

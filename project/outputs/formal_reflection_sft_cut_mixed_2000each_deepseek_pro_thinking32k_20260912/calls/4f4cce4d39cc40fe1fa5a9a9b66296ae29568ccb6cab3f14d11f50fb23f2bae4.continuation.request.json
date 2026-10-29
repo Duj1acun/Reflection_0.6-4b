@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: From the set {1,2,3,...,10}, select three different numbers such that at least two of them are adjacent. Find the total number of different ways to do this. Express your answer as a single integer.\n\n<reflection>\nThe total number of ways to choose 3 different numbers from 10 is \\(\\binom{10}{3}=120\\). The desired count can be obtained by subtracting selections with no adjacent pair from the total. To have no two adjacent, each chosen position must have at least one unchosen number between it and the next chosen position.\nThis equation does not model choosing three nonadjacent positions from 1 to 10; the three positions do not sum to 3, and these lower bounds do not enforce the required separation.\nUse the standard gap method to count nonadjacent selections as choosing 3 positions from 8 after accounting for the mandatory gaps, then subtract from 120.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

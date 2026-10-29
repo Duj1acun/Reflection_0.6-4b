@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Tessa the hyper-ant has a 2019-dimensional hypercube. For a real number \\( k \\), she calls a placement of nonzero real numbers on the \\( 2^{2019} \\) vertices of the hypercube \\( k \\)-harmonic if for any vertex, the sum of all 2019 numbers that are edge-adjacent to this vertex is equal to \\( k \\) times the number on this vertex. Let \\( S \\) be the set of all possible values of \\( k \\) such that there exists a \\( k \\)-harmonic placement. Find \\( \\sum_{k \\in S}|k| \\).\n\n<reflection>\nThe hypercube has n=2019 dimensions, so each vertex has exactly 2019 edge-adjacent vertices. For each vertex v, the condition is sum_{u~v} x_u = k x_v. If A is the adjacency matrix of the hypercube, then the condition is equivalent to A x = k x, so k must be an eigenvalue of A for some nonzero vector x.\nThe eigenvalues of the adjacency matrix of an n-dimensional hypercube are n-2r for r=0,1,...,n, not every integer from -n to n. For n=2019, they are -2019, -2017, ..., 2017, 2019, not -2019, -2018, ..., 2019.\nReplace the eigenvalue set with the correct hypercube eigenvalues n-2r for r=0,1,...,n, then compute the sum of their absolute values for n=2019.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

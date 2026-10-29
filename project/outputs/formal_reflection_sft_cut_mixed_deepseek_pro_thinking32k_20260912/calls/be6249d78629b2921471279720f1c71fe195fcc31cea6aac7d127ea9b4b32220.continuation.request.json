@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: How many ordered pairs \\((x, y)\\) of positive integers, where \\(x < y\\), satisfy the equation $$ \\frac{1}{x} + \\frac{1}{y} = \\frac{1}{2007}? $$\n\n<reflection>\nThe equation is transformed to 2007(x+y)=xy. It is rewritten as xy - 2007x - 2007y = 0. Adding 2007² gives (x-2007)(y-2007)=2007². Let a = x-2007 and b = y-2007; then ab=2007². Since x<y, a<b. The problem reduces to counting positive integer ordered pairs (a,b) with ab=2007² and a<b.\nThis formula is false. The number of positive ordered factor pairs of n² is the divisor count d(n²), not (n²+1)/2. For pairs with a<b, the correct count is (d(n²)-1)/2.\nCompute the prime factorization of 2007, find d(2007²), then count pairs with a<b as (d(2007²)-1)/2.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

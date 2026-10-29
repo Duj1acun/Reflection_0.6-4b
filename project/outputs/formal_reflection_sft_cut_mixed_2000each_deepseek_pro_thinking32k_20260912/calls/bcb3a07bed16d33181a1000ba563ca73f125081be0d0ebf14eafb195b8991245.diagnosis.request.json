@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Select 3 individuals from 10 university graduates to serve as village assistants, such that at least one of A or B is selected, and C is not selected. The number of different ways to do this is . (Answer with a number)\nGround Truth: 49\nWeak CoT: We are given the following conditions:\n\n- There are **10 university graduates**.\n- We need to **select 3 individuals** to serve as village assistants.\n- **Condition 1**: At least one of **A or B** must be selected.\n- **Condition 2**: **C is not selected**.\n\nWe are to find the number of **different ways** to do this.\n\n---\n\n### Step 1: Total number of ways to select 3 people from 10, **without any restrictions**\n\n$$\n\\binom{10}{3} = 120\n$$\n\n---\n\n### Step 2: Subtract the number of ways that **violate** the conditions\n\nWe need to **exclude** the selections that **do not satisfy**:\n\n- **Condition 1**: At least one of A or B is selected.\n- **Condition 2**: C is **not** selected.\n\nSo we want to find the number of 3-person groups that **do not include C**, and **do not include A or B**.\n\nThat is, we are looking for the number of 3-person groups that:\n\n- **Do not include C**\n- **Do not include A or B**\n\nSo we are choosing 3 people from the remaining candidates after **excluding C, A, and B**.\n\nThat leaves:\n\n$$\n10 - 3 = 7 \\text{ people}\n$$\n\nSo the number of such invalid groups is:\n\n$$\n\\binom{7}{3} = 35\n$$\n\n---\n\n### Step 3: Subtract the invalid cases from the total\n\n$$\n\\text{Valid selections} = \\binom{10}{3} - \\binom{7}{3} = 120 - 35 = \\boxed{85}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{85}\n$$"
+    }
+  ]
+}

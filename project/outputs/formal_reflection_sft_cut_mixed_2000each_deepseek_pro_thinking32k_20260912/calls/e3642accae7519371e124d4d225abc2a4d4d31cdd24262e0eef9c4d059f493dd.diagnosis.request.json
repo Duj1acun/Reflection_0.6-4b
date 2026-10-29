@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In a campus singing competition, a contestant received scores of $92$, $93$, $88$, $99$, $89$, and $95$ from $6$ judges. The $75\\%$ percentile of this data set is ______.\nGround Truth: 95\nWeak CoT: To find the **75th percentile** of the data set:\n\n1. **Arrange the data in ascending order**:\n   $$\n   88, 89, 92, 93, 95, 99\n   $$\n\n2. **Find the index for the 75th percentile**:\n   The formula for the position in the ordered data is:\n   $$\n   \\text{Index} = P \\times \\frac{n}{100}\n   $$\n   where $ n = 6 $ (number of data points), and $ P = 75 $.\n\n   $$\n   \\text{Index} = 0.75 \\times 6 = 4.5\n   $$\n\n3. **Interpret the index**:\n   - Since the index is **not an integer**, we round up to the next whole number: $ 5 $.\n\n4. **Find the 5th value**:\n   $$\n   \\text{5th value} = 92\n   $$\n\nSo, the **75th percentile** of the data set is:\n\n$$\n\\boxed{92}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Select 3 individuals from 10 university graduates to serve as village assistants, such that at least one of A or B is selected, and C is not selected. The number of different ways to do this is . (Answer with a number)\n\n<reflection>\nThere are 10 university graduates. We need to select 3 individuals. Condition 1: at least one of A or B must be selected. Condition 2: C is not selected. Total unrestricted selections: C(10,3)=120. The method of subtracting invalid selections from the total is valid if invalid selections are correctly defined.\nThis is not the set of invalid selections. Invalid selections are those that include C or include neither A nor B; the stated set counts only selections satisfying C not selected and neither A nor B selected, omitting all selections that include C.\nCorrectly count invalid selections using inclusion-exclusion: selections that include C plus selections that include neither A nor B minus their overlap, then subtract from 120.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

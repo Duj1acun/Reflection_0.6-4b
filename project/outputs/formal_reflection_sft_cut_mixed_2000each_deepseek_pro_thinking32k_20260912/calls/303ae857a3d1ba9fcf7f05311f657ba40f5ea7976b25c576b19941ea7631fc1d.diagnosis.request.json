@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given the binomial expansion $(1 - 2x)^7 = a_0 + a_1x + a_2x^2 + \\dots + a_7x^7$, find the value of $|a_0| + |a_1| + |a_2| + \\dots + |a_7|$. Express your answer as a single integer.\nGround Truth: 2187\nWeak CoT: We are given the binomial expansion:\n\n$$\n(1 - 2x)^7 = a_0 + a_1x + a_2x^2 + \\dots + a_7x^7\n$$\n\nWe are to find the value of:\n\n$$\n|a_0| + |a_1| + |a_2| + \\dots + |a_7|\n$$\n\n---\n\n### Step 1: Understand the Expansion\n\nThe binomial expansion of $(1 - 2x)^7$ involves coefficients $a_k$, such that:\n\n$$\n(1 - 2x)^7 = \\sum_{k=0}^{7} a_k x^k\n$$\n\nSo, the coefficients $a_k$ are:\n\n- $a_0 = 1$ (constant term)\n- $a_1 = -7 \\cdot 2^6 = -4296$\n- $a_2 = \\binom{7}{2} \\cdot (1)^2 \\cdot (-2)^2 = \\binom{7}{2} \\cdot 4 = 21 \\cdot 4 = 84$\n- And so on up to $a_7$.\n\n---\n\n### Step 2: Compute the Absolute Values\n\nWe now compute the absolute values of each coefficient:\n\n$$\n|a_0| = |1| = 1  \n|a_1| = |4296| = 4296  \n|a_2| = |84| = 84  \n|a_3| = |21 \\cdot 16| = 336  \n|a_4| = |35 \\cdot 32| = 1120  \n|a_5| = |105 \\cdot 64| = 6720  \n|a_6| = |21 \\cdot 128| = 2688  \n|a_7| = |28 \\cdot 128| = 3584\n\n---\n\n### Step 3: Add the Absolute Values\n\n$$\n|a_0| + |a_1| + |a_2| + \\dots + |a_7| = 1 + 4296 + 84 + 336 + 1120 + 6720 + 2688 + 3584\n$$\n\nLet's compute this:\n\n$$\n1 + 4296 = 4297  \n4297 + 84 = 4381  \n4381 + 336 = 4717  \n4717 + 1120 = 5837  \n5837 + 6720 = 12557  \n12557 + 2688 = 15245  \n15245 + 3584 = 18829\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{18829}\n$$"
+    }
+  ]
+}

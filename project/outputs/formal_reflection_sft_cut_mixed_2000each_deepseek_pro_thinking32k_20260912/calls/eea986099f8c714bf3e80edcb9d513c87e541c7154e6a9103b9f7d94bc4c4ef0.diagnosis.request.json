@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In a \"Chinese Dream, My Dream\" knowledge speech contest organized by the School Youth League Committee, there are 4 finalists who can each choose one of the 4 prepicked topics to present. The number of scenarios where exactly one topic is not chosen by any of the contestants is ____.\nGround Truth: 144\nWeak CoT: We are given:\n\n- 4 contestants.\n- Each contestant chooses **one of 4** **pre-picked topics**.\n- We are to find the number of **scenarios** where **exactly one topic is not chosen** by **any of the contestants**.\n\n---\n\n### Step 1: Understand the problem\n\nWe are choosing 4 topics, and each contestant picks **one** of the 4 topics. We want to count how many such combinations result in **exactly one topic being unused**.\n\nThat is, **3 topics are used**, and **one is not used** by **any of the 4 contestants**.\n\nSo, we are to count the number of **functions** from the set of 4 contestants to the set of 4 topics, such that **exactly one topic is not used**.\n\n---\n\n### Step 2: Count all possible assignments\n\nEach contestant has 4 choices, so the total number of assignments is:\n\n$$\n4^4 = 256\n$$\n\n---\n\n### Step 3: Count the number of assignments where **exactly one topic is not used**\n\n#### Step 3.1: Choose which topic is not used\n\nThere are 4 topics, so we can choose 1 to be the **unused** topic in:\n\n$$\n\\binom{4}{1} = 4 \\text{ ways}\n$$\n\n#### Step 3.2: Assign the 4 contestants to the **other 3 topics**\n\nNow, we have 3 topics that **must be used**. Each contestant must choose **one of these 3 topics**, with **no restriction** on how many times a topic is chosen.\n\nSo, the number of assignments of 4 contestants to 3 topics is:\n\n$$\n3^4 = 81\n$$\n\n#### Step 3.3: Total number of such scenarios\n\nMultiply the number of choices for the unused topic by the number of assignments to the remaining 3 topics:\n\n$$\n4 \\times 3^4 = 4 \\times 81 = \\boxed{324}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{324}\n$$"
+    }
+  ]
+}

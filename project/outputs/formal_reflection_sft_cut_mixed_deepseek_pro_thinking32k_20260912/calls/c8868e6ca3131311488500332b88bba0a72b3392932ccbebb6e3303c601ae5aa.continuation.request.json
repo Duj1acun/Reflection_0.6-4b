@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There are more than 20 but less than 30 students in the class, and everyone has a different birthday. Petya said, \"The number of students older than me is twice the number of students younger than me.\" Katya said, \"The number of students older than me is three times less than the number of students younger than me.\" How many students are there in the class if both Petya and Katya are correct?\n\n<reflection>\nLet $n$ be the total number of students; then $20 < n < 30$, so $n \\in \\{21,22,23,24,25,26,27,28,29\\}$. For Petya, if $y$ is the number of students younger than Petya and $o$ is the number older, then $o = 2y$ and $n = y + o + 1 = 3y + 1$. For Katya, the statement means the number older is $\\frac13$ of the number younger; using a distinct younger-count variable $y_K$, $n = y_K + \\frac{y_K}{3} + 1 = \\frac{4y_K}{3} + 1$.\nThis equates two different quantities: in $3y+1$, $y$ is the number of students younger than Petya, while in $\\frac{4y}{3}+1$, $y$ is the number younger than Katya. They are not equal, so this step is invalid.\nUse distinct variables for the younger-student counts in Petya's and Katya's statements, then solve the two total-student formulas for $n$ within $20<n<30$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

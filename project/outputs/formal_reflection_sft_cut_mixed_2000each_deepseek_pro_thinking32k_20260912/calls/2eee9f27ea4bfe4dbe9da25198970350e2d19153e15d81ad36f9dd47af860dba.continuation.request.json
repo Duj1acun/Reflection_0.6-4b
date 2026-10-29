@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: $\\sin {40^{\\circ}}(\\tan {10^{\\circ}}-\\sqrt{3})=$ ?\n\n<reflection>\nThe original expression is A = sin 40°(tan 10° - √3). Using tan θ = sin θ / cos θ gives tan 10° - √3 = (sin 10° - √3 cos 10°)/cos 10°. The expression can be rewritten as [sin 40°(sin 10° - √3 cos 10°)] / cos 10°. The term sin 10° - √3 cos 10° has amplitude R = √(1² + (√3)²) = 2.\nFor 2 cos(10° - φ) to equal sin 10° - √3 cos 10°, coefficient matching requires 2 sin φ = 1 and 2 cos φ = -√3, so φ = 150° (or equivalent), not 60°. Using φ = 60° gives the wrong sign for the cosine term.\nRecompute φ by matching coefficients correctly (sin φ = 1/2, cos φ = -√3/2), or rewrite the term as 2 sin(10° - 60°).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

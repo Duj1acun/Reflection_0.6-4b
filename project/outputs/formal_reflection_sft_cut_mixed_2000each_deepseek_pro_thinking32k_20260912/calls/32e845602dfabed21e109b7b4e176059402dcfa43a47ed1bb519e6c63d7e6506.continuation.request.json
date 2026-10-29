@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: What is the largest prime p such that \\\\sqrt{17p + 625} is an integer? Express your answer as a single integer.\n\n<reflection>\nLet n = sqrt(17p+625); then n is a positive integer and 17p+625 = n^2. Thus p = (n^2 - 625)/17, and n^2 - 625 must be divisible by 17. 625 ≡ 13 (mod 17), so n must satisfy n^2 ≡ 13 (mod 17). From the table up to n=9, the residues 8 and 9 satisfy n^2 ≡ 13 (mod 17).\n100 mod 17 is 15, not 13, so n=10 does not satisfy n^2 ≡ 13 mod 17. The roots are n ≡ 8,9 mod 17.\nCorrect this row to 15 and continue using only n ≡ 8,9 mod 17, then maximize prime p over those forms.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

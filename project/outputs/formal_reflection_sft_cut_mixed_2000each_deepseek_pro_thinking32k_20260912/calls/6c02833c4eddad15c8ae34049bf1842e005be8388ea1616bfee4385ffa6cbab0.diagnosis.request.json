@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Linda is 3 more than 2 times the age of Jane, but the age difference between Linda and Jane is not just an ordinary number, it's a prime number. In five years, the sum of Linda's and Jane's ages will be equal to the age of their older cousin, Kevin, at that time. If Kevin is currently 4 times the age of Jane, what are the ages of Linda and Jane at present?\nGround Truth: 11\nWeak CoT: Let’s solve this step by step.\n\n---\n\n### Step 1: Let the current ages of **Jane and Linda** be $ J $ and $ L $, respectively.\n\nWe are told:\n\n- **Linda's age is 3 more than 2 times Jane's age**:\n  $$\n  L = 2J + 3\n  $$\n\n- **The age difference between Linda and Jane is a prime number**. Since age differences are positive, we can conclude that $ L - J $ is a **prime number**.\n\n- **In five years, the sum of Linda's and Jane's ages will be equal to the age of their older cousin, Kevin**, at that time.\n\n- **Kevin is currently 4 times the age of Jane**:\n  $$\n  K = 4J\n  $$\n\n---\n\n### Step 2: Express Kevin's age in terms of Jane's current age.\n\n$$\nK = 4J\n$$\n\nNow, in **5 years**, their ages will be:\n\n- Linda: $ L + 5 = 2J + 3 + 5 = 2J + 8 $\n- Jane: $ J + 5 $\n\nSo their **sum** will be:\n\n$$\n(2J + 8) + (J + 5) = 3J + 13\n$$\n\nAccording to the problem, this sum will be equal to Kevin’s age in 5 years:\n\n$$\n3J + 13 = K = 4J\n$$\n\nSolve for $ J $:\n\n$$\n3J + 13 = 4J \\\\\n13 = J\n$$\n\n---\n\n### Step 3: Find Linda's age at present.\n\n$$\nL = 2J + 3 = 2(13) + 3 = 29\n$$\n\n---\n\n### Final Answer:\n\n- **Jane's current age**: $ \\boxed{13} $\n- **Linda's current age**: $ \\boxed{29} $"
+    }
+  ]
+}

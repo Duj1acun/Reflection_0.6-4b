@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Let $a$ , $b$ , $c$ be positive integers such that $29a + 30b + 31c = 366$ . Find $19a + 20b + 21c$ .\nGround Truth: 246\nWeak CoT: We are given the equation:\n\n$$\n29a + 30b + 31c = 366\n$$\n\nand asked to find:\n\n$$\n19a + 20b + 21c\n$$\n\n---\n\n### Step 1: Define the target expression\n\nLet’s define the target expression as:\n\n$$\nT = 19a + 20b + 21c\n$$\n\nWe can rewrite $T$ as:\n\n$$\nT = (19a + 30b) + (20b + 21c)\n$$\n\nWe can also try to express $T$ in terms of the given equation.\n\nLet’s try to manipulate the given equation to express $T$.\n\nLet’s subtract $29a + 30b$ from both sides of the original equation:\n\n$$\n31c = 366 - (29a + 30b)\n$$\n\nNow, let’s look at the target expression:\n\n$$\nT = (19a + 20b + 21c)\n$$\n\nWe can try to express $T$ as:\n\n$$\nT = (19a + 30b) + (20b + 21c)\n$$\n\nWe already know from the original equation that:\n\n$$\n31c = 366 - (29a + 30b)\n$$\n\nSo:\n\n$$\n20b + 21c = 20b + (366 - 29a - 30b) = 20b + 366 - 29a - 30b = 366 - 29a\n$$\n\nTherefore, we now have:\n\n$$\nT = (19a + 30b) + (366 - 29a) = 30b + 366\n$$\n\nSo:\n\n$$\nT = 30b + 366\n$$\n\nNow we can find $T$ by solving the original equation for $b$.\n\n---\n\n### Step 2: Solve for $b$\n\nWe can isolate $b$ in the original equation:\n\n$$\n29a + 30b + 31c = 366\n$$\n\nRearranged:\n\n$$\n30b = 366 - 29a - 31c\n$$\n\nSo:\n\n$$\nb = \\frac{366 - 29a - 31c}{30}\n$$\n\nNow, we need to find integers $a, b, c$ that satisfy this.\n\n---\n\n### Step 3: Try small values\n\nLet’s look for small values of $a$, $b$, and $c$ that satisfy:\n\n$$\n29a + 30b + 31c = 366\n$$\n\nTry $a = 1$, $b = 1$, $c = 2$:\n\n$$\n29(1) + 30(1) + 31(2) = 29 + 30 + 62 = 121 \\ne 366\n$$\n\nTry $a = 3$, $b = 3$, $c = 2$:\n\n$$\n29(3) + 30(3) + 31(2) = 87 + 90 + 62 = 239 \\ne 366\n$$\n\nTry $a = 3$, $b = 4$, $c = 4$:\n\n$$\n29(3) + 30(4) + 31(4) = 87 + 120 + 124 = 331 \\ne 366\n$$\n\nTry $a = 3$, $b = 5$, $c = 5$:\n\n$$\n29(3) + 30(5) + 31(5) = 87 + 150 + 155 = 392 \\ne 366\n$$\n\nTry $a = 2$, $b = 5$, $c = 5$:\n\n$$\n29(2) + 30(5) + 31(5) = 58 + 150 + 155 = 363 \\ne 366\n$$\n\nTry $a = 2$, $b = 5$, $c = 5$ gives:\n\n$$\nT = 19(2) + 20(5) + 21(5) = 38 + 100 + 105 = 243\n$$\n\nSo, the answer is:\n\n$$\n\\boxed{243}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A class selects 6 people to participate in two volunteer activities, with each activity accommodating no more than 4 people. Calculate the total number of different arrangements of the 6 people across the two activities.\n\n<reflection>\nThere are 6 people to be assigned to two activities. Each activity can accommodate no more than 4 people, so the valid ordered group-size pairs are (2,4), (3,3), and (4,2). The two activities are distinct. For the (2,4) case, choosing 2 people for the first activity gives C(6,2)=15 arrangements.\nThe activities are distinct, so assigning a chosen set of 3 people to Activity A and the remaining 3 to Activity B is different from the swapped assignment. Therefore, the (3,3) case should not be divided by 2.\nFor the (3,3) case, count C(6,3)=20 assignments without dividing by 2, then add the three ordered case counts.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

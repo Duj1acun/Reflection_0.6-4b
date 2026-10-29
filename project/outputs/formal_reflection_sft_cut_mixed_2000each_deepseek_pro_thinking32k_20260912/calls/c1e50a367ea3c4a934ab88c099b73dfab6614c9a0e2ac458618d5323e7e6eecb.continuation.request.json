@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that the sum of the first $n$ terms of a positive arithmetic sequence ${a_n}$ is $S_n$, if $S_{2019} = 4038$, find the minimum value of $\\frac{1}{a_9} + \\frac{9}{a_{2011}}$.\n\n<reflection>\nThe sequence is arithmetic with first term $a_1$ and common difference $d$. $a_n=a_1+(n-1)d$, so $a_9=a_1+8d$ and $a_{2011}=a_1+2010d$. The expression equals $\\frac{1}{a_1+8d}+\\frac{9}{a_1+2010d}$. $S_{2019}=\\frac{2019}{2}(2a_1+2018d)=4038$, hence $2a_1+2018d=4$. Dividing by 2 gives $a_1+1009d=2$, so $a_1=2-1009d$. Substitution gives $a_1+8d=2-1001d$ and $a_1+2010d=2+1001d$. Thus the expression becomes $\\frac{1}{2-1001d}+\\frac{9}{2+1001d}$.\nWith the substitution x = 2 - 1001d, the denominator a_2011 = 2 + 1001d equals 4 - x, not 2 + x. Therefore this transformed expression is incorrect.\nRewrite the expression correctly as 1/x + 9/(4-x) with x = 2 - 1001d, then minimize subject to the positivity constraints on the sequence.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

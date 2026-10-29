@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A rectangular sheet of paper was folded, aligning one vertex with the midpoint of the opposite short side (see illustration). It turns out that triangles I and II are congruent. Find the length of the long side of the rectangle if the short side is 8.\n\n<reflection>\nThe rectangle has short side 8, and the model sets this as the vertical width $W=8$ with unknown length $L$. Coordinates are assigned as bottom-left $(0,0)$, bottom-right $(L,0)$, top-right $(L,W)$, top-left $(0,W)$. With this orientation, the vertical sides are the short sides and the top side is a long horizontal side of length $L$.\nThis contradicts the coordinate setup: if the short side is vertical, the top side is not a short side; it is a long horizontal side. The opposite short side should be the other vertical side.\nPlace the target midpoint on the opposite vertical short side, then use the fold geometry and the congruence of triangles I and II to solve for $L$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

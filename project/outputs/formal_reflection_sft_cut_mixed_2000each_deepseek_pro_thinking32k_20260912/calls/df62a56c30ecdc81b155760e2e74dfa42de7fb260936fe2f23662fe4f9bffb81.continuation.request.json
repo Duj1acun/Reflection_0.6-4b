@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In the diagram, right triangles PSQ and RSQ are shown. Given QR = 25, SR = 20, and PS = 8, find the perimeter of triangle PQR. Express your answer as a whole number.\n\n<reflection>\nIn right triangle RSQ with right angle at S, SR=20 and RQ=25, so SQ^2 = 25^2 - 20^2 = 225, hence SQ=15. In right triangle PSQ with right angle at S, PS=8 and SQ=15, so PQ^2 = 8^2 + 15^2 = 289, hence PQ=17. With S=(0,0), P=(8,0), and Q=(0,15), the possible coordinates for R satisfying SR=20 and RQ=25 are R=(20,0) or R=(-20,0).\nThis arbitrarily chooses the case where P and R are on the same side of S; the diagram instead has P and R on opposite sides of S, so the correct coordinate choice is R=(-20,0). Choosing R=(20,0) gives PR=12 instead of PR=28 and leads to the wrong perimeter.\nUse the diagram to select R=(-20,0), so P and R are on opposite sides of S, then recompute PR and the perimeter.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

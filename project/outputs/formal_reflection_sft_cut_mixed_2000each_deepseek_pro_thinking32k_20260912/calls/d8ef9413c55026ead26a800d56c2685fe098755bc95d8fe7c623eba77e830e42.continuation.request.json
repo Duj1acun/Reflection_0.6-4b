@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the minimum value of the quadratic expression $5x^2 + 4y^2 - 8xy + 2x + 4$. Express your answer as a single number.\n\n<reflection>\nThe original expression is a quadratic in x and y, so its minimum occurs at a critical point. Completing the square in x gives 5x^2 + 2x = 5(x + 1/5)^2 - 1/5. Substituting this into the original expression gives 5(x + 1/5)^2 + 4y^2 - 8xy + 19/5. Completing the square for 4y^2 - 8xy gives 4(y - x)^2 - 4x^2. Thus the expression can be written as 5(x + 1/5)^2 + 4(y - x)^2 - 4x^2 + 19/5.\nThis conclusion is invalid because the terms share the variable x; setting the first two square terms to zero does not minimize the full expression, since -4x^2 depends on x and is not minimized at x = -1/5.\nCombine the x-dependent terms 5(x + 1/5)^2 and -4x^2 into a single perfect square, then minimize that square and set y = x.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

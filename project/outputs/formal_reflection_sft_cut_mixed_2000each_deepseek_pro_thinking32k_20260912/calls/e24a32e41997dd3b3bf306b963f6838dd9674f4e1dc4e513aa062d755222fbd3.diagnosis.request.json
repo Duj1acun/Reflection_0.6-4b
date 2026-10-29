@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The lines containing the lateral sides of a trapezoid intersect at a right angle. The longer lateral side of the trapezoid is 8, and the difference between the bases is 10. Find the shorter lateral side.\nGround Truth: 6\nWeak CoT: We are told:\n\n- The lines containing the **lateral sides** of a trapezoid intersect at a **right angle**.\n- The **longer lateral side** is 8.\n- The **difference between the bases** is 10.\n\nWe are to find the **shorter lateral side**.\n\n---\n\n### Step 1: Understand the Geometry\n\nA trapezoid has:\n- **Two parallel bases**\n- **Two lateral sides**\n- One **diagonal** connecting the two bases\n\nThe **lateral sides** (the non-parallel sides) are the lines connecting the ends of the bases.\n\nThese **lateral sides intersect at a right angle**, forming a **right triangle** when combined.\n\nLet:\n- $ a $ = length of the **shorter lateral side**\n- $ b $ = length of the **longer lateral side** = 8\n\nWe are told:\n- $ b = 8 $\n- $ a + b = \\text{diagonal of the right triangle} $\n\nWe are also told:\n- The **difference between the bases** is $ 10 $\n\nLet:\n- $ A $ = length of the **shorter base**\n- $ B $ = length of the **longer base**\n\nThen:\n$$\nB - A = 10\n$$\n\nLet’s now think about the **right triangle** formed by the lateral sides and the **difference between the bases**.\n\nIf the **difference between the bases** is 10, then the right triangle has legs of lengths $ a $ and 10, and hypotenuse $ a + b $.\n\nSo we apply the Pythagorean theorem:\n\n$$\n(a + b)^2 = a^2 + 10^2\n$$\n\nSubstitute $ b = 8 $:\n\n$$\n(a + 8)^2 = a^2 + 100\n$$\n\nExpand left side:\n\n$$\na^2 + 16a + 64 = a^2 + 100\n$$\n\nSubtract $ a^2 $ from both sides:\n\n$$\n16a + 64 = 100\n$$\n\nSubtract 64:\n\n$$\n16a = 36\n$$\n\nDivide by 16:\n\n$$\na = \\frac{36}{16} = \\frac{9}{4} = 2.25\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{2.25}\n$$"
+    }
+  ]
+}

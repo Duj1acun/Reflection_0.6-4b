@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Mike began training for a basketball tournament by practicing every day. In the first week, he played a maximum of 2 hours per day on weekdays (Monday to Friday) and 1 hour per day on weekends (Saturday and Sunday). Starting from the second week, he increased the maximum time to 3 hours per day on weekdays and 2 hours per day on weekends. To ensure proper rest, Mike took two non-consecutive rest days in the first week and three non-consecutive rest days in the second week, on which he did not practice at all. He also reduced his practice time by half on the day following each rest day. Calculate the total number of hours Mike trained during the first two weeks, considering these constraints.\n\n<reflection>\nWeek 1 consists of 5 weekdays (Mon–Fri) and 2 weekend days (Sat–Sun). Week 2 consists of 5 weekdays (Mon–Fri) and 2 weekend days (Sat–Sun). Week 1 maximum practice times are 2 hours per weekday and 1 hour per weekend day. Week 2 maximum practice times are 3 hours per weekday and 2 hours per weekend day. Week 1 has 2 non-consecutive rest days; week 2 has 3 non-consecutive rest days. On the day following a rest day, practice time is reduced by half. The model is currently assuming week 1 rest days are Saturday and Tuesday.\nThe day after a rest day should be a reduced-practice day, not a no-training day. Marking Sunday as 'no training' contradicts the stated rest-day rule and the model's own next line, which treats Sunday as reduced practice.\nReplace 'no training' with 'reduced practice' for Sunday, using half of the normal weekend practice time, then continue consistently with the chosen rest-day placement.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

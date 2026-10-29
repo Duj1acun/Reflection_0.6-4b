@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In the promotional activities of the \"2022 Beijing Winter Olympics\", four people, A, B, C, and D, signed up for volunteer activities for projects A, B, and C. Each project requires at least one volunteer. There are ___ different plans in total. (Fill in the answer with a number)\n\n<reflection>\nThere are four distinct people and three distinct projects, and every project must get at least one volunteer. Without restrictions, the number of assignments is \\(3^4=81\\). To count valid assignments by subtraction, we need to remove assignments with at least one empty project. There are 3 choices for a project to be empty.\nThis treats the four volunteers as indistinguishable and counts only the size composition. For a fixed empty project, the remaining two distinct projects must receive the four distinct people with both nonempty, giving \\(2^4-2=14\\) ways, not 3.\nUse inclusion-exclusion or count surjections: \\(3^4 - \\binom{3}{1}2^4 + \\binom{3}{2}1^4\\), or count ordered partitions of the 4 distinct people into 3 nonempty groups.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

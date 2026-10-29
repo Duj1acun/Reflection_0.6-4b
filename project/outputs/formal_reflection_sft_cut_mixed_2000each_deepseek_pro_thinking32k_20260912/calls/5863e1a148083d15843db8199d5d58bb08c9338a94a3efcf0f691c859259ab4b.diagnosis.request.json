@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Six people stand in two rows, with three people in each row. Among them, A does not stand in the front row, and B does not stand in the back row. Calculate the total number of ways to arrange them. Express your answer as a single integer.\nGround Truth: 216\nWeak CoT: We are given that:\n\n- There are **6 people**.\n- They are to be arranged in **two rows**, with **3 people in each row**.\n- **A** does **not** stand in the **front row**.\n- **B** does **not** stand in the **back row**.\n\nWe are to calculate the total number of **valid arrangements** under these constraints.\n\n---\n\n### Step 1: Total number of arrangements without any constraints\n\nWe are arranging 6 people in 2 rows of 3 people each. That is, we are arranging 6 people in a 2x3 grid (2 rows, 3 columns).\n\nSo the number of total arrangements is:\n\n$$\n6! = 720\n$$\n\n---\n\n### Step 2: Apply the constraints\n\nWe are now to count only the arrangements where:\n\n- **A is not in the front row** → A must be in the **back row**.\n- **B is not in the back row** → B must be in the **front row**.\n\nSo:\n\n- **A ∈ back row**\n- **B ∈ front row**\n\nLet’s consider the structure:\n\n- **Front row**: positions 1, 2, 3\n- **Back row**: positions 4, 5, 6\n\nSo:\n\n- A must be in **positions 4, 5, or 6**\n- B must be in **positions 1, 2, or 3**\n\nWe now count the number of valid arrangements.\n\n---\n\n### Step 3: Count valid arrangements\n\nWe will count the number of valid arrangements by first **placing A and B**, and then arranging the rest of the people.\n\n#### Step 3.1: Choose positions for A and B\n\n- A can go in **3 choices** (positions 4, 5, 6)\n- B can go in **3 choices** (positions 1, 2, 3)\n\nBut **A and B must be in different positions**, since each person is in a unique spot.\n\nSo the number of ways to choose positions for A and B is:\n\n$$\n3 \\times 2 = 6\n$$\n\n#### Step 3.2: Assign the remaining 4 people to the remaining 4 positions\n\nAfter placing A and B, there are 4 remaining people and 4 remaining positions.\n\nSo the number of ways to arrange the remaining 4 people is:\n\n$$\n4! = 24\n$$\n\n#### Step 3.3: Total valid arrangements\n\n$$\n\\text{Total} = 6 \\times 24 = 144\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{144}\n$$"
+    }
+  ]
+}

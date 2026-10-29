@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the value of the function $f(x)$ at the point $x_{0}=6000$, given that $f(0)=1$ and for any $x$ the equality $f(x+3)=f(x)+2x+3$ holds.\n\n<reflection>\nThe recurrence is f(x+3)=f(x)+2x+3 with f(0)=1. Rewriting the recurrence gives f(x)=f(x-3)+2x-3. The computed initial values are f(3)=4, f(6)=13, and f(9)=28. For x=6000, the rewritten recurrence gives f(6000)=f(5997)+2(6000)-3.\nThis step incorrectly changes f(5994) to f(5991) and mishandles the constant. Applying the rewritten recurrence with x=5997 should give f(5997)=f(5994)+2(5997)-3=f(5994)+11991.\nApply the rewritten recurrence correctly at each step, summing the arithmetic sequence of increments for x=6000,5997,...,3 down to f(0).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

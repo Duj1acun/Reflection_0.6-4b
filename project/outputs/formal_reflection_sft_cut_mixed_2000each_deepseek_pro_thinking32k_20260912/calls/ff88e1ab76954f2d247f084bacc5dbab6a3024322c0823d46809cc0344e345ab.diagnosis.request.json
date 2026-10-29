@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Bill picked 150 apples from the orchard with his wife and four children. He sends each of his kids to school with 4 apples for their friends, 3 apples for their two favorite teachers, and 2 apples for the school staff, every day for a week. His wife Jill bakes two apple pies every weekend, using 12 apples per pie, and prepares a fruit salad using 15 apples every 3 days. Jill's sister visits and takes home 5 apples on the first day. How many apples does Bill have left at the end of the week?\nGround Truth: 150\nWeak CoT: We will solve the problem by breaking it into steps to calculate how many apples each person has and then sum them up.\n\n---\n\n### **Step 1: Calculate the number of apples Bill has left**\n\n- Bill has **150 apples**.\n- He sends each of his **4 kids** to school.\n  - Each kid gets: **4 apples for friends**, **3 apples for teachers**, and **2 apples for staff** = **9 apples per child**.\n  - So 4 kids × 9 apples = **36 apples** used in school.\n- He sends **his wife Jill** to school, so no apples are used.\n- He **doesn’t send his sister** to school, so no apples are used.\n\n- Total apples used in school: **36**.\n- Total apples Bill has: **150**.\n\n- So, **Bill has 150 - 36 = 114 apples left**.\n\n---\n\n### **Step 2: Calculate the number of apples Jill has left**\n\n- Jill bakes **2 apple pies** every **weekend**, and uses **12 apples per pie** = **24 apples per weekend**.\n- She prepares a **fruit salad** using **15 apples every 3 days**.\n\n- Total apples used in school: **36**.\n- Total apples used in school and other activities: **36**.\n- Total apples used by Jill: **24** (weekend) + **15** (fruit salad) = **39 apples**.\n- Total apples Jill has: **150**.\n\n- So, **Jill has 150 - 39 = 111 apples left**.\n\n---\n\n### **Step 3: Add apples from all people**\n\n- Bill: **114 apples**\n- Jill: **111 apples**\n- Sister: **5 apples**\n\n- Total apples: **114 + 111 + 5 = 230**\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{230}\n$$"
+    }
+  ]
+}

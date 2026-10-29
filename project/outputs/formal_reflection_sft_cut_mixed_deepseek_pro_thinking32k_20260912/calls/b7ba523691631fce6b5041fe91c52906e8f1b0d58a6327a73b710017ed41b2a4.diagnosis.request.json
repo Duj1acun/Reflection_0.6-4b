@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The numbers \\( u, v, w \\) are the roots of the equation \\( x^{3} - 3x - 1 = 0 \\). Find \\( u^{9} + v^{9} + w^{9} \\).\nGround Truth: 246\nWeak CoT: We are given that $ u, v, w $ are the **roots** of the cubic equation:\n\n$$\nx^3 - 3x - 1 = 0\n$$\n\nWe are to find:\n\n$$\nu^9 + v^9 + w^9\n$$\n\n---\n\n### Step 1: Use Vieta's formulas\n\nFor the cubic $ x^3 + ax^2 + bx + c = 0 $, the roots satisfy:\n\n- $ u + v + w = -a $\n- $ uv + uw + vw = b $\n- $ u v w = -c $\n\nIn our equation:\n\n$$\nx^3 - 3x - 1 = 0\n$$\n\nWe can write:\n\n- $ a = 0 $, so $ u + v + w = -0 = 0 $\n- $ b = -3 $, so $ uv + uw + vw = b = -3 $\n- $ c = -1 $, so $ u v w = -(-1) = 1 $\n\nSo we have:\n\n$$\nu + v + w = 0, \\quad uv + uw + vw = -3, \\quad u v w = 1\n$$\n\n---\n\n### Step 2: Find a recurrence relation\n\nLet’s denote:\n\n$$\nS_n = u^n + v^n + w^n\n$$\n\nWe can find a recurrence relation for $ S_n $ using the fact that $ u, v, w $ satisfy the original equation.\n\nSince $ x^3 - 3x - 1 = 0 $, we have:\n\n$$\nx^3 = 3x + 1\n$$\n\nMultiply both sides by $ x^{n-3} $ to get a recurrence for $ x^n $:\n\n$$\nx^n = 3x^{n-1} + x^{n-2}\n$$\n\nTherefore, we can compute $ S_n $ using:\n\n$$\nS_n = u^n + v^n + w^n = 3(u^{n-1} + v^{n-1} + w^{n-1}) + (u^{n-2} + v^{n-2} + w^{n-2})\n$$\n\nSo the recurrence formula is:\n\n$$\nS_n = 3S_{n-1} + S_{n-2}\n$$\n\nWe can use this recurrence to compute $ S_9 $.\n\n---\n\n### Step 3: Compute $ S_1, S_2, S_3, \\dots, S_9 $\n\nWe start with:\n\n- $ S_1 = u + v + w = 0 $\n- $ S_2 = u^2 + v^2 + w^2 = (u + v + w)^2 - 2(uv + uw + vw) = 0^2 - 2(-3) = 6 $\n- $ S_3 = 3S_2 + S_1 = 3(6) + 0 = 18 $\n\nNow compute up to $ S_9 $:\n\nWe can use the recurrence:\n\n$$\nS_n = 3S_{n-1} + S_{n-2}\n$$\n\nLet’s compute this step by step:\n\n- $ S_1 = 0 $\n- $ S_2 = 6 $\n- $ S_3 = 3(6) + 0 = 18 $\n- $ S_4 = 3(18) + 6 = 60 $\n- $ S_5 = 3(60) + 18 = 198 $\n- $ S_6 = 3(198) + 60 = 654 $\n- $ S_7 = 3(654) + 198 = 2178 $\n- $ S_8 = 3(2178) + 654 = 6834 $\n- $ S_9 = 3(6834) + 2178 = 22962 $\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{22962}\n$$"
+    }
+  ]
+}

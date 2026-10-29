@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Determine the largest value of \\( x \\) for which \\[ \\left|x^{2}-4x-39601\\right| \\geq \\left|x^{2}+4x-39601\\right| \\]\nGround Truth: 199\nWeak CoT: We are given the inequality:\n\n$$\n\\left|x^2 - 4x - 39601\\right| \\geq \\left|x^2 + 4x - 39601\\right|\n$$\n\nOur goal is to **find the largest value of $ x $** that satisfies this inequality.\n\n---\n\n### Step 1: Square both sides\n\nSince both sides are absolute values, squaring is a valid method to simplify.\n\n$$\n\\left|x^2 - 4x - 39601\\right|^2 \\geq \\left|x^2 + 4x - 39601\\right|^2\n$$\n\nExpanding both sides:\n\n$$\n(x^2 - 4x - 39601)^2 \\geq (x^2 + 4x - 39601)^2\n$$\n\nLet’s denote:\n\n- $ A = x^2 - 4x - 39601 $\n- $ B = x^2 + 4x - 39601 $\n\nSo the inequality becomes:\n\n$$\nA^2 \\geq B^2\n\\Rightarrow (A - B)(A + B) \\geq 0\n$$\n\nNow compute $ A - B $ and $ A + B $:\n\n$$\nA - B = (x^2 - 4x - 39601) - (x^2 + 4x - 39601) = -8x\n$$\n\n$$\nA + B = (x^2 - 4x - 39601) + (x^2 + 4x - 39601) = 2x^2 - 79202\n$$\n\nSo the inequality becomes:\n\n$$\n(-8x)(2x^2 - 79202) \\geq 0\n$$\n\nSimplify:\n\n$$\n-16x^2 + 79202x \\geq 0\n\\Rightarrow 16x^2 - 79202x \\leq 0\n$$\n\n---\n\n### Step 2: Solve the inequality\n\n$$\n16x^2 - 79202x \\leq 0\n\\Rightarrow x(16x - 79202) \\leq 0\n$$\n\nSo the critical points are:\n\n- $ x = 0 $\n- $ x = \\frac{79202}{16} = 4950.125 $\n\nNow determine where the expression $ x(16x - 79202) \\leq 0 $ holds.\n\nThis inequality holds when:\n\n$$\n0 \\leq x \\leq 4950.125\n$$\n\n---\n\n### Step 3: Find the largest value of $ x $\n\nAmong the critical points, the largest one is:\n\n$$\nx = 4950.125\n$$\n\nSo the **largest value of $ x $** satisfying the inequality is:\n\n$$\n\\boxed{4950.125}\n$$"
+    }
+  ]
+}

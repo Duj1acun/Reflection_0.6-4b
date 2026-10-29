@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the four-digit number that gives a remainder of 112 when divided by 131 and a remainder of 98 when divided by 132.\n\n<reflection>\nThe congruences are $N \\equiv 112 \\pmod{131}$ and $N \\equiv 98 \\pmod{132}$. From the first congruence, $N = 131k + 112$. Substituting gives $131k + 112 \\equiv 98 \\pmod{132}$, so $131k \\equiv -14 \\equiv 118 \\pmod{132}$. $\\gcd(131,132)=1$, and $1 = 132 - 1 \\cdot 131$, so the inverse of 131 modulo 132 is $131$. Multiplying the congruence by the inverse gives $k \\equiv 118 \\cdot 131 \\pmod{132}$. $118 \\cdot 131 = 15458$.\nThe remainder is computed incorrectly: $132 \\times 117 = 15444$, so $15458 \\mod 132 = 14$, not 2.\nRecompute $15458 \\mod 132$ correctly as $14$, then continue solving $k \\equiv 14 \\pmod{132}$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

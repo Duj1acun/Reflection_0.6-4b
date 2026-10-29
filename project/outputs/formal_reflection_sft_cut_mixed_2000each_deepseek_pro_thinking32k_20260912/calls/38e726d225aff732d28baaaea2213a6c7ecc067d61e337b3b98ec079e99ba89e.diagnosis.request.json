@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: If the function $f(x)=ax^{2}+bx+1$ is an even function defined on the interval $[-1-a,2a]$, then $f(2a-b)=$ \\_\\_\\_\\_\\_\\_.\nGround Truth: 5\nWeak CoT: We are given:\n\n- A function: $ f(x) = ax^2 + bx + 1 $\n- It is an **even function** on the interval $[-1 - a, 2a]$\n- We need to find: $ f(2a - b) $\n\n---\n\n### Step 1: Use the fact that $ f(x) $ is even\n\nAn even function satisfies:\n\n$$\nf(-x) = f(x)\n$$\n\nSo:\n\n$$\nf(x) = ax^2 + bx + 1 \\\\\nf(-x) = a(-x)^2 + b(-x) + 1 = ax^2 - bx + 1\n$$\n\nFor the function to be even, we must have:\n\n$$\nax^2 + bx + 1 = ax^2 - bx + 1\n$$\n\nSubtract $ ax^2 + 1 $ from both sides:\n\n$$\nbx = -bx \\Rightarrow 2bx = 0 \\Rightarrow x = 0 \\quad \\text{(for all } x \\in [-1 - a, 2a] \\text{)}\n$$\n\nThis means that:\n\n$$\nb = 0\n$$\n\n---\n\n### Step 2: Plug into the original function\n\nNow substitute $ b = 0 $ into the function:\n\n$$\nf(x) = ax^2 + 0x + 1 = ax^2 + 1\n$$\n\n---\n\n### Step 3: Find $ f(2a - b) $\n\nWe already found $ b = 0 $, so:\n\n$$\nf(2a - b) = f(2a - 0) = f(2a) = a(2a)^2 + 1 = 4a^3 + 1\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{4a^3 + 1}\n$$"
+    }
+  ]
+}

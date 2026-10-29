@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Determine the smallest natural number \\( n \\) such that \\( n! \\) (n factorial) ends with exactly 1987 zeros.\n\n<reflection>\nThe number of trailing zeros of n! is the exponent of 10 in n!, which is min(v2(n!), v5(n!)). For n!, the number of trailing zeros is T(n)=floor(n/5)+floor(n/25)+floor(n/125)+... . We need the smallest n such that T(n)=1987. For n=1985, the individual terms are floor(1985/5)=397, floor(1985/25)=79, floor(1985/125)=15, and floor(1985/625)=3.\nThe arithmetic is wrong: 397+79+15+3=494, not 496.\nCorrectly compute T(1985)=494, then solve T(n)=1987 by bounding n using the formula instead of random trials.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Each frog needs to eat 30 flies per day to live. Each fish needs to eat 8 frogs per day to live. Each gharial needs to eat 15 fish a day to live. Additionally, each heron needs to eat 5 frogs and 3 fish per day to live, and each caiman needs to eat 2 gharials and 2 herons per day to live. How many flies get eaten every day in this swamp if it has 9 gharials, 12 herons, and 7 caimans?\n\n<reflection>\nThere are 9 gharials, 12 herons, and 7 caimans. The 9 gharials eat 9 × 15 = 135 fish per day. The 12 herons eat 12 × 3 = 36 fish per day directly from fish. The 7 caimans eat 7 × 2 = 14 gharials per day.\nThis incorrectly adds 14 gharials eaten by caimans to the fish total as if they were fish. Caimans do not directly eat fish, so this sum is invalid.\nCalculate the total fish eaten per day using only the animals whose diet directly includes fish, namely the gharials and herons.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

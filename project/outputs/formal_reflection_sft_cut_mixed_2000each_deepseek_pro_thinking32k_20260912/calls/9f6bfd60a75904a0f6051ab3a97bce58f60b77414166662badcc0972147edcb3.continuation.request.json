@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given a triangle \\( \\triangle ABC \\) with angles \\( \\angle A, \\angle B, \\angle C \\) opposite sides \\( a, b, c \\) respectively, and satisfying the equation \\( a \\cos B - b \\cos A = \\frac{4}{5} c \\), find the value of \\( \\frac{\\tan A}{\\tan B} \\).\n\n<reflection>\nBy the Law of Cosines, a \\cos B - b \\cos A = (a^2 - b^2)/c. The given equation implies a^2 - b^2 = (4/5)c^2. Using the Law of Sines with a=k\\sin A, b=k\\sin B, c=k\\sin C gives \\sin^2 A - \\sin^2 B = (4/5)\\sin^2 C. The target ratio is \\frac{\\tan A}{\\tan B} = \\frac{a\\cos B}{b\\cos A}. From b^2 = a^2 - (4/5)c^2, \\cos B = 9c/(10a).\nThe numerator was simplified incorrectly: (a^2 - (4/5)c^2) + c^2 - a^2 = c^2 - (4/5)c^2 = (1/5)c^2, not -(4/5)c^2.\nCorrectly simplify the numerator for cos A to (1/5)c^2, obtain cos A = c/(10b), then recompute the ratio.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

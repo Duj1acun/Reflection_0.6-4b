@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $α∈(0, \\frac {π}{2}), β∈(0, \\frac {π}{2}), \\text{and }sin(2α+β)= \\frac {3}{2}sinβ, \\text{ find the value of } \\frac {tan(α+β)}{tanα }$.\n\n<reflection>\nLet x = α+β; then α = x−β and 2α+β = 2x−β, so the condition is sin(2x−β) = (3/2) sin β. Expanding sin(2x−β) gives sin(2x)cosβ − cos(2x)sinβ = (3/2) sinβ. Substituting sin(2x)=2sin x cos x and cos(2x)=1−2sin²x yields 2sin x cos x cosβ − (5/2 − 2sin²x) sinβ = 0. Dividing by sinβ and writing cotβ gives 2sin x cos x cotβ − (5/2 − 2sin²x) = 0. With t = tan x, sin x cos x = t/(1+t²) and sin²x = t²/(1+t²), so the equation becomes t² − 4t cotβ + 5 = 0. The quadratic formula gives t = 2cotβ ± √(4cot²β − 5). The target ratio is tan(α+β)/tanα = t / tanα, and tanα = tan(x−β) = (t − tanβ)/(1 + t tanβ), so the target is t(1 + t tanβ)/(t − tanβ).\nThis ignores the ±√(4cot²β−5) term from the quadratic solution, so t=2cotβ is not generally a valid root of t² − 4t cotβ + 5 = 0.\nSubstitute the full quadratic root into the target expression and simplify, or eliminate cotβ using the quadratic relation t² − 4t cotβ + 5 = 0.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

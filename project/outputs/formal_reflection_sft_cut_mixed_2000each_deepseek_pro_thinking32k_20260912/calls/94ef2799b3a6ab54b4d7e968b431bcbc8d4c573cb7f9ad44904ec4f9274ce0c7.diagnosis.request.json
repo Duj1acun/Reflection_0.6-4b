@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given the sets $A=\\{-1,0,1\\}$ and $B=\\{0,a,2\\}$, if $A\\cap B=\\{-1,0\\}$, then $a=$\nGround Truth: -1\nWeak CoT: We are given two sets:\n\n- $ A = \\{-1, 0, 1\\} $\n- $ B = \\{0, a, 2\\} $\n\nWe are told that the **intersection** of $ A $ and $ B $ is:\n\n$$\nA \\cap B = \\{-1, 0\\}\n$$\n\nThis means that the elements of $ A $ that are also in $ B $ are $ -1 $ and $ 0 $. The value $ 1 $ is not in $ B $, so it must not be part of the intersection.\n\n### Step 1: Understand the intersection\n\nGiven $ A \\cap B = \\{-1, 0\\} $, this means:\n\n- $ -1 \\in A \\cap B $\n- $ 0 \\in A \\cap B $\n- $ 1 \\notin A \\cap B $\n\nSo $ 1 $ is **not** in $ B $, which means $ a \\neq 1 $.\n\n### Step 2: Use the set $ B = \\{0, a, 2\\} $\n\nSince $ B $ must contain $ 0 $, and $ 0 \\in A \\cap B $, we already know $ a \\neq 1 $.\n\nNow let's try to find the value of $ a $.\n\nWe are told that $ A \\cap B = \\{-1, 0\\} $. This means:\n\n- $ -1 \\in B \\Rightarrow a \\neq -1 $\n- $ 0 \\in B \\Rightarrow a \\neq 0 $\n\nSo possible values for $ a $ are:\n\n- $ a = 2 $\n- $ a = -1 $ (but $ -1 $ cannot be in both $ A $ and $ B $, so this is invalid)\n\nSo the only possible value for $ a $ is:\n\n$$\n\\boxed{2}\n$$"
+    }
+  ]
+}

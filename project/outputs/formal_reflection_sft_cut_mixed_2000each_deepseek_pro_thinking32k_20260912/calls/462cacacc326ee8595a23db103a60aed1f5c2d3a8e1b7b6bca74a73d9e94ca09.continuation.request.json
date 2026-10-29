@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There is a cube placed on stands and six different paints. How many ways can you paint all the faces of the cube (one color for each face, not necessarily using all the paints) so that adjacent faces (sharing an edge) are painted in different colors? (16 points)\n\n<reflection>\nThe cube has 6 faces, each adjacent to 4 other faces, so opposite faces are not adjacent. Modeling faces as nodes and adjacencies as edges gives a graph with 6 nodes and 12 edges. The task is to count proper colorings of this graph using at most 6 colors. The number of proper colorings of a graph G with k colors is given by the chromatic polynomial P(G,k).\nThis is not the chromatic polynomial of the cube's face-adjacency graph (the octahedral graph). It incorrectly vanishes at k=3, even though the face-adjacency graph is 3-colorable.\nUse the correct chromatic polynomial of the octahedral face-adjacency graph, or count directly by grouping the three pairs of opposite faces and requiring different opposite pairs to use disjoint color sets.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

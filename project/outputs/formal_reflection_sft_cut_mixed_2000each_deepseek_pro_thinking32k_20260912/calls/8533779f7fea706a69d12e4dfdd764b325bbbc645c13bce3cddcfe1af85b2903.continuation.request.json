@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In how many different ways can four couples sit around a circular table such that no couple sits next to each other?\n\n<reflection>\nThere are 8 distinct people in 4 couples. Circular rotations are considered the same, so fixing one person removes rotational symmetry. The condition is that no two spouses are adjacent. The total number of unrestricted circular arrangements of 2n people is (2n - 1)!; for n = 4 this is 7!. Inclusion-exclusion can be used by subtracting arrangements where at least one couple sits together.\nThis inclusion-exclusion formula is incorrect: for a chosen set of k couples forced to sit together, the number of circular arrangements is (2n - k - 1)! · 2^k, not (2n - 2k + 1)! · 2^k, and the inclusion-exclusion terms must alternate in sign.\nApply inclusion-exclusion correctly by counting arrangements with k specified couples together as (2n - k - 1)! · 2^k and summing with alternating signs.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

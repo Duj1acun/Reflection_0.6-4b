@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: On a table, there are 30 coins: 23 ten-ruble coins and 7 five-ruble coins. Out of these, 20 coins are heads up, and the remaining 10 are tails up. What is the smallest number \\( k \\) such that among any randomly chosen \\( k \\) coins, there will always be at least one ten-ruble coin that is heads up?\n\n<reflection>\nTotal coins: 30; ten-ruble coins: 23; five-ruble coins: 7; heads-up coins: 20; tails-up coins: 10. For fixed x = number of ten-ruble heads-up coins, the coins that are not ten-ruble heads-up consist of all 7 five-ruble coins and 23 - x ten-ruble tails-up coins, totaling 30 - x. For fixed x, any selection of more than 30 - x coins must include a ten-ruble heads-up coin, so k = 31 - x for that fixed x. The heads-up coins satisfy x + y = 20, where y is the number of five-ruble heads-up coins, and y ≤ 7.\nThis minimizes k by maximizing x, but a guarantee based only on the given totals must use the worst-case scenario, namely the minimum possible number x of ten-ruble heads-up coins, not the maximum.\nInstead, find the minimum possible x using the constraint that at most 7 five-ruble coins can be heads-up, then apply k = 31 - x.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

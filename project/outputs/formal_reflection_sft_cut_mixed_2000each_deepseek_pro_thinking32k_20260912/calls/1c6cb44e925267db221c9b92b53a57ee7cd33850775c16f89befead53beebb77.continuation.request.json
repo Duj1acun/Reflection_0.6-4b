@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given \\( f(x) = \\sum_{k=1}^{2017} \\frac{\\cos k x}{\\cos^k x} \\), find \\( f\\left(\\frac{\\pi}{2018}\\right) \\).\n\n<reflection>\nf(x) = \\sum_{k=1}^{2017} \\frac{\\cos kx}{\\cos^k x} a_k = \\frac{\\cos kx}{\\cos^k x} = \\cos(kx) \\sec^k x y = \\cos x\nSince y = \\cos x, \\sec^k x = (1/\\cos x)^k = y^{-k}, not y^k; therefore the rewritten term and sum are incorrect.\nRewrite each term as a_k = \\cos(kx) y^{-k}, then evaluate the finite sum using the real part of a geometric series with ratio e^{ix}/y.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

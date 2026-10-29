@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are 250 jellybeans in a glass jar. Mrs. Copper's kindergarten class normally has 24 kids, but 2 children called in sick and stayed home that day. Each sick child would have eaten 7 jellybeans. The 22 remaining children who attended school are split into two groups. The first group, with 12 children, eat 5 jellybeans each, while the second group, with 10 children, eat 4 jellybeans each. How many jellybeans are still left in the jar?\nGround Truth: 150\nWeak CoT: We are given the following:\n\n- Total jellybeans in the jar: **250**\n- Number of **sick children**: 2\n- Each sick child eats **7 jellybeans**\n- Number of **children who attended**:\n  - Group A: 12 children, eat 5 jellybeans each\n  - Group B: 10 children, eat 4 jellybeans each\n\nWe are asked to find how many **jellybeans are still left** in the jar.\n\n---\n\n### Step 1: Calculate jellybeans eaten by sick children\n\n$$\n2 \\text{ sick children} \\times 7 \\text{ jellybeans per child} = 14 \\text{ jellybeans}\n$$\n\n---\n\n### Step 2: Calculate jellybeans eaten by the children who attended\n\n$$\n\\text{Group A: } 12 \\text{ children} \\times 5 \\text{ jellybeans} = 60 \\\\\n\\text{Group B: } 10 \\text{ children} \\times 4 \\text{ jellybeans} = 40 \\\\\n\\text{Total eaten by attendees} = 60 + 40 = 100\n$$\n\n---\n\n### Step 3: Total jellybeans eaten\n\n$$\n14 \\text{ (sick) } + 100 \\text{ (attendees) } = 114\n$$\n\n---\n\n### Step 4: Jellybeans left in the jar\n\n$$\n250 \\text{ (total jellybeans)} - 114 \\text{ (eaten)} = 136\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{136}\n$$"
+    }
+  ]
+}

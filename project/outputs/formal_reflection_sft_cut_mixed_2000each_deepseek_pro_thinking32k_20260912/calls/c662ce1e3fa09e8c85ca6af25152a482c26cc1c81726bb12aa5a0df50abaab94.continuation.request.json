@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let $a$, $b$, $c$ be the three sides of a triangle, and let $\\alpha$, $\\beta$, $\\gamma$ be the angles opposite them. If $a^2+b^2=1989c^2$, find the value of \\[\\frac{\\cot \\gamma}{\\cot \\alpha+\\cot \\beta}.\\]\n\n<reflection>\nGiven $a^2+b^2=1989c^2$ and target expression $\\frac{\\cot\\gamma}{\\cot\\alpha+\\cot\\beta}$. From the Law of Cosines, $c^2=a^2+b^2-2ab\\cos\\gamma$. Substituting the given relation yields $\\cos\\gamma=\\frac{994c^2}{ab}$. From the Law of Sines, $\\frac{a}{\\sin\\alpha}=\\frac{b}{\\sin\\beta}=\\frac{c}{\\sin\\gamma}=2R$, so $\\sin\\alpha=\\frac{a}{2R}$, $\\sin\\beta=\\frac{b}{2R}$, $\\sin\\gamma=\\frac{c}{2R}$. By definition, $\\cot\\alpha=\\frac{\\cos\\alpha}{\\sin\\alpha}$, $\\cot\\beta=\\frac{\\cos\\beta}{\\sin\\beta}$, $\\cot\\gamma=\\frac{\\cos\\gamma}{\\sin\\gamma}$. The relations $\\cos\\alpha=\\frac{a}{2R}\\cot\\alpha$, $\\cos\\beta=\\frac{b}{2R}\\cot\\beta$, $\\cos\\gamma=\\frac{c}{2R}\\cot\\gamma$ are correct by multiplying the sine relations by cotangent.\nUsing $\\sin\\alpha=a/(2R)$ and $\\sin\\beta=b/(2R)$, the correct sum is $\\frac{2R(b\\cos\\alpha+a\\cos\\beta)}{ab}$, not $\\frac{a\\cos\\alpha+b\\cos\\beta}{ab}$. The step omits the factor $2R$ and also mismatches the numerator coefficients.\nReplace this incorrect identity with the correct expression from $\\sin\\alpha=a/(2R)$ and $\\sin\\beta=b/(2R)$, then use the Law of Cosines for $\\cos\\alpha,\\cos\\beta,\\cos\\gamma$ and simplify the target expression.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

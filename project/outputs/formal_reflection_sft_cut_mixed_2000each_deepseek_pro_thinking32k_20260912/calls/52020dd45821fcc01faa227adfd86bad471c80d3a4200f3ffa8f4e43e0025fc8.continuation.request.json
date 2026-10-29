@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a room, there are some people, 2/5 of them are women. If 1/4 of the people are married, the maximum number of women in the room who could be unmarried is 40. How many people are in the room?\n\n<reflection>\nLet $ x $ be the total number of people in the room. Number of women = $ \\frac{2}{5}x $. Number of married people = $ \\frac{1}{4}x $. Let $ w_m $ be the number of married women. Number of unmarried women = $ \\frac{2}{5}x - w_m $. Since the maximum possible number of unmarried women is 40, any feasible configuration satisfies $ \\frac{2}{5}x - w_m \\leq 40 $, hence $ w_m \\geq \\frac{2}{5}x - 40 $. Also $ w_m \\leq \\frac{1}{4}x $. Combining the two inequalities gives $ \\frac{2}{5}x - 40 \\leq \\frac{1}{4}x $, so $ x \\leq \\frac{800}{3} $.\nThe inequality x ≤ 800/3 is only a necessary upper bound, not a condition that the total should be the largest integer under that bound. The phrase 'maximum number of unmarried women is 40' is an exact condition, so choosing x = 266 is unjustified and also violates the needed divisibility.\nUse the exact maximum condition by minimizing the number of married women w_m subject to the married-person constraint, then set the maximum possible number of unmarried women equal to 40 and solve for x.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

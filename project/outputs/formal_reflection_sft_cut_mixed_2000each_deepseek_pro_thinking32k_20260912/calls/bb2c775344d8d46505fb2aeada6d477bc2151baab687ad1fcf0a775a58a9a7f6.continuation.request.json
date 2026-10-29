@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There are 1235 numbers written on a board. One of them appears more frequently than the others - 10 times. What is the smallest possible number of different numbers that can be written on the board?\n\n<reflection>\nThere are 1235 numbers on the board. One number appears 10 times and is more frequent than any other number. Therefore every other number appears at most 9 times. The number appearing 10 times is unique. Let n be the number of different numbers.\nThis incorrectly says the minimum n is 1 plus the maximum number of other numbers. To minimize the number of distinct numbers, the remaining 1225 occurrences must be packed into as few other numbers as possible, each with frequency at most 9.\nLet k be the number of other distinct numbers and impose 10 + 9k ≥ 1235 to find the minimum integer k, then set n = 1 + k.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

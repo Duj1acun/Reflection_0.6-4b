@@ -1,0 +1,683 @@
+--- before/Policy-As-GenVerifier/RUN_PAG_SCORE.md
++++ after/Policy-As-GenVerifier/RUN_PAG_SCORE.md
+@@ -1,4 +1,12 @@
+ # Running PAG and SCoRe
++
++## Qwen3-0.6B 四方法统一对照（2026-09-13）
++
++新的 GRPO / REFLECT+ / PAG / SCoRe 对照实验入口、固定参数和评测说明见
++[统一实验说明](../reflection_grpo_clean/experiments/four_methods/README.md)。
++该实验使用清洗后的 DAPO17K、MATH500 + AMC23 验证、双卡 FSDP；
++每 50 步评测 pass@4，温度 0.7。准备/预检不会启动正式训练。
++以下内容保留为原 Qwen2.5-1.5B 实验的运行说明。
+ 
+ This checkout is pinned at commit `42fa41d8a2a6e820063bc1cd0aeaafe525d6af18`.
+ 
+--- before/Policy-As-GenVerifier/quick_start/qwen1p5b_SCoRe.sh
++++ after/Policy-As-GenVerifier/quick_start/qwen1p5b_SCoRe.sh
+@@ -1,4 +1,10 @@
+ #!/usr/bin/env bash
++
++# FOURWAY_CONFIG opts into the reviewed shared experiment. No legacy .env defaults.
++if [[ -n "${FOURWAY_CONFIG:-}" ]]; then
++    export PYTHONPATH="/root/reflection_grpo_clean${PYTHONPATH:+:$PYTHONPATH}"
++    exec /home/vipuser/miniconda3/envs/wrx_env/bin/python -m fourway.cli train --method score --config "$FOURWAY_CONFIG" "$@"
++fi
+ # Aligned with GRPO/REFLECT+; method-specific settings live in aligned_train.sh.
+ set -euo pipefail
+ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+--- before/Policy-As-GenVerifier/quick_start/qwen1p5b_pag.sh
++++ after/Policy-As-GenVerifier/quick_start/qwen1p5b_pag.sh
+@@ -1,4 +1,10 @@
+ #!/usr/bin/env bash
++
++# FOURWAY_CONFIG opts into the reviewed shared experiment. No legacy .env defaults.
++if [[ -n "${FOURWAY_CONFIG:-}" ]]; then
++    export PYTHONPATH="/root/reflection_grpo_clean${PYTHONPATH:+:$PYTHONPATH}"
++    exec /home/vipuser/miniconda3/envs/wrx_env/bin/python -m fourway.cli train --method pag --config "$FOURWAY_CONFIG" "$@"
++fi
+ # Aligned with GRPO/REFLECT+; method-specific settings live in aligned_train.sh.
+ set -euo pipefail
+ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+--- before/Policy-As-GenVerifier/verl/trainer/main_ppo.py
++++ after/Policy-As-GenVerifier/verl/trainer/main_ppo.py
+@@ -65,7 +65,7 @@
+     os.environ["ENSURE_CUDA_VISIBLE_DEVICES"] = os.environ.get('CUDA_VISIBLE_DEVICES', '')
+     if not ray.is_initialized():
+         # this is for local ray cluster
+-        ray.init(runtime_env={
++        ray.init(**({"num_cpus": 16, "object_store_memory": 2147483648, "include_dashboard": False, "_temp_dir": "/mnt/data/tmp/fw"} if os.environ.get("FOURWAY_CONFIG") else {}), runtime_env={
+             'env_vars': {
+                 'TOKENIZERS_PARALLELISM': 'true',
+                 'NCCL_DEBUG': 'WARN',
+@@ -81,6 +81,9 @@
+ class TaskRunner:
+ 
+     def run(self, config):
++        if os.environ.get("FOURWAY_CONFIG"):
++            from fourway.runtime import install
++            install(config)
+         from verl.utils.fs import copy_to_local
+         # print initial config
+         from pprint import pprint
+--- before/Policy-As-GenVerifier/verl/trainer/ppo/ray_trainer.py
++++ after/Policy-As-GenVerifier/verl/trainer/ppo/ray_trainer.py
+@@ -488,7 +488,7 @@
+         self.train_dataloader = StatefulDataLoader(dataset=self.train_dataset,
+                                                    batch_size=self.config.data.get('gen_batch_size',
+                                                                                    self.config.data.train_batch_size),
+-                                                   num_workers=8,
++                                                   num_workers=0 if os.environ.get("FOURWAY_CONFIG") else 8,
+                                                    drop_last=True,
+                                                    collate_fn=collate_fn,
+                                                    sampler=sampler)
+@@ -510,16 +510,15 @@
+             dataset=self.val_dataset,
+             # Validation datasets are sent to inference engines as a whole batch,
+             # which will schedule the memory themselves.
+-            batch_size=len(self.val_dataset),
+-            num_workers=8,
++            batch_size=(self.config.data.val_batch_size if os.environ.get("FOURWAY_CONFIG") else len(self.val_dataset)),
++            num_workers=0 if os.environ.get("FOURWAY_CONFIG") else 8,
+             shuffle=False,
+             drop_last=False,
+             collate_fn=collate_fn)
+ 
+         assert len(self.train_dataloader) >= 1
+-        assert len(
+-            self.val_dataloader
+-        ) == 1, "Validation dataloader must have a single batch, which inference engines will schedule the memory themselves."
++        if not os.environ.get("FOURWAY_CONFIG"):
++            assert len(self.val_dataloader) == 1, "Validation dataloader must have a single batch, which inference engines will schedule the memory themselves."
+ 
+         print(f'Size of train dataloader: {len(self.train_dataloader)}')
+ 
+@@ -956,6 +955,8 @@
+                         non_tensor_batch_keys=['raw_prompt_ids'],
+                     )
+ 
++                if os.environ.get("FOURWAY_CONFIG"):
++                    gen_batch.meta_info["fourway_seed"] = int(self.config.data.seed) + int(self.global_steps) * 100003
+                 is_last_step = self.global_steps >= self.total_training_steps
+ 
+                 with _timer('step', timing_raw):
+--- before/Policy-As-GenVerifier/verl/utils/dataset/rl_dataset.py
++++ after/Policy-As-GenVerifier/verl/utils/dataset/rl_dataset.py
+@@ -139,7 +139,7 @@
+             tokenizer = self.tokenizer
+             prompt_key = self.prompt_key
+             self.dataframe = self.dataframe.filter(
+-                lambda doc: len(tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True)
++                lambda doc: len(tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True, **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {}))
+                                ) <= self.max_prompt_length,
+                 num_proc=self.num_workers,
+                 desc=f"Filtering prompts longer than {self.max_prompt_length} tokens")
+@@ -166,7 +166,7 @@
+ 
+         chat = row_dict.pop(self.prompt_key)
+         
+-        prompt_with_chat_template = self.tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=False)
++        prompt_with_chat_template = self.tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=False, **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {}))
+ 
+         is_multi_modal = self.image_key in row_dict
+         if is_multi_modal:  # expand image token
+--- before/Policy-As-GenVerifier/verl/utils/reward_score/genrm_verify.py
++++ after/Policy-As-GenVerifier/verl/utils/reward_score/genrm_verify.py
+@@ -1,6 +1,9 @@
+ import re
+ 
+ def find_answer_status(text):
++    import os
++    if os.environ.get("FOURWAY_CONFIG"):
++        text = text.rstrip()
+     # Strictly match "The answer is correct/wrong."
+     pattern = r"The answer is (correct|wrong)\.$"
+     matches = []
+--- before/Policy-As-GenVerifier/verl/utils/reward_score/math_verify.py
++++ after/Policy-As-GenVerifier/verl/utils/reward_score/math_verify.py
+@@ -18,6 +18,10 @@
+ 
+ 
+ def compute_score(solution_str: str, ground_truth: str) -> dict:
++    import os
++    if os.environ.get("FOURWAY_CONFIG"):
++        from fourway.scoring import policy_score
++        return policy_score(solution_str, ground_truth)
+     verify_func = math_metric(
+         gold_extraction_target=(LatexExtractionConfig(boxed_match_priority=0),),
+         pred_extraction_target=(ExprExtractionConfig(), LatexExtractionConfig(boxed_match_priority=0)),
+--- before/Policy-As-GenVerifier/verl/workers/fsdp_workers.py
++++ after/Policy-As-GenVerifier/verl/workers/fsdp_workers.py
+@@ -17,6 +17,9 @@
+ 
+ import logging
+ import os
++if os.environ.get("FOURWAY_CONFIG"):
++    from fourway.runtime import worker_setup
++    worker_setup()
+ import warnings
+ import psutil
+ 
+--- before/Policy-As-GenVerifier/verl/workers/reward_manager/multiturn.py
++++ after/Policy-As-GenVerifier/verl/workers/reward_manager/multiturn.py
+@@ -16,6 +16,7 @@
+ from verl.utils.reward_score.math_verify import compute_score as get_policy_score
+ import torch
+ import numpy as np
++import os
+ from typing import Dict, List, Tuple, Any
+ from collections import defaultdict
+ 
+@@ -171,7 +172,11 @@
+             # Compute scores for each turn
+             start_pos = 0
+             for t, end_pos in enumerate(turn_boundaries):
+-                current_response = self.tokenizer.decode(response_ids[start_pos:end_pos])
++                if os.environ.get("FOURWAY_CONFIG"):
++                    generated_ids = response_ids[start_pos:end_pos][multiturn_mask[start_pos:end_pos]]
++                    current_response = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
++                else:
++                    current_response = self.tokenizer.decode(response_ids[start_pos:end_pos])
+ 
+                 # Compute all scores in one pass
+                 result = get_policy_score(solution_str=current_response, ground_truth=ground_truth)
+--- before/Policy-As-GenVerifier/verl/workers/reward_manager/pag.py
++++ after/Policy-As-GenVerifier/verl/workers/reward_manager/pag.py
+@@ -17,6 +17,7 @@
+ from verl.utils.reward_score.genrm_verify import get_verification_score
+ import torch
+ import numpy as np
++import os
+ from typing import Dict, List, Tuple, Any
+ from collections import defaultdict
+ 
+@@ -83,7 +84,7 @@
+             sample_answers = []
+                 
+             # Process first turn
+-            first_response = self.tokenizer.decode(response_ids[:turn_boundaries[0]])
++            first_response = self.tokenizer.decode(response_ids[:turn_boundaries[0]], skip_special_tokens=bool(os.environ.get("FOURWAY_CONFIG")))
+             first_result = get_policy_score(solution_str=first_response, ground_truth=ground_truth)
+             
+             reward_extra_info["pred"].append(first_result["pred"])
+@@ -135,7 +136,8 @@
+                 policy_start = verify_end
+                 policy_end = turn_boundaries[2*turn]
+                 policy_response = self.tokenizer.decode(
+-                    response_ids[policy_start:policy_end][multiturn_mask[policy_start:policy_end]]
++                    response_ids[policy_start:policy_end][multiturn_mask[policy_start:policy_end]],
++                    skip_special_tokens=bool(os.environ.get("FOURWAY_CONFIG"))
+                 )
+                 
+                 policy_result = get_policy_score(solution_str=policy_response, ground_truth=ground_truth)
+--- before/Policy-As-GenVerifier/verl/workers/rollout/vllm_rollout/vllm_multiturn_rollout_spmd.py
++++ after/Policy-As-GenVerifier/verl/workers/rollout/vllm_rollout/vllm_multiturn_rollout_spmd.py
+@@ -25,6 +25,7 @@
+ - After inference, all the parameters that doesn't belong to this pp rank is freed.
+ """
+ import numpy as np
++import os
+ from typing import List
+ from contextlib import contextmanager
+ from omegaconf import DictConfig
+@@ -86,7 +87,6 @@
+ 
+         if kwargs.get('train_tp', None) is not None:
+             # deployed with megatron
+-            import os
+             os.environ['CUDA_TIMER_STREAM_KAFKA_ENABLE'] = '0'
+             os.environ['MEGATRON_IMPORT_TIMERS'] = '0'
+             train_tp = kwargs.get('train_tp', None)
+@@ -149,7 +149,7 @@
+             enable_chunked_prefill=config.enable_chunked_prefill,
+             enable_prefix_caching=True,
+             trust_remote_code=trust_remote_code,
+-            seed=42,
++            seed=config.get("seed", 42),
+         )
+ 
+         # Offload vllm model to reduce peak memory usage
+@@ -196,6 +196,9 @@
+                 'n': 1,  # if validate, already repeat in ray_trainer
+             }
+ 
++        if os.environ.get("FOURWAY_CONFIG"):
++            kwargs["seed"] = int(prompts.meta_info.get("fourway_seed", self.config.get("seed", 1234)))
++
+         # only for multiturn, vllm n is not support for next turn
+         if do_sample and self.config.n > 1 and not is_validate:
+             idx = idx.repeat_interleave(self.config.n, dim=0)
+@@ -216,12 +219,16 @@
+         
+         feedback_type = prompts.meta_info.get('feedback_type', 'default')
+         feedback = self.feedback_options.get(feedback_type, self.feedback_options['default'])
++        if os.environ.get("FOURWAY_CONFIG"):
++            from fourway.contracts import SCORE_PROMPT
++            feedback = SCORE_PROMPT
+         
+         messages = [{"role": "user", "content": feedback}]
+         chat_template = self.tokenizer.apply_chat_template(
+             messages, 
+             tokenize=False,
+-            add_generation_prompt=True
++            add_generation_prompt=True,
++            **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {})
+         )
+         # for Qwen, remove system prompt
+         if chat_template.startswith("<|im_start|>system"):
+@@ -238,7 +245,7 @@
+             with self.update_sampling_params(**kwargs):
+                 outputs = self.inference_engine.generate(
+                     prompts=None,  # because we have already convert it to prompt token id
+-                    sampling_params=self.sampling_params,
++                    sampling_params=(__import__("fourway.sampling", fromlist=["request_params"]).request_params(self.sampling_params, len(current_inputs), kwargs["seed"], torch.distributed.get_rank(), turn) if os.environ.get("FOURWAY_CONFIG") else self.sampling_params),
+                     prompt_token_ids=current_inputs,
+                     use_tqdm=False)
+ 
+@@ -253,6 +260,8 @@
+                 response = pad_2d_list_to_length(response, self.pad_token_id,
+                                                 max_length=self.config.response_length).to(idx.device)
+                 response_mask = get_response_mask(response, eos_token_id)
++                if os.environ.get("FOURWAY_CONFIG"):
++                    response_mask &= (response != self.pad_token_id).to(response_mask.dtype)
+                 
+                 all_responses.append(response)
+                 all_responses_mask.append(response_mask)
+@@ -262,10 +271,11 @@
+                     next_inputs = []
+                     for i in range(batch_size):
+                         current_response = response[i][:sum(response_mask[i])].tolist()
+-                        next_inputs.append(current_inputs[i] + current_response + feedback_tokens)
++                        closing = [self.tokenizer.eos_token_id] if os.environ.get("FOURWAY_CONFIG") and current_response[-1] != self.tokenizer.eos_token_id else []
++                        next_inputs.append(current_inputs[i] + current_response + closing + feedback_tokens)
+                     current_inputs = next_inputs
+ 
+-        total_length = num_turns * self.config.response_length + (num_turns - 1) * len(feedback_tokens)
++        total_length = num_turns * self.config.response_length + (num_turns - 1) * (len(feedback_tokens) + (1 if os.environ.get("FOURWAY_CONFIG") else 0))
+         
+         # Combine all turns into one tensor
+         combined_response = torch.full((batch_size, total_length), self.pad_token_id, device=idx.device)
+@@ -285,11 +295,14 @@
+             
+             # If not the last turn, add feedback tokens
+             if turn < num_turns - 1:
+-                feedback_tensor = torch.tensor(feedback_tokens, device=idx.device)
+                 for i in range(batch_size):
+-                    combined_response[i, current_pos[i]:current_pos[i] + len(feedback_tokens)] = feedback_tensor
+-                    response_attention_mask[i, current_pos[i]:current_pos[i] + len(feedback_tokens)] = True
+-                    current_pos[i] += len(feedback_tokens)
++                    previous_length = all_responses_mask[turn][i].sum().item()
++                    closing = [self.tokenizer.eos_token_id] if os.environ.get("FOURWAY_CONFIG") and all_responses[turn][i, previous_length-1].item() != self.tokenizer.eos_token_id else []
++                    feedback_ids = closing + feedback_tokens
++                    feedback_tensor = torch.tensor(feedback_ids, device=idx.device)
++                    combined_response[i, current_pos[i]:current_pos[i] + len(feedback_ids)] = feedback_tensor
++                    response_attention_mask[i, current_pos[i]:current_pos[i] + len(feedback_ids)] = True
++                    current_pos[i] += len(feedback_ids)
+ 
+         # Update attention_mask and position_ids
+         seq = torch.cat([idx, combined_response], dim=-1)
+--- before/Policy-As-GenVerifier/verl/workers/rollout/vllm_rollout/vllm_pag_rollout_spmd.py
++++ after/Policy-As-GenVerifier/verl/workers/rollout/vllm_rollout/vllm_pag_rollout_spmd.py
+@@ -19,6 +19,7 @@
+ 4. Repeat until specified turns or GenRM considers answer correct
+ """
+ import numpy as np
++import os
+ import re
+ from typing import List
+ from contextlib import contextmanager
+@@ -72,7 +73,6 @@
+ 
+         # Initialize Megatron parallel state
+         if kwargs.get('train_tp', None) is not None:
+-            import os
+             os.environ.update({
+                 'CUDA_TIMER_STREAM_KAFKA_ENABLE': '0',
+                 'MEGATRON_IMPORT_TIMERS': '0'
+@@ -114,6 +114,10 @@
+             "verify": "Check the math solution step-by-step. If you find a mistake: state the wrong step, explain why it's wrong, and end your response with 'The answer is wrong'. If all steps are correct, end your response with 'The answer is correct'.",
+             "regenerate": "You indicated that your previous answer was wrong. Please provide the correct solution to the math problem."
+         }
++
++        if os.environ.get("FOURWAY_CONFIG"):
++            from fourway.contracts import VERIFY_PROMPT, REVISE_PROMPT
++            self.prompt_templates = {"verify": VERIFY_PROMPT, "regenerate": REVISE_PROMPT}
+ 
+         # Calculate max model length
+         if self.end_with_verifer:
+@@ -152,7 +156,7 @@
+             enable_chunked_prefill=config.enable_chunked_prefill,
+             enable_prefix_caching=True,
+             trust_remote_code=kwargs.get('trust_remote_code', False),
+-            seed=42,
++            seed=config.get("seed", 42),
+         )
+ 
+         # Offload model to reduce peak memory usage
+@@ -182,7 +186,8 @@
+         messages = [{"role": "user", "content": template}]
+         
+         chat_template = self.tokenizer.apply_chat_template(
+-            messages, tokenize=False, add_generation_prompt=True
++            messages, tokenize=False, add_generation_prompt=True,
++            **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {})
+         )
+ 
+         
+@@ -199,6 +204,8 @@
+ 
+     def _extract_judgment_and_probability(self, output, text):
+         """Extract 'correct' or 'wrong' judgment and token probability"""
++        if os.environ.get("FOURWAY_CONFIG"):
++            text = text.rstrip()
+         pattern = r"The answer is (correct|wrong)\.$"
+         matches = []
+         
+@@ -253,6 +260,9 @@
+                 'n': 1,
+             }
+ 
++        if os.environ.get("FOURWAY_CONFIG"):
++            kwargs["seed"] = int(prompts.meta_info.get("fourway_seed", self.config.get("seed", 1234)))
++
+         # Handle multiple sampling
+         if do_sample and self.config.n > 1 and not is_validate:
+             idx = idx.repeat_interleave(self.config.n, dim=0)
+@@ -279,6 +289,10 @@
+             max_total_length = (num_turns * self.config.response_length + 
+                               (num_turns - 1) * (len(verify_tokens) + self.config.response_length + len(regenerate_tokens)))
+ 
++        if os.environ.get("FOURWAY_CONFIG"):
++            from fourway.contracts import config as fourway_config
++            max_total_length = sum(fourway_config()["stage_tokens"]["pag"]) + len(verify_tokens) + len(regenerate_tokens) + 2
++
+         # Initialize response tensors
+         combined_response = torch.full((batch_size, max_total_length), self.pad_token_id, device=idx.device)
+         multiturn_mask = torch.zeros_like(combined_response, dtype=torch.bool)
+@@ -291,7 +305,7 @@
+         with self.update_sampling_params(**kwargs):
+             outputs = self.inference_engine.generate(
+                 prompts=None,
+-                sampling_params=self.sampling_params,
++                sampling_params=(__import__("fourway.sampling", fromlist=["request_params"]).request_params(self.sampling_params, len(current_inputs), kwargs["seed"], torch.distributed.get_rank(), 0) if os.environ.get("FOURWAY_CONFIG") else self.sampling_params),
+                 prompt_token_ids=current_inputs,
+                 use_tqdm=False
+             )
+@@ -302,6 +316,8 @@
+         current_response = pad_2d_list_to_length(response, self.pad_token_id,
+                                                max_length=self.config.response_length).to(idx.device)
+         current_response_mask = get_response_mask(current_response, eos_token_id)
++        if os.environ.get("FOURWAY_CONFIG"):
++            current_response_mask &= (current_response != self.pad_token_id).to(current_response_mask.dtype)
+         
+         # Fill combined response tensor
+         for i in range(batch_size):
+@@ -316,6 +332,9 @@
+         active_samples = list(range(batch_size))
+         kwargs_for_verification = kwargs.copy()
+         kwargs_for_verification["logprobs"] = 1
++        if os.environ.get("FOURWAY_CONFIG"):
++            from fourway.contracts import config as fourway_config
++            kwargs_for_verification["max_tokens"] = fourway_config()["stage_tokens"]["pag"][1]
+         
+         # === Multi-turn generation loop ===
+         max_turns = num_turns + 1 if self.end_with_verifer else num_turns
+@@ -325,11 +344,14 @@
+             for i, original_idx in enumerate(active_samples):
+                 # Add verification tokens
+                 pos = current_positions[original_idx]
+-                verify_tensor = torch.tensor(verify_tokens, device=idx.device)
+-                combined_response[original_idx, pos:pos + len(verify_tokens)] = verify_tensor
+-                response_attention_mask[original_idx, pos:pos + len(verify_tokens)] = True
+-                current_positions[original_idx] = pos + len(verify_tokens)
+-                turns_positions[original_idx].append(pos + len(verify_tokens))
++                verify_ids = verify_tokens
++                if os.environ.get("FOURWAY_CONFIG") and pos > 0 and combined_response[original_idx, pos-1].item() != self.tokenizer.eos_token_id:
++                    verify_ids = [self.tokenizer.eos_token_id] + verify_tokens
++                verify_tensor = torch.tensor(verify_ids, device=idx.device)
++                combined_response[original_idx, pos:pos + len(verify_ids)] = verify_tensor
++                response_attention_mask[original_idx, pos:pos + len(verify_ids)] = True
++                current_positions[original_idx] = pos + len(verify_ids)
++                turns_positions[original_idx].append(pos + len(verify_ids))
+ 
+                 # Build GenRM input
+                 response_tokens = combined_response[original_idx, :current_positions[original_idx]].tolist()
+@@ -340,7 +362,7 @@
+             with self.update_sampling_params(**kwargs_for_verification):
+                 outputs = self.inference_engine.generate(
+                     prompts=None,
+-                    sampling_params=self.sampling_params,
++                    sampling_params=(__import__("fourway.sampling", fromlist=["request_params"]).request_params(self.sampling_params, len(next_inputs), kwargs["seed"], torch.distributed.get_rank(), 1) if os.environ.get("FOURWAY_CONFIG") else self.sampling_params),
+                     prompt_token_ids=next_inputs,
+                     use_tqdm=False
+                 )
+@@ -350,6 +372,8 @@
+             active_verification = pad_2d_list_to_length(verification_response, self.pad_token_id,
+                                                       max_length=self.config.response_length).to(idx.device)
+             active_verification_mask = get_response_mask(active_verification, eos_token_id)
++            if os.environ.get("FOURWAY_CONFIG"):
++                active_verification_mask &= (active_verification != self.pad_token_id).to(active_verification_mask.dtype)
+             
+             # Fill verification response
+             for i, original_idx in enumerate(active_samples):
+@@ -381,15 +405,18 @@
+                     full_verify_probs[original_idx] = []
+                 full_verify_probs[original_idx].append(prob)
+                 
+-                if judgment == "wrong" or (is_validate and judgment != "correct"):
++                if judgment == "wrong" or ((is_validate or os.environ.get("FOURWAY_CONFIG")) and judgment != "correct"):
+                     new_active_samples.append(original_idx)
+                     # Add regeneration tokens
+                     pos = current_positions[original_idx]
+-                    regenerate_tensor = torch.tensor(regenerate_tokens, device=idx.device)
+-                    combined_response[original_idx, pos:pos + len(regenerate_tokens)] = regenerate_tensor
+-                    response_attention_mask[original_idx, pos:pos + len(regenerate_tokens)] = True
+-                    current_positions[original_idx] = pos + len(regenerate_tokens)
+-                    turns_positions[original_idx].append(pos + len(regenerate_tokens))
++                    regenerate_ids = regenerate_tokens
++                    if os.environ.get("FOURWAY_CONFIG") and pos > 0 and combined_response[original_idx, pos-1].item() != self.tokenizer.eos_token_id:
++                        regenerate_ids = [self.tokenizer.eos_token_id] + regenerate_tokens
++                    regenerate_tensor = torch.tensor(regenerate_ids, device=idx.device)
++                    combined_response[original_idx, pos:pos + len(regenerate_ids)] = regenerate_tensor
++                    response_attention_mask[original_idx, pos:pos + len(regenerate_ids)] = True
++                    current_positions[original_idx] = pos + len(regenerate_ids)
++                    turns_positions[original_idx].append(pos + len(regenerate_ids))
+ 
+                     response_tokens = combined_response[original_idx, :current_positions[original_idx]].tolist()
+                     history = current_inputs[original_idx] + response_tokens
+@@ -407,7 +434,7 @@
+             with self.update_sampling_params(**kwargs):
+                 outputs = self.inference_engine.generate(
+                     prompts=None,
+-                    sampling_params=self.sampling_params,
++                    sampling_params=(__import__("fourway.sampling", fromlist=["request_params"]).request_params(self.sampling_params, len(next_inputs), kwargs["seed"], torch.distributed.get_rank(), 2) if os.environ.get("FOURWAY_CONFIG") else self.sampling_params),
+                     prompt_token_ids=next_inputs,
+                     use_tqdm=False
+                 )
+@@ -417,6 +444,8 @@
+             active_response = pad_2d_list_to_length(regenerated_response, self.pad_token_id,
+                                                   max_length=self.config.response_length).to(idx.device)
+             active_response_mask = get_response_mask(active_response, eos_token_id)
++            if os.environ.get("FOURWAY_CONFIG"):
++                active_response_mask &= (active_response != self.pad_token_id).to(active_response_mask.dtype)
+             
+             # Fill regenerated response
+             for i, original_idx in enumerate(active_samples):
+--- before/reflection_grpo_clean/agent_system/multi_turn_rollout/rollout_loop.py
++++ after/reflection_grpo_clean/agent_system/multi_turn_rollout/rollout_loop.py
+@@ -643,6 +643,10 @@
+             return []
+ 
+         def _truncate_cont_prompt(prompt_ids):
++            if os.environ.get("FOURWAY_CONFIG"):
++                if len(prompt_ids) + self.config.data.max_response_length > self.config.actor_rollout_ref.rollout.max_model_len:
++                    raise ValueError("REFLECT+ continuation exceeds context; refusing to truncate problem")
++                return list(prompt_ids)
+             max_cont_prompt = (
+                 self.config.data.max_prompt_length
+                 + self.config.data.max_response_length // 2
+@@ -713,6 +717,8 @@
+             total_rows = len(generated)
+             usable_rows = min(total_rows, expected_rows)
+             usable_rows -= usable_rows % max(1, n)
++            if total_rows != expected_rows and os.environ.get("FOURWAY_CONFIG"):
++                raise RuntimeError("REFLECT+ rollout lost trajectory rows")
+             if total_rows != expected_rows:
+                 print(
+                     f"{warn_prefix} row mismatch: got={total_rows}, "
+@@ -888,6 +894,8 @@
+                 "truncated": False,
+                 "last_reflection_start": -1,
+                 "segments": [],
++                "raw_segments": [],
++                "generated_tokens": 0,
+             }
+             for idx in range(batch_size)
+         }
+@@ -909,6 +917,8 @@
+ 
+             for node in active:
+                 sample_idx = node["sample_idx"]
++                states[sample_idx]["generated_tokens"] += len(node["stage_ids"])
++                states[sample_idx]["raw_segments"].append({"role": "answer", "prompt_token_ids": list(node["sampling_prompt_ids"]), "output_token_ids": list(node["stage_ids"]), "text": node["stage_text"]})
+                 states[sample_idx]["truncated"] = (
+                     states[sample_idx]["truncated"]
+                     or _stage_truncated(node["stage_ids"])
+@@ -1045,6 +1055,9 @@
+         result.non_tensor_batch["reflection_grpo_terminated_by_cap"] = terminated_arr
+         result.non_tensor_batch["reflection_grpo_last_segment_start"] = last_segment_start_arr
+ 
++        if os.environ.get("FOURWAY_CONFIG"):
++            result.non_tensor_batch["fourway_segments"] = np.array([states[i]["raw_segments"] for i in range(batch_size)], dtype=object)
++            result.non_tensor_batch["fourway_generated_tokens"] = np.array([states[i]["generated_tokens"] for i in range(batch_size)])
+         return result, 0.0
+ 
+     def rgrpo_reflection_loop(
+--- before/reflection_grpo_clean/rgrpo/core_hybrid_grpo_v2.py
++++ after/reflection_grpo_clean/rgrpo/core_hybrid_grpo_v2.py
+@@ -808,6 +808,10 @@
+     if isinstance(ground_truth, dict):
+         ground_truth = ground_truth.get("answer", ground_truth.get("ground_truth", ""))
+ 
++    if os.environ.get("FOURWAY_CONFIG"):
++        from fourway.scoring import judge
++        return float(judge(str(generated), str(ground_truth))["correct"])
++
+     start = time.monotonic()
+     try:
+         pred_answer = _math_score_light.extract_answer(str(generated))
+--- before/reflection_grpo_clean/training/baselines/train_grpo.sh
++++ after/reflection_grpo_clean/training/baselines/train_grpo.sh
+@@ -1,4 +1,10 @@
+ #!/usr/bin/env bash
++
++# FOURWAY_CONFIG opts into the reviewed shared experiment. No legacy .env defaults.
++if [[ -n "${FOURWAY_CONFIG:-}" ]]; then
++    export PYTHONPATH="/root/reflection_grpo_clean${PYTHONPATH:+:$PYTHONPATH}"
++    exec /home/vipuser/miniconda3/envs/wrx_env/bin/python -m fourway.cli train --method grpo --config "$FOURWAY_CONFIG" "$@"
++fi
+ # Standard GRPO baseline using the same data and math reward backend as REFLECT+.
+ 
+ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+--- before/reflection_grpo_clean/training/rl/train_reflect_plus.sh
++++ after/reflection_grpo_clean/training/rl/train_reflect_plus.sh
+@@ -1,4 +1,10 @@
+ #!/usr/bin/env bash
++
++# FOURWAY_CONFIG opts into the reviewed shared experiment. No legacy .env defaults.
++if [[ -n "${FOURWAY_CONFIG:-}" ]]; then
++    export PYTHONPATH="/root/reflection_grpo_clean${PYTHONPATH:+:$PYTHONPATH}"
++    exec /home/vipuser/miniconda3/envs/wrx_env/bin/python -m fourway.cli train --method reflect --config "$FOURWAY_CONFIG" "$@"
++fi
+ # Canonical REFLECT+ role-aware trajectory GRPO configuration from the paper.
+ # Override paths, GPU selection, and hyperparameters through environment variables.
+ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+--- before/reflection_grpo_clean/verl/trainer/main_ppo.py
++++ after/reflection_grpo_clean/verl/trainer/main_ppo.py
+@@ -48,6 +48,8 @@
+         ray_num_gpus = os.environ.get("RAY_INIT_NUM_GPUS")
+         if ray_num_gpus:
+             ray_init_kwargs["num_gpus"] = int(ray_num_gpus)
++        if os.environ.get("FOURWAY_CONFIG"):
++            ray_init_kwargs["object_store_memory"] = 2147483648
+         ray.init(**ray_init_kwargs)
+ 
+     runner = TaskRunner.remote()
+@@ -57,6 +59,9 @@
+ @ray.remote(num_cpus=1)  # please make sure main_task is not scheduled on head
+ class TaskRunner:
+     def run(self, config):
++        if os.environ.get("FOURWAY_CONFIG"):
++            from fourway.runtime import install
++            install(config)
+         # print initial config
+         from pprint import pprint
+ 
+--- before/reflection_grpo_clean/verl/trainer/ppo/ray_trainer.py
++++ after/reflection_grpo_clean/verl/trainer/ppo/ray_trainer.py
+@@ -1963,6 +1963,8 @@
+                     non_tensor_batch_keys=non_tensor_batch_keys_to_pop,
+                 )
+ 
++                if os.environ.get("FOURWAY_CONFIG"):
++                    gen_batch.meta_info["fourway_seed"] = int(self.config.data.seed) + int(self.global_steps) * 100003
+                 is_last_step = self.global_steps >= self.total_training_steps
+                 if self._score_baseline_enabled():
+                     with _timer("step", timing_raw):
+--- before/reflection_grpo_clean/verl/utils/dataset/rl_dataset.py
++++ after/reflection_grpo_clean/verl/utils/dataset/rl_dataset.py
+@@ -143,7 +143,7 @@
+             tokenizer = self.tokenizer
+             prompt_key = self.prompt_key
+             self.dataframe = self.dataframe.filter(
+-                lambda doc: len(tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True)) <= self.max_prompt_length,
++                lambda doc: len(tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True, **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {}))) <= self.max_prompt_length,
+                 num_proc=self.num_workers,
+                 desc=f"Filtering prompts longer than {self.max_prompt_length} tokens",
+             )
+@@ -199,7 +199,7 @@
+         if self.processor is not None:
+             from verl.utils.dataset.vision_utils import process_image, process_video
+ 
+-            raw_prompt = self.processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
++            raw_prompt = self.processor.apply_chat_template(messages, add_generation_prompt=True, tokenize=False, **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {}))
+             multi_modal_data = {}
+ 
+             images = None
+@@ -228,7 +228,7 @@
+             row_dict["multi_modal_inputs"].pop("second_per_grid_ts", None)
+ 
+         else:
+-            raw_prompt = self.tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
++            raw_prompt = self.tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False, **({"enable_thinking": False} if os.environ.get("FOURWAY_CONFIG") else {}))
+             model_inputs = self.tokenizer(raw_prompt, return_tensors="pt", add_special_tokens=False)
+             input_ids = model_inputs.pop("input_ids")
+             attention_mask = model_inputs.pop("attention_mask")
+--- before/reflection_grpo_clean/verl/workers/fsdp_workers.py
++++ after/reflection_grpo_clean/verl/workers/fsdp_workers.py
+@@ -17,6 +17,9 @@
+ 
+ import logging
+ import os
++if os.environ.get("FOURWAY_CONFIG"):
++    from fourway.runtime import worker_setup
++    worker_setup()
+ import warnings
+ from typing import Union
+ 
+--- before/reflection_grpo_clean/verl/workers/rollout/vllm_rollout/vllm_rollout_spmd.py
++++ after/reflection_grpo_clean/verl/workers/rollout/vllm_rollout/vllm_rollout_spmd.py
+@@ -319,10 +319,12 @@
+                 lora_requests = [LoRARequest(lora_name=f"{lora_int_id}",lora_int_id=lora_int_id,lora_path="/simon-stub-path")] * batch_size
+ 
+         # users can customize different sampling_params at different run
++        if os.environ.get("FOURWAY_CONFIG"):
++            kwargs["seed"] = int(prompts.meta_info.get("fourway_seed", self.config.get("seed", 1234)))
+         with self.update_sampling_params(**kwargs):
+             outputs = self.inference_engine.generate(
+                 prompts=vllm_inputs,  # because we have already convert it to prompt token id
+-                sampling_params=self.sampling_params,
++                sampling_params=(__import__("fourway.sampling", fromlist=["request_params"]).request_params(self.sampling_params, len(vllm_inputs), kwargs["seed"], torch.distributed.get_rank()) if os.environ.get("FOURWAY_CONFIG") else self.sampling_params),
+                 lora_request=lora_requests,
+                 use_tqdm=False,
+             )

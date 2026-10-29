@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Which number needs to be added to 172835 to get a number exactly divisible by 136?\nGround Truth: 21\nWeak CoT: We are given the number **172835** and we want to find the **smallest number** that needs to be **added** to it so that the result is **divisible by 136**.\n\n---\n\n### Step 1: Find the remainder when 172835 is divided by 136\n\nWe do the division:\n\n$$\n172835 \\div 136\n$$\n\nLet’s calculate the remainder:\n\n$$\n172835 \\mod 136\n$$\n\nWe can use a calculator or perform the division.\n\nAlternatively, we can do this step by step:\n\nDivide 172835 by 136:\n\n- First, find how many times 136 fits into 172835.\n\nWe can use a calculator:\n\n$$\n172835 \\div 136 = 1270 \\text{ remainder } 65\n$$\n\nSo:\n\n$$\n172835 = 136 \\times 1270 + 65\n$$\n\nSo the **remainder is 65**.\n\n---\n\n### Step 2: Find the number to add\n\nWe want a number $ x $ such that:\n\n$$\n172835 + x \\equiv 0 \\pmod{136}\n$$\n\nWhich means:\n\n$$\nx \\equiv -65 \\pmod{136}\n$$\n\nBut since we want the **smallest positive** number to add, we can write:\n\n$$\nx = 136 - 65 = \\boxed{71}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{71}\n$$\n\nYou need to add **71** to 172835 to get a number divisible by 136."
+    }
+  ]
+}

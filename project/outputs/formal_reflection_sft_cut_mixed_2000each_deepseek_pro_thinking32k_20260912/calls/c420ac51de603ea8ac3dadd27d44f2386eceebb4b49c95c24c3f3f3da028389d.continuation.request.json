@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In an isosceles triangle \\(ABC\\) with base \\(AB\\), the angle bisector \\(BD\\) is drawn. A point \\(E\\) is taken on the line \\(AB\\) such that \\(\\angle EDB = 90^\\circ\\). Find \\(BE\\), given that \\(AD = 1\\).\n\n<reflection>\n$AC=BC$ and $\\angle BAC=\\angle ABC$; $D$ lies on $AC$. By the angle-bisector theorem, $\\frac{AD}{DC}=\\frac{AB}{BC}=\\frac{AB}{AC}$. With $A=(0,0)$, $B=(2a,0)$, $C=(a,h)$, and $s=\\sqrt{a^2+h^2}$, the condition $AD=1$ gives $D=(a/s,h/s)$. For $E=(x,0)$, the perpendicular condition gives $(\\frac{a}{s}-x)(\\frac{a}{s}-2a)+(\\frac{h}{s})^2=0$, i.e. $(a-xs)(a-2as)+h^2=0$, expanding to $a^2 - 2a^2s - xas + 2xas^2 + h^2=0$.\nThe equation still contains a and s, and the angle-bisector condition has not been used; AD=1 only fixes D's position on AC in terms of a,h, not s or x.\nImpose the angle-bisector condition (e.g. angle-bisector theorem) to relate a,h,s before solving the perpendicular equation for x.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

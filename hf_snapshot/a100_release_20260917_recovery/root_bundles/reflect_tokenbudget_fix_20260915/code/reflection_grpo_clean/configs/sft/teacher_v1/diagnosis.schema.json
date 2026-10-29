@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SFT teacher v1 diagnosis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict",
+    "first_error_step",
+    "first_error_quote",
+    "error_type",
+    "verified_states",
+    "error_reason",
+    "new_direction",
+    "review_note"
+  ],
+  "properties": {
+    "verdict": {
+      "enum": [
+        "incorrect",
+        "actually_correct",
+        "format_only",
+        "incomplete",
+        "reference_conflict",
+        "unusable"
+      ]
+    },
+    "first_error_step": {
+      "type": ["string", "null"],
+      "pattern": "^S[0-9]+$"
+    },
+    "first_error_quote": {"type": "string"},
+    "error_type": {
+      "enum": [
+        "arithmetic",
+        "algebraic_transformation",
+        "logical_inference",
+        "missing_case",
+        "domain_constraint",
+        "problem_interpretation",
+        "invalid_strategy",
+        "unsupported_claim",
+        "other",
+        null
+      ]
+    },
+    "verified_states": {"type": "string"},
+    "error_reason": {"type": "string"},
+    "new_direction": {"type": "string"},
+    "review_note": {"type": "string"}
+  },
+  "if": {
+    "properties": {"verdict": {"const": "incorrect"}},
+    "required": ["verdict"]
+  },
+  "then": {
+    "properties": {
+      "first_error_step": {"type": "string"},
+      "first_error_quote": {"pattern": "\\S"},
+      "error_type": {"type": "string"},
+      "verified_states": {"pattern": "\\S"},
+      "error_reason": {"pattern": "\\S"},
+      "new_direction": {"pattern": "\\S"},
+      "review_note": {"const": ""}
+    }
+  },
+  "else": {
+    "properties": {
+      "first_error_step": {"const": null},
+      "first_error_quote": {"const": ""},
+      "error_type": {"const": null},
+      "verified_states": {"const": ""},
+      "error_reason": {"const": ""},
+      "new_direction": {"const": ""},
+      "review_note": {"pattern": "\\S"}
+    }
+  }
+}

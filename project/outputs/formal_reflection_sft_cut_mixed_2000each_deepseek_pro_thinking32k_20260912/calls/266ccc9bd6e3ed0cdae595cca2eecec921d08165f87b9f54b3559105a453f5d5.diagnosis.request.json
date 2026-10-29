@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Compute the unique positive integer $n$ such that $\\frac{n^{3}-1989}{n}$ is a perfect square.\nGround Truth: 13\nWeak CoT: We are given that:\n\n$$\n\\frac{n^{3} - 1989}{n} = k^{2},\n$$\n\nwhere $ n $ is a **positive integer**, and $ k $ is an integer.\n\n---\n\n### Step 1: Simplify the expression\n\n$$\n\\frac{n^3 - 1989}{n} = n^2 - \\frac{1989}{n}.\n$$\n\nSo the problem becomes:\n\n$$\nn^2 - \\frac{1989}{n} = k^2.\n$$\n\nMultiply both sides by $ n $:\n\n$$\nn^3 - 1989 = k^2 n.\n$$\n\nRearranged:\n\n$$\nn^3 - k^2 n - 1989 = 0.\n$$\n\n---\n\n### Step 2: Try small values of $ n $\n\nWe are looking for a **unique positive integer** $ n $, and $ k $ is also integer.\n\nTry small values of $ n $, compute $ \\frac{n^3 - 1989}{n} $, and see if it's a perfect square.\n\nLet’s start with $ n = 19 $:\n\n$$\n\\frac{19^3 - 1989}{19} = \\frac{6859 - 1989}{19} = \\frac{4870}{19} = 256.894... \\quad \\text{(not an integer)}\n$$\n\nTry $ n = 18 $:\n\n$$\n\\frac{18^3 - 1989}{18} = \\frac{5832 - 1989}{18} = \\frac{3843}{18} = 213.5 \\quad \\text{(not integer)}\n$$\n\nTry $ n = 17 $:\n\n$$\n\\frac{17^3 - 1989}{17} = \\frac{4913 - 1989}{17} = \\frac{2924}{17} = 172. \\quad \\text{This is integer!}\n$$\n\nSo $ n = 17 $, and:\n\n$$\n\\frac{17^3 - 1989}{17} = 172 = 13^2.\n$$\n\n✅ This works!\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{17}\n$$"
+    }
+  ]
+}

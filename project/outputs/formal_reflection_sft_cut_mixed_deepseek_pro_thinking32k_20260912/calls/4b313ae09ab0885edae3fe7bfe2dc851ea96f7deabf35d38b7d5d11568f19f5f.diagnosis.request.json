@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Let $a$ and $b$ be the two distinct real roots of the equation $x^{2}+x-2023=0$. Find the value of $a^{2}+2a+b$.\nGround Truth: 2022\nWeak CoT: We are given the quadratic equation:\n\n$$\nx^2 + x - 2023 = 0\n$$\n\nLet the roots be $ a $ and $ b $, where $ a \\neq b $. We are asked to find the value of:\n\n$$\na^2 + 2a + b\n$$\n\n---\n\n### Step 1: Use Vieta's formulas\n\nFrom the quadratic equation $ x^2 + x - 2023 = 0 $, the sum and product of the roots are:\n\n- $ a + b = -1 $\n- $ ab = -2023 $\n\n---\n\n### Step 2: Use $ a^2 + 2a + b $\n\nWe can express $ a^2 + 2a + b $ in terms of known quantities.\n\nWe can rewrite the expression as:\n\n$$\na^2 + 2a + b = (a^2 + b) + 2a\n$$\n\nWe already know that $ a + b = -1 $, so $ a^2 + b = a(a + b) = a(-1) = -a $. So:\n\n$$\na^2 + b = -a\n$$\n\nThus,\n\n$$\na^2 + 2a + b = (-a) + 2a = a\n$$\n\nSo,\n\n$$\na^2 + 2a + b = \\boxed{a}\n$$\n\nNow, we can find the value of $ a $ using the quadratic equation.\n\n---\n\n### Step 3: Solve for $ a $\n\nWe know:\n\n$$\na + b = -1, \\quad ab = -2023\n$$\n\nLet me solve for $ a $:\n\nLet $ a = \\frac{-1 \\pm \\sqrt{1^2 + 4 \\cdot 2023}}{2} = \\frac{-1 \\pm \\sqrt{1 + 8092}}{2} = \\frac{-1 \\pm \\sqrt{8093}}{2} $\n\nSo,\n\n$$\na = \\frac{-1 + \\sqrt{8093}}{2}\n$$\n\nBut we don't need the exact value of $ a $; we only need $ a $, and we already deduced:\n\n$$\na^2 + 2a + b = a\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{a}\n$$"
+    }
+  ]
+}

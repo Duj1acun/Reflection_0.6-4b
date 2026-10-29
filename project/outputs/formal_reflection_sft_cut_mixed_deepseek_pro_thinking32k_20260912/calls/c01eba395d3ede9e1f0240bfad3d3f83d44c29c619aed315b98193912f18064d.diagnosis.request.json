@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The convex pentagon ABCDE has all sides of equal length, and angles A and B are both 90 degrees. Calculate the degree measure of angle E. Express your answer in degrees.\nGround Truth: 150\nWeak CoT: We are given a **convex pentagon** $ABCDE$ where:\n\n- All sides are equal in length: $AB = BC = CD = DE = EA$\n- Angles $A$ and $B$ are both $90^\\circ$\n\nWe are to find the measure of angle $E$.\n\n---\n\n### Step 1: Use the fact that the sum of the interior angles of a pentagon is:\n\n$$\n(5 - 2) \\times 180^\\circ = 540^\\circ\n$$\n\nSo, the sum of all five interior angles is $540^\\circ$.\n\n---\n\n### Step 2: Let’s denote the angles:\n\n- $A = 90^\\circ$\n- $B = 90^\\circ$\n- Let $E = x^\\circ$, and let the angles $C$ and $D$ be equal (since sides are equal, we can assume that the pentagon is symmetric in some way, though not necessarily regular).\n\nSo, the sum of all angles is:\n\n$$\nA + B + C + D + E = 90^\\circ + 90^\\circ + C + D + x = 540^\\circ\n$$\n\n---\n\n### Step 3: Since $AB = BC = CD = DE = EA$, the pentagon is **not regular** but **symmetrically closed** in terms of side lengths.\n\nLet’s group the angles:\n\n$$\n90^\\circ + 90^\\circ + x + C + D = 540^\\circ\n$$\n\nWe also know that the pentagon has **five sides**, so all the angles are present. Since the pentagon is convex, all angles are less than $180^\\circ$.\n\nLet’s try to assume that $C = D$. If that’s the case, then:\n\n$$\n90^\\circ + 90^\\circ + x + C + C = 540^\\circ\n$$\n\n$$\n180^\\circ + x + 2C = 540^\\circ\n$$\n\n$$\nx + 2C = 360^\\circ\n$$\n\nNow, since $C$ is an interior angle of a pentagon, it must be less than $180^\\circ$. Let’s try to find integer values for $x$ and $C$ that satisfy this equation.\n\nTry $x = 120^\\circ$:\n\n$$\n120^\\circ + 2C = 360^\\circ \\Rightarrow 2C = 240^\\circ \\Rightarrow C = 120^\\circ\n$$\n\nThis works!\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{120^\\circ}\n$$"
+    }
+  ]
+}

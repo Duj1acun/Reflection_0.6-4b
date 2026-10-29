@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a certain competition, two players of equal level meet in the final. The final is played in a best-of-five format, with the winner receiving all the prize money. When the score was $2:1$ after the first three games, the competition was terminated due to unforeseen circumstances. If the total prize money is $12000$ yuan, for fairness and reasonableness, the winner of two games should receive a prize of ______ yuan.\n\n<reflection>\nBest-of-five means the first player to win 3 games wins the match. The score is 2:1 after 3 games, so Player A needs 1 more win and Player B needs 2 more wins. At most 2 more games are needed. If Player A wins the next game, Player A wins the match 3:1. If Player B wins the next game, the score becomes 2:2 and the fifth game decides the match.\nThe three match-ending paths are not equally likely when the players are of equal level. Assuming each game is 50/50, the first path has probability 1/2, while the two paths involving a fifth game each have probability 1/4.\nAssign each remaining game a 1/2 win probability for either player, compute the match-win probabilities for A and B, and divide the 12000 yuan in that ratio.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

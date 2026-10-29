@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: The Dingoberry Farm is a 10 mile by 10 mile square, broken up into 1 mile by 1 mile patches. Each patch is farmed either by Farmer Keith or by Farmer Ann. Whenever Ann farms a patch, she also farms all the patches due west of it and all the patches due south of it. Ann puts up a scarecrow on each of her patches that is adjacent to exactly two of Keith's patches (and nowhere else). If Ann farms a total of 30 patches, what is the largest number of scarecrows she could put up?\n\n<reflection>\nThe farm is a 10 by 10 grid of 1-mile patches. Each patch is farmed by either Keith or Ann. If Ann farms a patch, then all patches due west and due south of it are also farmed by Ann, so her region is down-left closed. Ann farms exactly 30 patches. A scarecrow is placed only on an Ann patch adjacent to exactly two Keith patches.\nThe closure condition does not imply Ann farms only a 1x1 square; it allows larger down-left-closed regions of many patches, such as rectangles or Young diagram shapes.\nRepresent Ann's 30 patches as a down-left-closed Young diagram inside the 10x10 grid and maximize the number of her boundary patches with exactly two Keith neighbors.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

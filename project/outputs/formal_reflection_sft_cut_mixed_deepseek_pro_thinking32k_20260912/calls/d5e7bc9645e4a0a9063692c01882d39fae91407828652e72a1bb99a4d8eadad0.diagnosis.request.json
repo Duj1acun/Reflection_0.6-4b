@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are 6 members in a family. Their average income is Rs. 12000 per month. The income of the first five members are Rs. 11000, Rs. 15000, Rs. 10000, Rs. 9000, and Rs. 13000 respectively. What is the income of the sixth member of the family?\nGround Truth: 14000\nWeak CoT: We are given:\n\n- There are **6 members** in the family.\n- The **average income** per month is **Rs. 12,000**.\n- The **income of the first five members** is:\n  - Rs. 11,000\n  - Rs. 15,000\n  - Rs. 10,000\n  - Rs. 9,000\n  - Rs. 13,000\n\nWe are to find the **income of the sixth member**.\n\n---\n\n### Step 1: Find the total income of the 6 members.\n\nAverage income = (Sum of all income) / 6\n\nWe already know the average is Rs. 12,000.\n\nSo:\n\n$$\n\\text{Total income of all 6 members} = \\text{Average} \\times 6 = 12,000 \\times 6 = 72,000\n$$\n\n---\n\n### Step 2: Add the income of the first 5 members.\n\n$$\n11,000 + 15,000 + 10,000 + 9,000 + 13,000 = 58,000\n$$\n\n---\n\n### Step 3: Subtract the sum of the first 5 members from the total to find the sixth member's income.\n\n$$\n\\text{Sixth member's income} = 72,000 - 58,000 = \\boxed{14,000}\n$$\n\n---\n\n### ✅ Final Answer: $\\boxed{14,000}$"
+    }
+  ]
+}

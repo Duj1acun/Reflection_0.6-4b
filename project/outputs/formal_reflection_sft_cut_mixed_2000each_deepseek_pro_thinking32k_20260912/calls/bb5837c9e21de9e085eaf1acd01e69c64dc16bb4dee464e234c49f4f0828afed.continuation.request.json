@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Using the vertices of a cube as vertices, how many triangular pyramids can you form? Provide your answer as a single integer.\n\n<reflection>\nA cube has 8 vertices. Choosing 4 vertices gives a tetrahedron only if the 4 vertices are non-coplanar. Total 4-vertex subsets: C(8,4)=70. We must subtract all coplanar 4-vertex subsets from 70.\nThis incorrectly assumes every coplanar 4-vertex subset is a face of the cube; there are also 6 diagonal rectangular cross-sections containing 4 cube vertices.\nCount all coplanar 4-vertex subsets of the cube, including both the 6 face planes and the 6 diagonal rectangular planes, then subtract that total from 70.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

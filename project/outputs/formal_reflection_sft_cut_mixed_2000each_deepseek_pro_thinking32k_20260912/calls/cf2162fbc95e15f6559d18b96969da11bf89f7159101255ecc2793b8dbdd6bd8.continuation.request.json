@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Max and Minnie each add up sets of three-digit positive integers. Each of them adds three different three-digit integers whose nine digits are all different. Max creates the largest possible sum. Minnie creates the smallest possible sum. What is the difference between Max's sum and Minnie's sum?\n\n<reflection>\nMax's maximum sum is 2556, using hundreds digits 7,8,9; tens digits 4,5,6; ones digits 1,2,3, leaving 0 unused. For the minimum sum, the hundreds digits must be the smallest possible nonzero digits, namely 1,2,3. After choosing hundreds digits 1,2,3, the remaining available digits are 0,4,5,6,7,8,9.\nThis ignores that 0 is available after the hundreds digits are chosen and can be used in a tens or ones place. The smallest remaining digits for the tens place are 0,4,5, not 4,5,6; using 0 gives a smaller sum than 774.\nRecompute Minnie's sum using 0 in a tens position after setting the hundreds digits as 1,2,3, assigning the smallest remaining digits to the tens places.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

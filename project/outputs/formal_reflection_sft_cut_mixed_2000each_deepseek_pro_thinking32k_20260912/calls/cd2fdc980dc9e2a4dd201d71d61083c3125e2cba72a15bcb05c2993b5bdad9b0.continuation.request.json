@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a certain company, there are 100 shareholders, and any 66 of them own no less than 50% of the company's shares. What is the maximum percentage of all shares that one shareholder can own?\n\n<reflection>\nThere are 100 shareholders, and any 66 of them own at least 50% of the company's shares. Let S be the total number of shares and x be the number of shares owned by the most powerful shareholder; the goal is to maximize x/S. The condition applies to every group of 66 shareholders.\nThe condition is a lower bound: any 66 shareholders, especially the 66 smallest, must own at least 50%. It does not prevent the 66 smallest from owning more than 50%; the remaining 34 owning less than 50% would not contradict the condition.\nUse the condition to require that the 66 smallest shareholders collectively own at least 50% of the shares, then minimize their total subject to the ordering of shareholders to maximize the largest holding.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

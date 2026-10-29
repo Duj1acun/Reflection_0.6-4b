@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There is a magical stone on the ground that grows uniformly upwards. To prevent it from piercing the sky, the elders of the celestial realm decided to send plant warriors to consume the magical stone and inhibit its growth. Each plant warrior consumes the same amount of magical stone every day. If 14 plant warriors are sent, the magical stone will pierce the sky in 16 days; if 15 plant warriors are sent, it will pierce the sky in 24 days. How many plant warriors need to be sent out at least to ensure that the sky will not be pierced?\n\n<reflection>\nLet r be the daily growth rate of the stone, c the daily consumption per warrior, S the initial stone height, T the time to reach the sky, and n the number of warriors. Given: with n=14, T=16; with n=15, T=24. In 16 days, the stone grows 16r units, and 14 warriors consume 14c × 16 units.\nThis ignores the initial height and the sky height. Piercing occurs when initial height plus net growth reaches the sky height, i.e. S + t(r - nc) = H_sky; if total growth merely equals total consumption, the net height would remain unchanged, so it would not pierce.\nSet up two sky-piercing equations using the net height after t days, S + 16(r - 14c) = H_sky and S + 24(r - 15c) = H_sky, then solve for r and S - H_sky.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

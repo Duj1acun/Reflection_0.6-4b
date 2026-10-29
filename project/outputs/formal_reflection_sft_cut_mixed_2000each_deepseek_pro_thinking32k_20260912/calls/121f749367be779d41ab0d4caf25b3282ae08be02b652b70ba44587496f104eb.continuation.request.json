@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given an isosceles triangle with a perimeter of 29 and one side length of 7, find the length of the base of this isosceles triangle.\n\n<reflection>\nAn isosceles triangle has two equal sides x and base b, with perimeter 2x + b = 29. The given side length 7 may be either an equal side (x = 7) or the base (b = 7). If x = 7, then b = 15, but 7 + 7 = 14 < 15 violates the triangle inequality, so this case is invalid. If b = 7, then 2x + 7 = 29 gives x = 11, and the inequalities 11 + 11 > 7 and 11 + 7 > 11 hold, so this case is valid.\nThis final answer chooses the invalid Case 1 (base 15) instead of the valid Case 2 (base 7), contradicting the preceding triangle-inequality check.\nSelect the valid Case 2 and state the base as 7.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

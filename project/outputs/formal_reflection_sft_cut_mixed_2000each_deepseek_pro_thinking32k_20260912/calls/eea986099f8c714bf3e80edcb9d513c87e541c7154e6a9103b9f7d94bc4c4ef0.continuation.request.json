@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a \"Chinese Dream, My Dream\" knowledge speech contest organized by the School Youth League Committee, there are 4 finalists who can each choose one of the 4 prepicked topics to present. The number of scenarios where exactly one topic is not chosen by any of the contestants is ____.\n\n<reflection>\nThere are 4 contestants and 4 topics. Exactly one topic unused means exactly 3 topics are used. Total unrestricted assignments are 4^4 = 256. There are C(4,1)=4 ways to choose the unused topic. After choosing the unused topic, the remaining 3 topics must all be used at least once.\nThis counts all assignments to the 3 chosen topics, including cases where one or more of those 3 topics is also unused. That would leave at least two topics unused, violating the required exactly-one-unused condition.\nUse inclusion-exclusion to count only assignments where all three remaining topics are chosen at least once.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

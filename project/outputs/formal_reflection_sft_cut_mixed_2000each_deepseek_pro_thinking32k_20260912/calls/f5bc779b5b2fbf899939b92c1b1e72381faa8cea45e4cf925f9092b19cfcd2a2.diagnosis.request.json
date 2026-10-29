@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Let $A B C D$ be a rectangle with $A B=20$ and $A D=23$. Let $M$ be the midpoint of $C D$, and let $X$ be the reflection of $M$ across point $A$. Compute the area of triangle $X B D$.\nGround Truth: 575\nWeak CoT: We are given a rectangle $ABCD$, with $AB = 20$ and $AD = 23$. We are told:\n\n- $M$ is the **midpoint** of segment $CD$,\n- $X$ is the **reflection of $M$ across point $A$**.\n\nWe are to compute the **area of triangle $XBD$**.\n\n---\n\n### Step 1: Understand Geometry and Coordinates\n\nLet’s place the rectangle $ABCD$ in the coordinate plane for easier calculation.\n\n- Let $A = (0, 0)$\n- Since $AB = 20$, and the rectangle is assumed to be in standard position, we can place:\n  - $B = (20, 0)$\n  - $D = (0, 23)$\n\nThen:\n- $C = (20, 23)$\n\nNow, let’s find:\n\n- $M$, the midpoint of $CD$:  \n  $M = \\left( \\frac{20 + 0}{2}, \\frac{23 + 20}{2} \\right) = (10, 21.5)$\n\n- $X$, the reflection of $M$ across $A = (0, 0)$:  \n  The reflection of a point $(x, y)$ across the origin is $(-x, -y)$.  \n  So,  \n  $X = (10, -21.5)$\n\n---\n\n### Step 2: Compute the Area of Triangle $XBD$\n\nWe need the area of triangle $XBD$, where:\n- $X = (10, -21.5)$\n- $B = (20, 0)$\n- $D = (0, 23)$\n\nWe can use the **formula for the area of a triangle given coordinates**:\n\n$$\n\\text{Area} = \\frac{1}{2} |(x_1(y_2 - y_3) + x_2(y_3 - y_1) + x_3(y_1 - y_2))|\n$$\n\nSubstitute the coordinates:\n\n- $x_1 = 10$, $y_1 = -21.5$\n- $x_2 = 20$, $y_2 = 0$\n- $x_3 = 0$, $y_3 = 23$\n\n$$\n\\text{Area} = \\frac{1}{2} |10(0 - 23) + 20(23 - (-21.5)) + 0(-21.5 - 0)|\n$$\n\n$$\n= \\frac{1}{2} |10(-23) + 20(44.5) + 0|\n$$\n\n$$\n= \\frac{1}{2} | -230 + 890 | = \\frac{1}{2} \\times 660 = 330\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{330}\n$$"
+    }
+  ]
+}

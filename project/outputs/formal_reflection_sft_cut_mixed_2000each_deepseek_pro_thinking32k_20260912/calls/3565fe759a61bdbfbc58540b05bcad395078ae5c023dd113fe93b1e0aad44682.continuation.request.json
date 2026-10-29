@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There are 55 people in a sports school, each of whom is either a tennis player or a chess player. It is known that there are no four chess players who have an equal number of friends among the tennis players. What is the maximum number of chess players that can be in this school?\n\n<reflection>\nThere are 55 people in total. Each person is either a tennis player or a chess player. No four chess players have an equal number of friends among the tennis players. Let c be the number of chess players and t = 55 - c be the number of tennis players. The goal is to maximize c. For each chess player, we consider the number of friends among the tennis players.\nThis is not implied by the condition. The condition only says no friend count can be shared by four chess players; it does not require at least four distinct possible friend-count values. The pigeonhole claim is also false without knowing the number of chess players is large enough.\nRephrase the condition as 'each possible friend count can be used by at most 3 chess players' and set up the inequality c ≤ 3(t + 1) with t = 55 − c.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

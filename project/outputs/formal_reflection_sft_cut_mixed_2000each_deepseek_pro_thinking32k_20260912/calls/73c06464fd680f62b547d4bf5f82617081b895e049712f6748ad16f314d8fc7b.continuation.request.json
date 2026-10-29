@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the function f(x) = x^4cos(x) + mx^2 + x (m ∈ R), if the derivative f'(x) has a maximum value of 10 on the interval [-2, 2], then find the minimum value of the derivative f'(x) on the interval [-2, 2]. Express your answer as a single integer.\n\n<reflection>\nf'(x) = 4x^3 \\cos(x) - x^4 \\sin(x) + 2m x + 1 g(x) = f'(x), and it is given that max_{x \\in [-2,2]} g(x) = 10; the goal is to find min_{x \\in [-2,2]} g(x) g(-x) = -4x^3 \\cos(x) + x^4 \\sin(x) - 2m x + 1\nThe correct simplification is g(-x) = -g(x) + 2; the term 2(1 - sin(x)) is algebraically incorrect.\nUse the correct relation g(-x) = -g(x) + 2 to relate the maximum and minimum values of g on [-2,2].\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

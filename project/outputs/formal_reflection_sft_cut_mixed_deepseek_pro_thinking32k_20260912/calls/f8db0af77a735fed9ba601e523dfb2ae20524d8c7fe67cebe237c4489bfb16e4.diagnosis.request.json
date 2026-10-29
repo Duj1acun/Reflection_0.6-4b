@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A grocer has a sale of Rs. 5435, Rs. 5927, Rs. 5855, Rs. 6230 and Rs. 5562 for 5 consecutive months. He must have a sale of Rs. 3991 in the sixth month. What is the average sale he wants to achieve?\nGround Truth: 5500\nWeak CoT: To find the **average sale** he wants to achieve, we'll use the formula for the **average**, which is:\n\n$$\n\\text{Average} = \\frac{\\text{Total Sale}}{\\text{Number of Months}}\n$$\n\nWe are given:\n- Sale for the **5 consecutive months** = Rs. 5435, 5927, 5855, 6230, and 5562.\n\nLet’s add these values first:\n\n$$\n5435 + 5927 + 5855 + 6230 + 5562\n$$\n\nFirst, add 5435 and 5927:\n\n$$\n5435 + 5927 = 11362\n$$\n\nNext, add 5855:\n\n$$\n11362 + 5855 = 17217\n$$\n\nThen, add 6230:\n\n$$\n17217 + 6230 = 23447\n$$\n\nFinally, add 5562:\n\n$$\n23447 + 5562 = 29009\n$$\n\nSo, the **total sale for the 5 consecutive months** is Rs. 29,009.\n\nHe wants to achieve an average sale of:\n\n$$\n\\frac{29009}{5} = 5801.8\n$$\n\nSince the problem asks for the **average sale** he wants to achieve, we round to the nearest whole number.\n\n$$\n\\boxed{5802}\n$$"
+    }
+  ]
+}

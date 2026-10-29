@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a certain company, 40% of the male workers and 25% of the female workers do not have a retirement plan. Among the workers who do not have a retirement plan, 30% are men and 70% are women. Among the workers who do have a retirement plan, 60% are men and 40% are women. If 112 of the workers of that company are men, how many of the workers are women?\n\n<reflection>\nM = 112, F = number of women, T = 112 + F. N = number without a retirement plan, H = 112 + F - N = number with a retirement plan. Men: 0.3N + 0.6H = 112; women: 0.7N + 0.4H = F. Substituting H = 112 + F - N into the men equation gives -3N + 6F = 448, equation (1). Substituting H into the women equation gives 0.3N + 44.8 = 0.6F, which multiplies by 10 to 3N + 448 = 6F, equation (3). Equation (3) is algebraically equivalent to equation (1), so the system has only one independent equation in N and F; plugging the derived expression into (1) gives the identity 448 = 448.\nEquations (1) and (3) are the same equation, so they provide only one independent constraint for the two unknowns N and F. The identity 448 = 448 confirms this dependence rather than producing a value for F.\nUse the previously unused conditions that men without a plan are 40% of male workers and women without a plan are 25% of female workers, i.e. 0.3N = 0.4 × 112 and 0.7N = 0.25F, to obtain a second independent relation for N and F.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

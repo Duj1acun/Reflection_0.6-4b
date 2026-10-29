@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: $A B C, A C D, A D E, A E F$ are right triangles with right angles at $A B C, A C D, A D E, A E F$ respectively. Given that $A B = D E = 12$, $C D = E F = 8$, and $B C = 5$, find $A F$.\nGround Truth: 21\nWeak CoT: We are given:\n\n- $ABC$, $ACD$, $ADE$, $EAF$ are **right triangles**, with right angles at $A$, $C$, $D$, and $E$, respectively.\n- $AB = 12$, $CD = 8$, $EF = 8$, and $BC = 5$.\n- We are to find $AF$, the length of the side $AF$.\n\n---\n\n### Step 1: Understand the configuration\n\n- $A$ is a common vertex of all the triangles.\n- The triangles share the side $AB$ and $CD$, and $EF$.\n- The right angles are at $A$, $C$, $D$, $E$, respectively.\n- Triangle $ABC$: right angle at $A$, so $AB \\perp AC$.\n- Triangle $ACD$: right angle at $C$, so $AC \\perp CD$.\n- Triangle $ADE$: right angle at $D$, so $AD \\perp DE$.\n- Triangle $EAF$: right angle at $E$, so $EA \\perp AF$.\n\nFrom this, we can deduce the shape of the figure.\n\n---\n\n### Step 2: Find the lengths of $AD$, $AE$, and $AF$\n\nLet’s find the lengths step by step.\n\n#### **Step 2.1: Find $AC$ from triangle $ABC$**\n\nWe know:\n\n- $AB = 12$, right angle at $A$  \n- So, $AC = AB = 12$\n\n#### **Step 2.2: Find $AD$ from triangle $ADE$**\n\nWe know:\n\n- $CD = 8$, right angle at $C$  \n- So, $AD = CD = 8$\n\n#### **Step 2.3: Find $AE$ from triangle $ADE$**\n\nWe know:\n\n- $AD = 8$, right angle at $D$  \n- So, $AE = AD = 8$\n\n#### **Step 2.4: Use the triangle $EAF$ to find $AF$**\n\nWe are given that the right angle is at $E$, and we are to find $AF$, which is the side from $A$ to $F$, not $E$.\n\nTo use triangle $EAF$, we need to find $EF$, which is given as 8.\n\nBut wait! We also know $EF = 8$, so that confirms $EF = 8$. That means triangle $EAF$ is a right triangle with right angle at $E$, and side $EF = 8$.\n\nSo, if we consider triangle $EAF$, right-angled at $E$, then the hypotenuse $AF$ can be found using the Pythagorean theorem.\n\nBut we also know that:\n\n- $AE = 8$ (from earlier)\n- $EF = 8$\n- Right angle at $E$\n\nSo:\n\n$$\nAF^2 = AE^2 + EF^2 = 8^2 + 8^2 = 64 + 64 = 128\n$$\n\n$$\nAF = \\sqrt{128} = 8\\sqrt{2}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{8\\sqrt{2}}\n$$"
+    }
+  ]
+}

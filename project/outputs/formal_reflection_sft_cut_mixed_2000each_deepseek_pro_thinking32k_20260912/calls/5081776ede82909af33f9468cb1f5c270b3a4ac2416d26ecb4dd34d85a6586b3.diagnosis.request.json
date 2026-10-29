@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In rectangle $PQRS$, $PS=6$ and $SR=3$. Point $U$ is on $QR$ with $QU=2$. Point $T$ is on $PS$ with $\\angle TUR=90^{\\circ}$. What is the length of $TR$?\nGround Truth: 5\nWeak CoT: We are given a rectangle $PQRS$, with:\n\n- $PS = 6$\n- $SR = 3$\n- Point $U$ is on $QR$ with $QU = 2$\n- Point $T$ is on $PS$ with $\\angle TUR = 90^\\circ$\n\nWe are to find the length of $TR$.\n\n---\n\n### Step 1: Understand the Geometry\n\n- Since $PQRS$ is a rectangle, all angles are right angles.\n- Let’s assign coordinates to the rectangle for easier computation.\n- Let’s place point $P = (0, 0)$, point $Q = (0, 6)$, point $S = (3, 0)$, and point $R = (3, 6)$.\n\n- Coordinates:\n  - $P = (0, 0)$\n  - $Q = (0, 6)$\n  - $R = (3, 6)$\n  - $S = (3, 0)$\n\n- Point $U$ lies on $QR$, and $QU = 2$. Since $QR$ is the side from $Q = (0, 6)$ to $R = (3, 6)$, moving $2$ units along $QR$ gives:\n  - $U = (0 + 2, 6) = (2, 6)$\n\n- Point $T$ lies on $PS$, which is the side from $P = (0, 0)$ to $S = (3, 0)$. Since $\\angle TUR = 90^\\circ$, point $T$ lies somewhere along $PS$ such that triangle $TUR$ is a right triangle with right angle at $U$.\n\n---\n\n### Step 2: Use the Right Triangle Condition\n\nLet’s denote point $T = (x, 0)$, since it lies on $PS$ and $PS$ is along the x-axis.\n\nWe are given that $\\angle TUR = 90^\\circ$. That means vectors $TU$ and $UR$ are perpendicular.\n\n- $U = (2, 6)$\n- $R = (3, 6)$\n- $T = (x, 0)$\n\nSo vectors:\n\n- $\\vec{UR} = (3 - 2, 6 - 6) = (1, 0)$\n- $\\vec{TU} = (x - 2, 0 - 6) = (x - 2, -6)$\n\nFor $\\angle TUR = 90^\\circ$, the dot product of vectors $\\vec{UR}$ and $\\vec{TU}$ must be zero:\n\n$$\n\\vec{UR} \\cdot \\vec{TU} = 1(x - 2) + 0(-6) = x - 2 = 0\n$$\n\nSo:\n\n$$\nx - 2 = 0 \\Rightarrow x = 2\n$$\n\nTherefore, point $T = (2, 0)$\n\n---\n\n### Step 3: Find the Length of $TR$\n\nPoint $T = (2, 0)$, point $R = (3, 6)$\n\n$$\nTR = \\sqrt{(3 - 2)^2 + (6 - 0)^2} = \\sqrt{1^2 + 6^2} = \\sqrt{1 + 36} = \\sqrt{37}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{\\sqrt{37}}\n$$"
+    }
+  ]
+}

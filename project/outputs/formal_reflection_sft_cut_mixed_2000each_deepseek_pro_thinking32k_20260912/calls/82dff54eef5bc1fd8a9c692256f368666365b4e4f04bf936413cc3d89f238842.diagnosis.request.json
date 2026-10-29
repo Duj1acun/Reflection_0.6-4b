@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Vasily Petrov is completing an English language assignment. The assignment consists of 10 English phrases and their translations into Russian in random order. He needs to match the phrases with their correct translations. Each correct match earns 1 point. Hence, the possible scores range from 0 to 10 points. Vasya knows nothing about the assignment and randomly matches the options. Find the probability that he scores exactly 9 points.\nGround Truth: 0\nWeak CoT: We are told that:\n\n- There are **10 English phrases**.\n- Each phrase has a **correct Russian translation**.\n- Vasily Petrov **randomly matches** the phrases to their correct translations.\n- Each **correct match gives 1 point**, and each phrase is matched with exactly **one correct translation**.\n- The **possible scores range from 0 to 10** points.\n\n---\n\n### Step 1: What is the total number of possible matches?\n\nThere are **10 phrases**, and each has one correct translation, so there are **10 possible matches**.\n\nThus, the total number of outcomes is:\n\n$$\n\\text{Total outcomes} = 10\n$$\n\n---\n\n### Step 2: What is the number of correct matches?\n\nFor **Vasya to score exactly 9 points**, he must match **9 phrases** with their correct translations.\n\nThere are **9 correct matches**, and the 10th phrase must be matched with the **incorrect translation**.\n\n---\n\n### Step 3: What is the probability?\n\nThe probability that Vasya scores exactly 9 points is the number of favorable outcomes divided by the total number of possible outcomes:\n\n$$\n\\text{Probability} = \\frac{\\text{Number of correct matches}}{\\text{Total number of matches}} = \\frac{9}{10}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{\\frac{9}{10}}\n$$"
+    }
+  ]
+}

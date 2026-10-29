@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Dan initially has 250 violet marbles. He gave Mary 15% of his marbles, and then gave Peter 1/5 of the marbles he had left. After that, his cousin gave him 35 more violet marbles. Later, Dan’s friend, Alice, gave him 8% of her collection of 180 violet marbles. How many violet marbles does Dan have now?\nGround Truth: 220\nWeak CoT: We are given the following information:\n\n1. Dan initially has **250 violet marbles**.\n2. He gives **15%** of his marbles to **Mary**.\n3. Then he gives **1/5** of the marbles he has left to **Peter**.\n4. Then **35 more violet marbles** are given to his cousin.\n5. Then **8%** of his collection of **180 violet marbles** is given to Alice.\n\n---\n\n### Step 1: Give 15% to Mary\n\n- 15% of 250 marbles = $ 250 \\times 0.15 = 37.5 $\n- So, Mary receives **37.5 violet marbles**.\n\nNow, Dan has:\n\n$$\n250 - 37.5 = 212.5 \\text{ marbles remaining}\n$$\n\n---\n\n### Step 2: Give 1/5 of the marbles to Peter\n\n- 1/5 of 212.5 marbles = $ \\frac{212.5}{5} = 42.5 $\n- So, Peter receives **42.5 violet marbles**.\n\nNow, Dan has:\n\n$$\n212.5 - 42.5 = 170 \\text{ marbles}\n$$\n\n---\n\n### Step 3: Give 35 more marbles to his cousin\n\n- He gets **35 marbles** from his cousin.\n\nNow, Dan has:\n\n$$\n170 + 35 = 205 \\text{ marbles}\n$$\n\n---\n\n### Step 4: Give 8% of 180 marbles to Alice\n\n- 8% of 180 marbles = $ 180 \\times 0.08 = 14.4 $\n- So, Alice gives **14.4 violet marbles**.\n\nNow, Dan has:\n\n$$\n205 - 14.4 = 190.6 \\text{ marbles}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{205}\n$$"
+    }
+  ]
+}

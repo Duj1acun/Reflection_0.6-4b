@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let $ABCD$ be a square with side length $100$ . Denote by $M$ the midpoint of $AB$ . Point $P$ is selected inside the square so that $MP = 50$ and $PC = 100$ . Compute $AP^2$ . *Based on a proposal by Amogh Gaitonde*\n\n<reflection>\nSet A=(0,0), B=(100,0), C=(100,100), D=(0,100). M=(50,0). Let P=(x,y). MP=50 gives (x-50)^2 + y^2 = 2500. PC=100 gives (x-100)^2 + (y-100)^2 = 10000. Subtracting the first equation from the second gives (x-100)^2 + (y-100)^2 - [(x-50)^2 + y^2] = 7500.\nThe term (y-100)^2 was incorrectly replaced by y^2; its correct expansion includes -200y+10000, so the subtraction is invalid.\nCorrectly expand (y-100)^2 as y^2 - 200y + 10000 before simplifying the difference.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

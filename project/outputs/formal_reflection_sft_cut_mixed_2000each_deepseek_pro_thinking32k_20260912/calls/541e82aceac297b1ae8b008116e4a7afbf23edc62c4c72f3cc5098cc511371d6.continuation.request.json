@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: If \\(x\\) and \\(y\\) are positive real numbers with \\(\\frac{1}{x+y}=\\frac{1}{x}-\\frac{1}{y}\\), what is the value of \\(\\left(\\frac{x}{y}+\\frac{y}{x}\\right)^{2} ?\\)\n\n<reflection>\nThe given equation simplifies to 1/(x+y) = (y-x)/(xy). Cross-multiplying gives xy = (x+y)(y-x) = y^2 - x^2. Rearranging gives x^2 + xy - y^2 = 0. Substituting r = x/y gives r^2 + r - 1 = 0. Since x and y are positive, r > 0, so r = (-1 + sqrt(5))/2. The target expression is (r + 1/r)^2 = r^2 + 2 + 1/r^2.\nDividing by r gives r + 1 - 1/r = 0, which implies r - 1/r = -1, not r + 1/r = 1. The sign of the 1/r term is mishandled.\nCorrect this to r - 1/r = -1, then square it and add 4 to obtain (r + 1/r)^2.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

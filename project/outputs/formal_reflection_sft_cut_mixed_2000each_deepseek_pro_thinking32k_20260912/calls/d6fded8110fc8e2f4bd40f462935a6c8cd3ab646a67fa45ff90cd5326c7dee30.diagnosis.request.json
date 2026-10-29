@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In $\\triangle ABC$, given $B=120^{\\circ}$, $AC=\\sqrt{19}$, $AB=2$, calculate the length of side $BC$. Express your answer as a single numerical value.\nGround Truth: 3\nWeak CoT: We are given:\n\n- $\\angle B = 120^\\circ$\n- $AC = \\sqrt{19}$\n- $AB = 2$\n\nWe are to find the length of side $BC$.\n\n---\n\n### Step 1: Use the Law of Cosines\n\nIn triangle $ABC$, the Law of Cosines relates the lengths of the sides and the cosine of an angle:\n\n$$\nAC^2 = AB^2 + BC^2 - 2 \\cdot AB \\cdot BC \\cdot \\cos(\\angle B)\n$$\n\nWe know:\n\n- $AC = \\sqrt{19}$\n- $AB = 2$\n- $\\angle B = 120^\\circ$\n\nSubstitute the known values:\n\n$$\n(\\sqrt{19})^2 = 2^2 + BC^2 - 2 \\cdot 2 \\cdot BC \\cdot \\cos(120^\\circ)\n$$\n\n$$\n19 = 4 + BC^2 - 4 \\cdot BC \\cdot \\left(-\\frac{1}{2}\\right)\n$$\n\n$$\n19 = 4 + BC^2 + 2 \\cdot BC\n$$\n\n$$\nBC^2 + 2 \\cdot BC - 15 = 0\n$$\n\n---\n\n### Step 2: Solve the quadratic equation\n\nLet:\n\n$$\nx = BC\n$$\n\nSo the equation becomes:\n\n$$\nx^2 + 2x - 15 = 0\n$$\n\nUse the quadratic formula:\n\n$$\nx = \\frac{-2 \\pm \\sqrt{2^2 + 4 \\cdot 15}}{2} = \\frac{-2 \\pm \\sqrt{2 + 60}}{2} = \\frac{-2 \\pm \\sqrt{62}}{2}\n$$\n\n$$\nx = \\frac{-2 + \\sqrt{62}}{2} \\quad \\text{(discarded since length can't be negative)}\n$$\n\n$$\nBC = \\frac{-2 + \\sqrt{62}}{2}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{\\frac{-2 + \\sqrt{62}}{2}}\n$$"
+    }
+  ]
+}

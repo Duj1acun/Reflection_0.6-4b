@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given a line mx+ny+2=0 (m > 0, n > 0) intersects a circle (x+3)^2+(y+1)^2=1 at a chord of length 2, find the minimum value of 1/m + 3/n. Express your answer as a single number.\n\n<reflection>\nThe line is $mx+ny+2=0$ with $m>0$, $n>0$. The circle has center $(-3,-1)$ and radius $1$. A chord of length 2 is a diameter, so the perpendicular distance $d$ from the center to the line satisfies $2=2\\sqrt{1-d^2}$, hence $d=0$; the line passes through the circle's center. The distance from $(-3,-1)$ to the line is $d = \\frac{|-3m-n+2|}{\\sqrt{m^2+n^2}}$.\nThis is not the power-of-a-point formula; the power of a point P with respect to a circle centered at O is $PO^2 - r^2$. Also, $PO$ here is confused: a point of intersection on the circle is distance $r=1$ from the center, not 0. The chord condition has already correctly given $d=0$.\nFrom $d=0$, set $|-3m-n+2|=0$ to obtain the constraint $3m+n=2$, then minimize $1/m+3/n$ under $m,n>0$ and this constraint.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

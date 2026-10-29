@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The numbers on opposite sides of a die total 7. Two dice are shown with some faces visible. Using the properties of dice, find the sum of the numbers on the unseen faces of the two dice. Express your answer as a numerical value.\nGround Truth: 21\nWeak CoT: We are given that **opposite faces of a die total 7**. That is:\n\n- 1 is opposite 6\n- 2 is opposite 5\n- 3 is opposite 4\n\nSo, the total of all six faces is:\n\n$$\n1 + 2 + 3 + 4 + 5 + 6 = 21\n$$\n\nNow, we are told that **two dice are shown with some faces visible**, and we are to **find the sum of the numbers on the unseen faces of the two dice**.\n\n---\n\n### Step 1: Understand what is visible\n\nAssume we are shown **three faces** of each die (i.e., the top, front, and right faces). Then the **unseen faces** are the bottom, back, and left faces.\n\nBut since we don't have an actual diagram, we can assume the most common case where each die shows **three visible faces**, and the **three opposite faces are hidden**.\n\nSo, for **each die**, the sum of the **unseen faces** is:\n\n$$\n\\text{Total of all faces} - \\text{Sum of visible faces}\n$$\n\nBut since we are not given the visible faces, we need to **assume the standard configuration** or **use the property that the sum of opposite faces is 7**.\n\n---\n\n### Step 2: Use the opposite face property\n\nFor each die, the **sum of all six faces is 21**, and the **sum of the three pairs of opposite faces is**:\n\n$$\n(1+6) + (2+5) + (3+4) = 7 + 7 + 7 = 21\n$$\n\nSo, the **sum of the three unseen faces** (the ones opposite the visible three faces) is:\n\n$$\n21 - \\text{sum of visible faces}\n$$\n\nBut since the **sum of the three visible faces** is not given, we need to **assume a standard configuration**.\n\n---\n\n### Step 3: Assume a standard visible face configuration\n\nAssume that for each die, the visible faces are:\n\n- Top: 1\n- Front: 2\n- Right: 3\n\nThen the **unseen faces** are:\n\n- Bottom: 6 (opposite 1)\n- Back: 5 (opposite 2)\n- Left: 4 (opposite 3)\n\nSo the **sum of the unseen faces** for one die is:\n\n$$\n6 + 5 + 4 = 15\n$$\n\nSo, for **two dice**, the total sum of the **unseen faces** is:\n\n$$\n15 + 15 = \\boxed{30}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{30}\n$$"
+    }
+  ]
+}

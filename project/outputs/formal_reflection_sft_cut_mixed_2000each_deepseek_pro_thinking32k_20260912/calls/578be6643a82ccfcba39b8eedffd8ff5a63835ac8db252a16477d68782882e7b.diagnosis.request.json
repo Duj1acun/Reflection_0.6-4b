@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Eight Grade 4 sections launched a recycling drive where they collect old newspapers to recycle. In the first two weeks, Section A collected 260 kilos, Section B collected 290 kilos, Section C collected 250 kilos, Section D collected 270 kilos, Section E collected 300 kilos, Section F collected 310 kilos, Section G collected 280 kilos, and Section H collected 265 kilos of old newspapers. After the third week, they found that they need 410 kilos more to reach their target. How many kilos of the newspaper is their target?\nGround Truth: 2635\nWeak CoT: We are given:\n\n- Collection per section:\n  - A: 260\n  - B: 290\n  - C: 250\n  - D: 270\n  - E: 300\n  - F: 310\n  - G: 280\n  - H: 265\n\n- Total collected so far:  \n  $ 260 + 290 + 250 + 270 + 300 + 310 + 280 + 265 $\n\nWe can calculate this step by step.\n\nStart with:\n- A + B = 260 + 290 = 550  \n- C + D = 250 + 270 = 520  \n- E + F = 300 + 310 = 610  \n- G + H = 280 + 265 = 545  \n\nSum all these:\n$$ 550 + 520 + 610 + 545 = 2265 $$\n\nSo, they collected **2265 kilos** of newspapers so far.\n\nThey need **410 kilos more** to reach their target.\n\nTherefore, their **target** is:\n$$ 2265 + 410 = \\boxed{2675} $$ kilos."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Among all positive integers \\( n \\) less than 2012, how many \\( n \\) are there such that \\( 2^n - n^2 \\) is divisible by 7?\n\n<reflection>\nThe condition is equivalent to \\(2^n \\equiv n^2 \\pmod 7\\). Powers of 2 modulo 7 have period 3: \\(2^n\\equiv 2,4,1\\) for \\(n\\equiv 1,2,0\\pmod 3\\), respectively. Squares modulo 7 are \\(0,1,2,4\\); in particular \\(n^2\\equiv 2\\pmod 7\\) for \\(n\\equiv 3,4\\pmod 7\\). Case 1 correctly gives \\(n\\equiv 6,15\\pmod{21}\\). Case 2 requires \\(n\\equiv 1\\pmod 3\\) and \\(n\\equiv 3\\) or \\(4\\pmod 7\\).\nThis parametrization assumes n≡0 mod3, but Subcase 2a requires n≡1 mod3, so it solves the wrong congruence and produces an invalid residue.\nRe-solve Subcase 2a using n=1+3k, then correct the remaining Case 2 and Case 3 congruences and count the valid residues modulo 21.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

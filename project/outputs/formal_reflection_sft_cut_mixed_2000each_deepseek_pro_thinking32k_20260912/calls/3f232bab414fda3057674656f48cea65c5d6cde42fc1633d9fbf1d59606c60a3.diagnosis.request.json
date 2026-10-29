@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Philip is buying pens and pencils from the store. Pens come in packages of some number, but pencils are sold in packages of 15. If Philip wishes to purchase the same number of pens as pencils, he can buy 60 pens. How many pens are in a package?\nGround Truth: 60\nWeak CoT: Let the number of pens in a package be $ x $.\n\nPhilip wants to buy the same number of pens and pencils. Since pencils are sold in packages of 15, and he can buy 60 pencils, the number of pencils he buys is:\n\n$$\n60 \\text{ pencils}\n$$\n\nHe wants to buy the same number of pencils as pens. So he needs to buy 60 pens.\n\nEach package contains $ x $ pens, and he buys 60 pens. Therefore, the number of packages he buys is:\n\n$$\n\\frac{60}{x}\n$$\n\nBut since he also buys 60 pencils, and each pencil is in a package of 15, the number of packages for pencils is:\n\n$$\n\\frac{60}{15} = 4\n$$\n\nSo, the number of packages he buys for pencils is 4, which means he can buy:\n\n$$\n\\frac{60}{x} = 4\n$$\n\nSolving for $ x $:\n\n$$\n\\frac{60}{x} = 4 \\quad \\Rightarrow \\quad x = \\frac{60}{4} = 15\n$$\n\n### Final Answer:\n$$\n\\boxed{15}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Jason worked for 9 years and 8 months as a bartender, 3 years and 6 months as a restaurant manager, 11 months as a sales associate, and 2 years, 5 months and 3 weeks as an event coordinator. Calculate his total work experience in days.\nGround Truth: 6044\nWeak CoT: We are given Jason's work experience in different time units and need to calculate the **total work experience in days**.\n\n---\n\n### Step 1: Convert all time units to **days**\n\nWe'll assume a **non-leap year** (365 days) for simplicity unless otherwise specified.\n\n---\n\n### Step 2: Convert each job duration to days\n\n#### 1. **Bartender: 9 years and 8 months**\n- 9 years = 9 × 365 = **3,285 days**\n- 8 months = 8 × 30 = **240 days**\n- Total = 3,285 + 240 = **3,525 days**\n\n#### 2. **Restaurant Manager: 3 years and 6 months**\n- 3 years = 3 × 365 = **1,095 days**\n- 6 months = 6 × 30 = **180 days**\n- Total = 1,095 + 180 = **1,275 days**\n\n#### 3. **Sales Associate: 11 months**\n- 11 months = 11 × 30 = **330 days**\n\n#### 4. **Event Coordinator: 2 years, 5 months, and 3 weeks**\n- 2 years = 2 × 365 = **730 days**\n- 5 months = 5 × 30 = **150 days**\n- 3 weeks = 3 × 7 = **21 days**\n- Total = 730 + 150 + 21 = **901 days**\n\n---\n\n### Step 3: Add all the days\n\n- Bartender: 3,525\n- Restaurant Manager: 1,275\n- Sales Associate: 330\n- Event Coordinator: 901\n\n**Total = 3,525 + 1,275 + 330 + 901**\n\nLet’s add step by step:\n\n- 3,525 + 1,275 = **4,800**\n- 4,800 + 330 = **5,130**\n- 5,130 + 901 = **6,031 days**\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{6031}\n$$\n\nJason's total work experience is **6,031 days**."
+    }
+  ]
+}

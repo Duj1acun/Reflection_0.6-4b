@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the largest positive integer \\( n \\) such that \\( \\sqrt{n - 100} + \\sqrt{n + 100} \\) is a rational number.\n\n<reflection>\nLet r = sqrt(n-100)+sqrt(n+100), with r ∈ Q. Squaring gives 2n + 2√(n²−10000) = r², hence n + √(n²−10000)=r²/2. With x=√(n²−10000), the equation gives x = r²/2 − n. Squaring x leads to n²−10000 = (r²/2 − n)². Expanding and simplifying gives n=(r⁴+40000)/(4r²). For integer n, (r⁴+40000)/(4r²) must be an integer.\nThis strategy is unjustified: r is rational, not necessarily a small integer, and checking only small integer values cannot establish the largest possible n. The derived equation is only a necessary condition, so extraneous r values can also appear without checking the original sign condition.\nSet a = √(n−100) and b = √(n+100); use b²−a² = 200 to show a and b are integers, then factor (b−a)(b+a)=200 and maximize n = a²+100.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

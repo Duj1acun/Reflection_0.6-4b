@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Determine the number of all numbers which are represented as $x^2+y^2$ with $x, y \\in \\{1, 2, 3, \\ldots, 1000\\}$ and which are divisible by 121.\n\n<reflection>\nThe congruence condition for divisibility by 121 is $x^2+y^2 \\equiv 0 \\pmod{121}$. This condition is equivalent to $x^2 \\equiv -y^2 \\pmod{121}$. $121 = 11^2$.\nThis step divides by $y$ modulo $121$, which is only valid when $\\gcd(y,121)=1$. If $y$ is divisible by $11$, then $y$ has no multiplicative inverse modulo $121$, so the implication fails; for example, $x=y=11$ satisfies $x^2+y^2 \\equiv 0 \\pmod{121}$ but cannot be written as $(x/y)^2$ modulo $121$.\nTreat the case $11 \\mid y$ separately before dividing by $y$, and analyze the congruence modulo $11$ to see when both $x$ and $y$ must be divisible by $11$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A wild tiger escapes the zoo. He escapes at 1 AM and zookeepers do not notice he is missing until 4 AM. He runs at a speed of 25 mph. It takes 2 more hours to find him but after 4 hours of running, the tiger slows his speed to 10 mph. He then gets chased for half an hour going 50 mph. How far away from the zoo was he caught?\n\n<reflection>\nThe tiger starts at 1 AM and is not noticed until 4 AM, so the initial escape interval is 3 hours. At 25 mph, the tiger travels 75 miles by 4 AM. The zookeepers take 2 more hours to find him, so the search interval is 4 AM to 6 AM.\nThis incorrectly assumes the tiger stays at 25 mph for the entire 4 AM to 6 AM interval. The tiger slows to 10 mph after 4 hours of running, which occurs at 5 AM, so the interval must be split at 5 AM.\nSplit the 4 AM to 6 AM interval at 5 AM: compute 1 hour at 25 mph and 1 hour at 10 mph, then continue with the subsequent chase.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

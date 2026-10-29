@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Petya and Vasya took a math test. Petya answered $80\\%$ of all the questions correctly, while Vasya answered exactly 35 questions correctly. The number of questions both answered correctly is exactly half the total number of questions. No one answered 7 questions. How many questions were on the test?\nGround Truth: 60\nWeak CoT: We are told:\n\n- Petya answered **80% of all the questions correctly**.\n- Vasya answered **exactly 35 questions correctly**.\n- The number of questions **both** answered correctly is **exactly half** the total number of questions.\n- No one answered **7 questions**.\n\n---\n\n### Step 1: Let the total number of questions be $ x $.\n\nSo:\n\n- Petya answered $ 0.8x $ correctly.\n- Vasya answered 35 correctly.\n- Both answered correctly: $ \\frac{x}{2} $\n- No one answered 7 questions.\n\n---\n\n### Step 2: Use the principle of inclusion-exclusion.\n\nLet:\n\n- $ A $: the set of questions answered correctly by Petya.\n- $ B $: the set of questions answered correctly by Vasya.\n\nWe are told:\n\n- $ |A| = 0.8x $\n- $ |B| = 35 $\n- $ |A \\cap B| = \\frac{x}{2} $\n\nWe also know:\n\n- $ |A| + |B| - |A \\cap B| = x $\n\nSubstitute:\n\n$$\n0.8x + 35 - \\frac{x}{2} = x\n$$\n\n---\n\n### Step 3: Solve for $ x $.\n\n$$\n0.8x - \\frac{x}{2} + 35 = x\n$$\n\nConvert $ 0.8x $ to $ \\frac{4x}{5} $, and $ \\frac{x}{2} = \\frac{5x}{10} = \\frac{5x}{10} $. So:\n\n$$\n\\frac{4x}{5} - \\frac{5x}{10} + 35 = x\n$$\n\nFind a common denominator:\n\n$$\n\\frac{8x}{10} - \\frac{5x}{10} + 35 = x\n$$\n\n$$\n\\frac{3x}{10} + 35 = x\n$$\n\nSubtract $ \\frac{3x}{10} $ from both sides:\n\n$$\n35 = x - \\frac{3x}{10}\n$$\n\n$$\n35 = \\frac{7x}{10}\n$$\n\nMultiply both sides by 10:\n\n$$\n350 = 7x\n$$\n\n$$\nx = \\frac{350}{7} = 50\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{50}\n$$ questions were on the test."
+    }
+  ]
+}

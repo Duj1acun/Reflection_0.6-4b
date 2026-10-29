@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: If $\\alpha, \\beta, \\gamma$ are the roots of the equation $x^3 - x - 1 = 0$, find the value of $\\frac{1 + \\alpha}{1 - \\alpha} + \\frac{1 + \\beta}{1 - \\beta} + \\frac{1 + \\gamma}{1 - \\gamma}$.\n\n<reflection>\nThe roots α, β, γ satisfy x^3 - x - 1 = 0. S = (1+α)/(1-α) + (1+β)/(1-β) + (1+γ)/(1-γ). Using (1+x)/(1-x)=2/(1-x)-1 gives S = 2T - 3, where T = Σ 1/(1-α). Substituting y=1-x into x^3 - x - 1 = 0 gives y^3 - 3y^2 + 2y + 1 = 0, whose roots are 1-α, 1-β, 1-γ.\nFor a monic cubic y^3 + ay^2 + by + c, the product of the roots is -c, so the reciprocal sum is (pair sum)/(product) = -b/c, not b/c.\nUse the correct reciprocal-sum formula T = -b/c = -2, then compute S = 2T - 3.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

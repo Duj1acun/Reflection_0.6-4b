@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A certain quantity is measured on two different scales, the p-scale and the s-scale, that are related linearly. Measurements on the p-scale of 6 and 24 correspond to measurements on the s-scale of 30 and another value, respectively. What measurement on the s-scale corresponds to a measurement of 24 on the p-scale?\nGround Truth: 24\nWeak CoT: We are given that the **p-scale** and **s-scale** are **linearly related**. That means the relationship between the two scales can be represented as a linear equation:\n\n$$\ns = a \\cdot p + b\n$$\n\nWe are given:\n\n- On the **p-scale**, the measurement is **6**, and on the **s-scale**, the measurement is **30**.\n- On the **p-scale**, the measurement is **24**, and on the **s-scale**, the measurement is **$ x $** (what we need to find).\n\n---\n\n### Step 1: Find the slope of the linear relationship\n\nWe can use the two points to find the slope $ a $ and $ b $ of the line:\n\n$$\n\\frac{30 - 6}{24 - 6} = \\frac{24}{18} = \\frac{4}{3}\n$$\n\nSo, the slope $ a = \\frac{4}{3} $, and the initial point (when $ p = 6 $) gives us:\n\n$$\n30 = \\frac{4}{3} \\cdot 6 + b\n$$\n\n$$\n30 = 8 + b \\Rightarrow b = 22\n$$\n\n---\n\n### Step 2: Write the equation for the relationship\n\n$$\ns = \\frac{4}{3}p + 22\n$$\n\nWe are asked to find the measurement on the **s-scale** when $ p = 24 $:\n\n$$\ns = \\frac{4}{3} \\cdot 24 + 22 = 32 + 22 = \\boxed{54}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{54}\n$$"
+    }
+  ]
+}

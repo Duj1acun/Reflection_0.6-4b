@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In a two-story house that is inhabited in both floors as well as on the ground floor, 35 people live above someone and 45 people live below someone. One third of all the people living in the house live on the first floor. How many people live in the house in total?\nGround Truth: 60\nWeak CoT: Let’s denote:\n\n- $ x $: Total number of people living in the house.\n\nWe are told:\n\n- 35 people live **above someone**.\n- 45 people live **below someone**.\n\nSince the house has two floors and these people are on different levels, and we are told that **one third of all people live on the first floor**, we can proceed as follows:\n\n---\n\n### Step 1: Define variables\n\nLet’s assume:\n\n- $ x $ = total number of people in the house.\n\nFrom the problem, one third live on the **first floor**, so:\n\n$$\n\\frac{x}{3} = \\text{People on the first floor}\n$$\n\nWe are told:\n\n- 35 people live **above someone**.\n- 45 people live **below someone**.\n\nLet’s denote:\n\n- $ a = \\text{People on the first floor} = \\frac{x}{3} $\n\nSo:\n\n- The **people living above someone** = 35\n- The **people living below someone** = 45\n\nThese are the number of people on the **floor above** and **floor below**, respectively.\n\nThis means that the total number of people is:\n\n$$\n\\text{Total people} = \\text{People on first floor} + \\text{People above first floor} + \\text{People below first floor}\n$$\n\nSo:\n\n$$\nx = \\frac{x}{3} + 35 + 45\n$$\n\n---\n\n### Step 2: Solve the equation\n\n$$\nx = \\frac{x}{3} + 80\n$$\n\nSubtract $ \\frac{x}{3} $ from both sides:\n\n$$\nx - \\frac{x}{3} = 80\n$$\n\n$$\n\\frac{2x}{3} = 80\n$$\n\nMultiply both sides by 3:\n\n$$\n2x = 240\n$$\n\n$$\nx = 120\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{120}\n$$"
+    }
+  ]
+}

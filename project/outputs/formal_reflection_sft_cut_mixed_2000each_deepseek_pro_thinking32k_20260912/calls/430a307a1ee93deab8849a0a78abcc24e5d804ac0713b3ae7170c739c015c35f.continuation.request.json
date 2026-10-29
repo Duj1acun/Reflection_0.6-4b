@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let $x \\neq y$ be positive reals satisfying $x^3+2013y=y^3+2013x$ , and let $M = \\left( \\sqrt{3}+1 \\right)x + 2y$ . Determine the maximum possible value of $M^2$ .\n\n<reflection>\nThe original equation factors as $(x-y)(x^2+xy+y^2-2013)=0$. Since $x\\neq y$ and $x,y$ are positive reals, the constraint is $x^2+xy+y^2=2013$. The Lagrange multiplier equations are $\\sqrt{3}+1=\\lambda(2x+y)$ and $2=\\lambda(x+2y)$. Equating $\\lambda$ gives $(\\sqrt{3}+1)(x+2y)=2(2x+y)$. Simplifying the Lagrange condition gives $(\\sqrt{3}-3)x+2\\sqrt{3}y=0$, hence $y=\\frac{3-\\sqrt{3}}{2\\sqrt{3}}x$.\nThe factor $x$ was dropped from the first term when splitting the fraction. The correct simplification is $y=\\frac{3-\\sqrt3}{2\\sqrt3}x=\\left(\\frac{\\sqrt3}{2}-\\frac12\\right)x=\\frac{\\sqrt3-1}{2}x$, not $\\frac{\\sqrt3}{2}-\\frac12 x$.\nCorrect the relation to $y=\\frac{\\sqrt3-1}{2}x$, then substitute it into the constraint $x^2+xy+y^2=2013$ to solve for $x$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

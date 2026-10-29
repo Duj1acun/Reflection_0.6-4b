@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: We can find sets of 13 distinct positive integers that add up to 2142. Find the largest possible greatest common divisor of these 13 distinct positive integers.\n\n<reflection>\nLet d be the GCD; then each number can be written as a_i = d x_i with x_i distinct positive integers. d * sum x_i = 2142, so d divides 2142 and sum x_i = 2142/d. The smallest possible sum of 13 distinct positive integers is 1+2+...+13 = 91. Thus sum x_i >= 91, giving 2142/d >= 91 and d <= 2142/91 ≈ 23.53.\n23 is not a divisor of 2142 because 2142 = 2 × 3² × 7 × 17, so d = 23 fails the required divisibility condition d | 2142.\nFind the largest divisor of 2142 that is at most 23, then check whether 13 distinct positive integers can sum to 2142/d for that divisor.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

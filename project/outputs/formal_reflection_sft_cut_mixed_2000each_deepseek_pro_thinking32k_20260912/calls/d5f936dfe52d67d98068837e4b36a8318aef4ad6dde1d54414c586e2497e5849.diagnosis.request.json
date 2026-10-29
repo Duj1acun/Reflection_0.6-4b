@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A bag contains 100 balls: 28 red balls, 20 green balls, 12 yellow balls, 20 blue balls, 10 white balls, and 10 black balls. What is the minimum number of balls that must be drawn to ensure that at least 15 balls of the same color are selected? Provide your answer as a whole number.\nGround Truth: 75\nWeak CoT: We are given that there are **100 balls** in total, with the following colors and quantities:\n\n- 28 red  \n- 20 green  \n- 12 yellow  \n- 20 blue  \n- 10 white  \n- 10 black\n\nWe need to **determine the minimum number of balls that must be drawn** to **ensure that at least 15 balls of the same color are selected**.\n\n---\n\n### Step 1: Understand the problem\n\nWe want to find the **minimum number of balls** needed to guarantee that **15 of the same color** are drawn. This is a classic **combinatorics problem** involving **worst-case** scenarios.\n\n### Step 2: Consider the worst-case scenario\n\nTo ensure 15 balls of the same color, we should consider the **maximum number of balls** that could be drawn in such a way that no 15 of the same color are selected, and then add 1.\n\nSo, we first **find the number of balls of each color** that we can draw without getting 15 of any color.\n\n- **Red**: 14 balls  \n- **Green**: 14 balls  \n- **Yellow**: 14 balls  \n- **Blue**: 14 balls  \n- **White**: 14 balls  \n- **Black**: 14 balls\n\nNow, we add up the maximum number of balls we can draw without getting 15 of any color:\n\n$$\n14 + 14 + 14 + 14 + 14 + 14 = 84\n$$\n\nThis means **84 balls can be drawn** without having 15 of the same color.\n\n---\n\n### Step 3: Add 1 to include the 15th ball\n\n- We have already drawn **84 balls**, and we want 15 of one color.\n\nSo, **85 balls** in total are needed to ensure that at least 15 balls of the same color are selected.\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{85}\n$$"
+    }
+  ]
+}

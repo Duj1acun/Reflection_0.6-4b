@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: As shown in the figure, several small equilateral triangles with a side length of 1 form a large equilateral triangle with a side length of 2022. Each vertex of the small triangles is painted black or white, and can be colored in any order. If a small triangle has two vertices of the same color, then the third vertex is painted black; otherwise, the third vertex is painted white. After the coloring is completed, how many different patterns are there for the large triangle? (No rotations or reflections are allowed.)\n\n<reflection>\nThe large triangle has side length 2022 and is made of unit equilateral triangles. Each vertex of the small triangles is black or white, subject to the stated local triangle rule. Rotations and reflections are considered distinct patterns.\nThis count is wrong: a triangular grid of side length n contains n^2 unit equilateral triangles in total; n(n+1)/2 counts only the upward-oriented unit triangles.\nIgnore the small-triangle count and instead express the color rule as a local condition on each unit triangle, then study how that condition propagates across adjacent triangles.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

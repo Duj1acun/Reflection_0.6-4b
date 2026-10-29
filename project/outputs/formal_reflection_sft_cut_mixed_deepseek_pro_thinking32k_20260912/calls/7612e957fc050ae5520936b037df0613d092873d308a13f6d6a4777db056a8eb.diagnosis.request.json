@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given $a > b > c$, determine the largest positive integer $k$ such that the inequality $$\\frac{1}{a-b} + \\frac{1}{b-c} \\geq \\frac{k}{a-c}$$ always holds. Provide your answer as a single integer value.\nGround Truth: 4\nWeak CoT: We are given:\n\n> $ a > b > c $, and we are to determine the **largest** positive integer $ k $ such that the inequality:\n\n$$\n\\frac{1}{a-b} + \\frac{1}{b-c} \\geq \\frac{k}{a-c}\n$$\n\n**Step 1: Simplify the left-hand side (LHS)**\n\nWe note that:\n\n- $ a - b = b - c $\n- So, $ \\frac{1}{a-b} + \\frac{1}{b-c} = \\frac{1}{b - c} + \\frac{1}{b - c} = \\frac{2}{b - c} $\n\nSo,\n\n$$\n\\text{LHS} = \\frac{2}{b - c}\n$$\n\n**Step 2: Compare with the RHS**\n\nThe inequality is:\n\n$$\n\\frac{2}{b - c} \\geq \\frac{k}{a - c}\n$$\n\n**Step 3: Solve for $ k $**\n\nWe rearrange the inequality:\n\n$$\n\\frac{2}{b - c} - \\frac{k}{a - c} \\geq 0\n$$\n\nMultiply both sides by $ (b - c)(a - c) $, assuming $ a > b > c $, so $ b - c > 0 $, and $ a - c > 0 $, so the inequality sign remains the same:\n\n$$\n2(a - c) - k(b - c) \\geq 0\n$$\n\nRearranging terms:\n\n$$\n2(a - c) \\geq k(b - c)\n$$\n\nNow divide both sides by $ b - c $:\n\n$$\n\\frac{2(a - c)}{b - c} \\geq k\n$$\n\nSo:\n\n$$\nk \\leq \\frac{2(a - c)}{b - c}\n$$\n\nSince $ a > b > c $, we can bound $ a - c $ and $ b - c $.\n\nLet’s set:\n\n- $ b - c = x $, so $ a - c = x + (a - b) = x + (a - b) $\n\nBut let’s instead choose a concrete example to simplify the calculation.\n\nLet’s choose:\n\n- Let $ a = 5 $, $ b = 2 $, $ c = 1 $, so:\n\n- $ b - c = 1 $\n- $ a - c = 4 $\n\nThen:\n\n$$\n\\frac{2(a - c)}{b - c} = \\frac{2 \\cdot 4}{1} = 8\n$$\n\nSo the inequality becomes:\n\n$$\nk \\leq 8\n$$\n\nThus, the **largest positive integer** $ k $ that satisfies the inequality is:\n\n$$\n\\boxed{8}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Kennedy grew tomatoes from three plants she had in her backyard. The first tomato plant produced two dozen tomatoes. The second plant produced 5 more than half as many tomatoes as the first plant. And the third plant produced some tomatoes based on the second plant's production. The three plants produced 60 tomatoes. What is the relationship between the number of tomatoes produced by the second and third plants?\nGround Truth: 2\nWeak CoT: We are given the following information:\n\n- The first plant produced **2 dozen** tomatoes = 24 tomatoes.\n- The second plant produced **5 more than half as many tomatoes** as the first plant.\n- The third plant produced **some tomatoes based on the second plant's production**.\n- The **total** number of tomatoes produced by all three plants is **60 tomatoes**.\n\n---\n\n### Step 1: Find the number of tomatoes on the second plant\n\nThe second plant produced **5 more than half as many tomatoes as the first plant**.\n\n- Half of the first plant's tomatoes = 24 / 2 = 12\n- 5 more than that = 12 + 5 = **17** tomatoes.\n\nSo, the second plant produced **17 tomatoes**.\n\n---\n\n### Step 2: Use the total to find the number of tomatoes on the third plant\n\nTotal tomatoes = 60\n\n$$\n\\text{Third plant} = 60 - \\text{First plant} - \\text{Second plant}\n$$\n\n$$\n\\text{Third plant} = 60 - 24 - 17 = 20\n$$\n\nSo, the third plant produced **20 tomatoes**.\n\n---\n\n### Step 3: Find the relationship between the number of tomatoes produced by the second and third plants\n\nWe already have:\n\n- Second plant: **17 tomatoes**\n- Third plant: **20 tomatoes**\n\nSo, the relationship between the second and third plants is:\n\n$$\n\\text{Third plant} = 3 \\times \\text{Second plant}\n$$\n\n---\n\n### ✅ Final Answer:\n$$\n\\boxed{\\text{The relationship is that the third plant produced 3 times as many tomatoes as the second plant.}}\n$$"
+    }
+  ]
+}

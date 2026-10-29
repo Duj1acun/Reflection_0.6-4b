@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the greatest prime number which, on dividing 1255 and 1490, leaves a remainder of 8 and 11 respectively.\n\n<reflection>\nLet $q$ be the divisor satisfying $1255 = q \\cdot k + 8$ and $1490 = q \\cdot m + 11$. Subtracting remainders gives $q \\cdot k = 1247$ and $q \\cdot m = 1479$. Since $q \\cdot k = 1247$ and $q \\cdot m = 1479$, $q$ must divide both $1247$ and $1479$. Equating the two expressions $q = 1247/k$ and $q = 1479/m$ gives $1247/k = 1479/m$.\nCross-multiplication should give $1247m = 1479k$, hence $m = (1479/1247)k$; the factor $k$ was dropped, so the conclusion $m=1479/1247$ and the later claim that $1247$ divides $1479$ are invalid.\nSince $q$ divides both 1247 and 1479, compute $\\gcd(1247,1479)$ and then choose its greatest prime factor.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

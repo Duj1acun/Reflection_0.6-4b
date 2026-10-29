@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given 5000 cards, each containing a unique natural number from 1 to 5000 (each number appears exactly once). You need to select two cards such that the sum of the numbers on them is divisible by 100. In how many ways can this be done?\n\n<reflection>\nThe problem counts unordered pairs of two distinct cards from 1 to 5000. A valid pair satisfies a+b ≡ 0 mod 100. Since 5000 = 50 × 100, each residue class modulo 100, from 0 to 99, contains exactly 50 numbers. Residue classes r=0 and r=50 pair with themselves; residue classes r=1,...,49 pair with their complements 100-r, i.e. 99,...,51. For the r=0 self-pair case, the number of unordered pairs is C(50,2)=1225.\nThis incorrectly uses C(50,2), which counts pairs within a single residue class. For two distinct complementary residue classes r and 100-r, one card must be chosen from each class, giving 50×50=2500 pairs.\nFor each of the 49 mixed residue pairs r=1,...,49, replace C(50,2) with 50×50=2500, then add the two self-pair cases.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

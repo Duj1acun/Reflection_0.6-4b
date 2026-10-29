@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: How many functions \\( f: \\{1, 2, \\ldots, 10\\} \\rightarrow \\{1, 2, \\ldots, 10\\} \\) satisfy the property that \\( f(i) + f(j) = 11 \\) for all values of \\( i \\) and \\( j \\) such that \\( i + j = 11 \\)?\n\n<reflection>\nThe condition is equivalent to f(i)+f(11-i)=11 for every i in {1,...,10}. The domain splits into the five disjoint pairs (1,10),(2,9),(3,8),(4,7),(5,6), with no fixed point. For each domain pair (i,11-i), choosing an ordered pair (a,b) with a+b=11 and assigning f(i)=a, f(11-i)=b satisfies the condition.\nThis lists only the unordered complement pairs with a<b. Since (a,b) is assigned to the ordered domain pair (i,11-i), reversed pairs such as (10,1), (9,2), ... are distinct valid choices.\nCount all ordered pairs (a,b) with a+b=11, giving 10 choices for each of the 5 domain pairs.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

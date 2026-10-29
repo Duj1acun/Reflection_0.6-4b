@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Expand the binomial expression $\\left( \\frac{2}{\\sqrt{x}} - x \\right)^9$. Calculate the sum of the coefficients of all terms, excluding the constant term. Express your answer as a single integer.\n\n<reflection>\nThe binomial theorem is applied with a=2/√x and b=-x. The expansion is sum from k=0 to 9 of C(9,k)(2/√x)^{9-k}(-x)^k. The unsimplified general term is C(9,k)(2/√x)^{9-k}(-x)^k.\nThe exponent of x from (2/√x)^(9-k) is written as positive (9-k)/2, but it should be negative: (2/√x)^(9-k) = 2^(9-k) x^(-(9-k)/2).\nCorrect the exponent to x^(-(9-k)/2), combine it with x^k to obtain x^((3k-9)/2), then set (3k-9)/2 = 0 to find the constant term.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

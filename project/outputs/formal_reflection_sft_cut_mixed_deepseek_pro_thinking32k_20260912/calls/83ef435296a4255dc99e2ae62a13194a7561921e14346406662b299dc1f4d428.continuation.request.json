@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: The parabola \\( y = x^2 - 20x + c \\), where \\( c \\neq 0 \\), intersects the x-axis at points \\( A \\) and \\( B \\), and the y-axis at point \\( C \\). It is known that points \\( A \\) and \\( C \\) are symmetrical with respect to the line \\( y = -x \\). Find the area of triangle \\( ABC \\).\n\n<reflection>\nThe parabola is $y=x^2-20x+c$ with $c\\neq 0$. Setting $y=0$ gives $x^2-20x+c=0$, whose solutions are $x=10\\pm\\sqrt{100-c}$, so the x-intercepts are $(10-\\sqrt{100-c},0)$ and $(10+\\sqrt{100-c},0)$ in some order. The y-intercept is $C=(0,c)$.\nReflection across the line y=-x maps (a,b) to (-b,-a), so for C=(c,d) the correct conditions are c=-b and d=-a. The stated equations are not the correct symmetry condition.\nUse the correct reflection property C=(-b,-a), so with A=(x_A,0) and C=(0,c) you must have c=-x_A; solve this using the correct x-intercept A and reject c=0.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

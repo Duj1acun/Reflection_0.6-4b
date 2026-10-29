@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A ball is dropped from a height of 32 meters and it bounces back to half of its previous height after each drop. Calculate the total distance traveled by the ball by the time it hits the ground for the sixth time.\nGround Truth: 63\nWeak CoT: We are asked to find the **total distance traveled** by a ball that is dropped from a height of 32 meters and bounces back to **half of its previous height** after each drop, until it hits the ground for the **sixth time**.\n\n---\n\n### Step-by-step breakdown:\n\n1. **First drop**:  \n   The ball is dropped from 32 meters.  \n   So, the distance traveled is:  \n   $$\n   32 \\, \\text{meters}\n   $$\n\n2. **Second bounce**:  \n   The ball bounces back to half the height of the previous drop:  \n   So, it travels up to 16 meters and back down:  \n   $$\n   2 \\times 16 = 32 \\, \\text{meters}\n   $$\n\n3. **Third bounce**:  \n   It bounces back to half of 16 meters:  \n   So, it travels up to 8 meters and back down:  \n   $$\n   2 \\times 8 = 16 \\, \\text{meters}\n   $$\n\n4. **Fourth bounce**:  \n   It bounces back to half of 8 meters:  \n   So, it travels up to 4 meters and back down:  \n   $$\n   2 \\times 4 = 8 \\, \\text{meters}\n   $$\n\n5. **Fifth bounce**:  \n   It bounces back to half of 4 meters:  \n   So, it travels up to 2 meters and back down:  \n   $$\n   2 \\times 2 = 4 \\, \\text{meters}\n   $$\n\n6. **Sixth drop**:  \n   It is now at the ground level. So, it has traveled **up to 2 meters** and **down** to the ground.\n\n---\n\n### Total Distance Traveled:\n\nSumming up all the distances:\n\n$$\n32 + 32 + 16 + 8 + 4 + 2 = \\boxed{82} \\, \\text{meters}\n$$\n\n---\n\n### ✅ Final Answer:  \n$$\n\\boxed{82} \\, \\text{meters}\n$$"
+    }
+  ]
+}

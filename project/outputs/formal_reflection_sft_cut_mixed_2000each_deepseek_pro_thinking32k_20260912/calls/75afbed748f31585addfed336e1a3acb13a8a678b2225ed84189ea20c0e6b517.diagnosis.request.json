@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The numbers \\(1, 2, 3, \\ldots, 2014, 2015\\) are written in a row. We will call a number from this row \"good\" if, after its removal, the sum of all the remaining 2014 numbers is exactly divisible by 2016. Find all the good numbers.\nGround Truth: 1008\nWeak CoT: We are given the numbers $1, 2, 3, \\ldots, 2015$ written in a row. We want to find all the **\"good\"** numbers, meaning that **after removing the number**, the **sum of the remaining 2014 numbers is divisible by 2016**.\n\n---\n\n### Step 1: Compute the total sum of all numbers from 1 to 2015\n\n$$\n\\text{Sum} = \\frac{2015 \\cdot (2015 + 1)}{2} = \\frac{2015 \\cdot 2016}{2}\n$$\n\nLet’s compute this:\n\n$$\n\\text{Sum} = \\frac{2015 \\cdot 2016}{2} = 1007 \\cdot 2016\n$$\n\nSo, the total sum of all 2015 numbers is:\n\n$$\n1007 \\cdot 2016\n$$\n\n---\n\n### Step 2: Let the number we remove be $x$. Then, the sum of the remaining 2014 numbers is:\n\n$$\n1007 \\cdot 2016 - x\n$$\n\nWe want this sum to be divisible by 2016:\n\n$$\n1007 \\cdot 2016 - x \\equiv 0 \\mod 2016\n$$\n\nSo:\n\n$$\nx \\equiv 0 \\mod 2016\n$$\n\nThat is, $x$ must be divisible by 2016.\n\n---\n\n### Step 3: Find all such numbers in the row\n\nWe are told the numbers are $1, 2, 3, \\ldots, 2015$. So the only number divisible by 2016 in that range is:\n\n$$\nx = 2016 \\quad \\text{but this is beyond our range, since the last number is 2015}\n$$\n\nSo there are **no numbers** in the range $1, 2, ..., 2015$ that are divisible by 2016.\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{\\text{There are no good numbers.}}\n$$"
+    }
+  ]
+}

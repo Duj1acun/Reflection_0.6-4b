@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Pigsy picked a bag of wild fruits from the mountain to bring back to Tang Monk. As he walked, he got hungry and took out half of them, hesitated, put back two, and then ate the rest. This happened four times: taking out half, putting back two, and then eating. By the time he reached Tang Monk, there were 5 wild fruits left in the bag. How many wild fruits did Pigsy originally pick?\n\n<reflection>\nThe process occurs four times: take out half, put back 2, eat the rest. After the fourth operation there are 5 fruits left in the bag. Let x_4 be the number of fruits before the fourth operation. Taking out half of x_4 removes x_4/2 from the bag. Putting back 2 makes the amount in the bag x_4/2 + 2. The amount eaten, x_4 - (x_4/2 + 2) = x_4/2 - 2, is from the taken-out portion, not from the bag.\nThis equates the after-operation amount left in the bag with the amount eaten. The amount eaten is x_4/2 - 2, but the fruit remaining in the bag after putting two back is x_4/2 + 2.\nUse the correct backward relation x/2 + 2 = previous final amount, starting with 5 after the fourth operation, and solve backward four times.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are 5 people taking a photo, among them, the positions of A, B, and C from left to right must remain unchanged (these three people may not be adjacent). How many total arrangements are there? (Answer with a number).\nGround Truth: 20\nWeak CoT: We are given that **positions of A, B, and C from left to right must remain unchanged**. This means:\n\n- A, B, and C must stay in their original relative positions (i.e., A is still first, B is still second, and C is still third in the photo).\n- The other **2 people (D and E)** can be **anyaway**, **including not being adjacent** to A, B, or C.\n\nLet’s break this down:\n\n### Step 1: Fix positions of A, B, and C\nSince their positions are fixed, we place A, B, and C into the three fixed positions: **A first, B second, C third**.\n\nNow, we are left with **2 people (D and E)** who can be placed in the remaining 3 positions.\n\n### Step 2: Determine the number of ways to arrange D and E\nAfter placing A, B, and C, there are 3 positions left:\n\n- Position 4\n- Position 5\n\nSo, we choose which of the 3 positions are occupied by D and E.\n\nThere are $ \\binom{3}{2} = 3 $ ways to choose 2 positions out of the 3.\n\nThen, for each of these choices, we can assign **D and E** to the two remaining positions in $ 2! = 2 $ ways.\n\n### Step 3: Total number of arrangements\n\n- Choose 2 positions out of 3 for D and E: $ \\binom{3}{2} = 3 $\n- Arrange D and E in those positions: $ 2! = 2 $\n- Total arrangements: $ 3 \\times 2 = 6 $\n\n---\n\n### Final Answer:\n$$\n\\boxed{6}\n$$"
+    }
+  ]
+}

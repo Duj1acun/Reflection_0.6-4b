@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a germination test under the same conditions, the results of a certain type of oilseed are shown in the table below. Using this data, calculate approximately how many out of 2000 oilseeds cannot germinate. Express your answer as a whole number. | Number of oilseed grains $n$ | $100$ | $200$ | $400$ | $600$ | $800$ | $1000$ | |-----------------------------|-------|-------|-------|-------|-------|--------| | Number of germinated grains $m$ | $95$ | $193$ | $382$ | $582$ | $768$ | $961$ | | Germination rate $\\frac{m}{n}$ | $0.95$ | $0.965$ | $0.955$ | $0.97$ | $0.96$ | $0.961$ |\n\n<reflection>\nThe table contains six trials with values of n, m, and germination rate m/n. The goal is to estimate the number of non-germinating seeds out of 2000. For the n=1000 row, the germination rate is 0.961.\nThis treats the rate from the n=1000 trial alone as the overall non-germination rate, ignoring the other five trials in the table.\nEstimate the overall non-germination rate using all trials, such as by averaging the non-germination rates across the six rows, then multiply by 2000.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

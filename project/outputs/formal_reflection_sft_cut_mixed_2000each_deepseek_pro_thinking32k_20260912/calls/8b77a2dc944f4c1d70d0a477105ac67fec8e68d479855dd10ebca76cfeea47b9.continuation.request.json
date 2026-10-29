@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There are 100 points located on a line. Mark the midpoints of all possible segments with endpoints at these points. What is the minimum number of marked points that can result?\n\n<reflection>\nThere are 100 points on a line, and we consider midpoints of segments determined by two distinct given points. For two points $a_i,a_j$, the midpoint is $(a_i+a_j)/2$. Two pairs give the same midpoint exactly when their sums $a_i+a_j$ are equal. Thus the number of distinct marked points is the number of distinct sums from distinct unordered pairs of the given points. A symmetric configuration with 50 pairs $x_i,-x_i$ is a valid arrangement to examine. In that symmetric configuration, the two distinct points in the same symmetric pair have sum $x_i+(-x_i)=0$, so they all share midpoint 0.\nThis incorrectly counts a point paired with itself. A segment requires two distinct endpoints, so $x_i+x_i$ and $-x_i+(-x_i)$ do not correspond to segments between the 100 points; the only distinct same-pair sum is $x_i+(-x_i)=0$.\nCount only distinct unordered pairs of the given points, excluding self-pairs, and recount the distinct sums (or use the arithmetic progression argument with $1 \\le i < j \\le 100$).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

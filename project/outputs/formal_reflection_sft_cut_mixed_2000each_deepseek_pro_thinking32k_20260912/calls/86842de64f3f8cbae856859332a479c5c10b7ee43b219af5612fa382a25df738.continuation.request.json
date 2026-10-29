@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that circle \\(O_{1}: x^{2} + y^{2} = 2\\) and circle \\(O_{2}: (x-3)^{2} + y^{2} = 5\\) have a common point \\(A\\) in the first quadrant. A line passing through point \\(A\\) intersects the circles \\(O_{1}\\) and \\(O_{2}\\) at points \\(C\\) and \\(D\\) respectively (other than point \\(A\\)), and \\(\\overrightarrow{AC} = 2 \\overrightarrow{AD}\\). Find the slope of line \\(CD\\).\n\n<reflection>\nThe first-quadrant intersection of the circles is A=(1,1). The line through A can be parameterized as (x,y)=(1+at,1+bt). The second intersection with O1 corresponds to t_C=-2(a+b)/(a^2+b^2); the second intersection with O2 corresponds to t_D=(4a-2b)/(a^2+b^2). Thus AC=t_C(a,b) and AD=t_D(a,b). Using AC=2AD gives b=5a, so the line direction slope is 5. Since CD=D-C=AD-AC=AD-2AD=-AD, the vector CD is the negative of AD.\nNegating a vector negates both its x- and y-components, so the slope is unchanged, not negated.\nUse b=5a to compute the slope of AD as b/a=5 and keep the same slope for CD.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

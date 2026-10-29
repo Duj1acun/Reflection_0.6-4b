@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given a geometric sequence $\\{a_n\\}$, the sum of the first $n$ terms is $S_n$, and it is known that $a_5 = 4S_4 + 3$, $a_6 = 4S_5 + 3$. Find the common ratio $q$ of this sequence.\nGround Truth: 5\nWeak CoT: We are given a geometric sequence $\\{a_n\\}$ with first term $a$ and common ratio $q$. The sum of the first $n$ terms is given by the formula:\n\n$$\nS_n = a \\frac{1 - q^n}{1 - q}, \\quad \\text{for } q \\ne 1\n$$\n\nWe are also given the following two equations:\n\n1. $a_5 = 4S_4 + 3$\n2. $a_6 = 4S_5 + 3$\n\nWe aim to find the common ratio $q$.\n\n---\n\n### Step 1: Express terms and sums in terms of $a$ and $q$\n\nIn a geometric sequence:\n\n- $a_n = a q^{n-1}$\n- $S_n = a \\frac{1 - q^n}{1 - q}$\n\nSo:\n\n- $a_5 = a q^4$\n- $S_4 = a \\frac{1 - q^4}{1 - q}$\n- $a_6 = a q^5$\n- $S_5 = a \\frac{1 - q^5}{1 - q}$\n\n---\n\n### Step 2: Use the given equations\n\nFrom the first equation:\n\n$$\na_5 = 4S_4 + 3 \\Rightarrow a q^4 = 4 \\left( a \\frac{1 - q^4}{1 - q} \\right) + 3 \\tag{1}\n$$\n\nFrom the second equation:\n\n$$\na_6 = 4S_5 + 3 \\Rightarrow a q^5 = 4 \\left( a \\frac{1 - q^5}{1 - q} \\right) + 3 \\tag{2}\n$$\n\nNow subtract equation (1) from equation (2):\n\n$$\na q^5 - a q^4 = 4 \\left( a \\frac{1 - q^5}{1 - q} \\right) + 3 - \\left[ 4 \\left( a \\frac{1 - q^4}{1 - q} \\right) + 3 \\right]\n$$\n\nSimplify the right-hand side:\n\n$$\na q^5 - a q^4 = 4a \\left( \\frac{1 - q^5 - (1 - q^4)}{1 - q} \\right)\n$$\n\n$$\na q^5 - a q^4 = 4a \\left( \\frac{q^4 - q^5}{1 - q} \\right)\n$$\n\nFactor the left-hand side:\n\n$$\na q^4 (q - 1) = 4a \\cdot \\frac{q^4 (1 - q)}{1 - q}\n$$\n\nNote that $q - 1 = -(1 - q)$, so:\n\n$$\na q^4 (q - 1) = -4a q^4\n$$\n\nSo the equation becomes:\n\n$$\na q^4 (q - 1) = -4a q^4\n$$\n\nDivide both sides by $a q^4$ (assuming $a \\ne 0$, $q \\ne 0$):\n\n$$\nq - 1 = -4\n$$\n\n$$\nq = -3\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{-3}\n$$"
+    }
+  ]
+}

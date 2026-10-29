@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the four-digit number that gives a remainder of 112 when divided by 131 and a remainder of 98 when divided by 132.\n\n<reflection>\nN ≡ 112 (mod 131) and N ≡ 98 (mod 132). Setting N = 131k + 112 satisfies the first congruence. Substituting into the second congruence gives 131k ≡ -14 (mod 132). Since 131 ≡ -1 (mod 132), multiplying by -1 gives k ≡ 14 (mod 132). Thus k = 132m + 14 for some integer m. Substituting back gives N = 131(132m + 14) + 112 = 131·132m + 131·14 + 112.\n131·14 ≡ -14 ≡ 118 (mod 132), not 0; also 112 is not 0 modulo 132. Treating these terms as 0 modulo 132 is invalid.\nDo not reduce 131·14 and 112 modulo 132 incorrectly; instead compute N = 131(132m + 14) + 112 directly and choose the four-digit value for m, then verify both remainder conditions.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

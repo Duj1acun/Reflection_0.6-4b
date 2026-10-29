@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In $\\triangle PQR$, $\\angle RPQ = 90^{\\circ}$ and $S$ is on $PQ$. If $SQ = 14$, $SP = 18$, and $SR = 30$, then calculate the area of $\\triangle QRS$. Express your answer as a whole number.\n\n<reflection>\n$\\angle RPQ = 90^\\circ$, $S$ lies on $PQ$, $SP=18$, $SQ=14$, so $PQ=32$. Placing $P=(0,0)$, $R=(0,b)$, and $Q=(c,0)$ is a valid coordinate setup with $PQ$ on the x-axis and $PR$ on the y-axis. Since $S$ lies on $PQ$, $S$ must lie on the x-axis, so $S_y=0$; with $SP=18$ and $SQ=14$, $S=(18,0)$ if $Q=(32,0)$.\nThis uses an incorrect section formula and places S off the x-axis. Since S lies on PQ with P=(0,0) and Q=(c,0), its y-coordinate must be 0. For SP:SQ=18:14, the correct coordinate is S=(18c/32,0)=(9c/16,0), not (18c/25,7b/25).\nCorrect S to S=(18,0) (or set c=32 and use S=(9c/16,0)), then use the right triangle RPS with PS=18 and SR=30 to solve for the height RP before computing the area of triangle QRS.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

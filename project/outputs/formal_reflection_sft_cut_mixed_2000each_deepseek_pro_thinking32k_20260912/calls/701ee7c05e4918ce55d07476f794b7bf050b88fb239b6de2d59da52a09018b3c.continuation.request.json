@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There are 11 papers to be distributed among 4 experts for review, where one expert needs to review 4 papers, another needs to review 3 papers, and the two remaining experts need to review 2 papers each. How many different ways can the papers be distributed?\n\n<reflection>\nThere are 11 distinct papers and 4 distinct experts. The required review counts are: one expert reviews 4 papers, one expert reviews 3 papers, and two experts review 2 papers each. The 4-paper expert can be chosen in \\(\\binom{4}{1}=4\\) ways. After choosing the 4-paper expert, the 3-paper expert can be chosen in \\(\\binom{3}{1}=3\\) ways. The two remaining experts are the ones who will receive 2 papers each.\nThis treats the two remaining 2-paper roles as indistinguishable, but the intended count assigns the two remaining experts to the two 2-paper slots distinctly. The role assignment should include an additional factor of \\(2!\\), giving \\(4 \\times 3 \\times 2! = 24\\), not 12.\nCount the two remaining 2-paper assignments distinctly by multiplying by \\(2!\\), then proceed with the paper distribution count.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

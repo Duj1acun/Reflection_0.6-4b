@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A three-digit number ends with the digit 2. If this digit is moved to the beginning of the number, the resulting number will be 18 greater than the original number. Find the original number.\n\n<reflection>\nOriginal number expressed as $N = 100a + 10b + 2$. After moving 2 to the beginning, $N' = 200 + 10a + b$. The condition is $N' = N + 18$. Substitution gives $200 + 10a + b = 100a + 10b + 20$. Simplifying leads to $180 - 90a - 9b = 0$. Dividing by 9 gives $20 - 10a - b = 0$, equivalently $10a + b = 20$.\nThe substitution incorrectly replaces $10b$ with $20 - 10a$. From $10a + b = 20$, we get $b = 20 - 10a$, so $10b = 200 - 100a$, not $20 - 10a$.\nUse $b = 20 - 10a$ to compute $10b$ correctly, then substitute into $N = 100a + 10b + 2$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

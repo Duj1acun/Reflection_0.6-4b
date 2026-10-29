@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let \\( a_{1}, a_{2}, \\cdots, a_{2018} \\) be the roots of the polynomial \\[ x^{2018}+x^{2017}+\\cdots+x^{2}+x-1345=0. \\] Calculate \\(\\sum_{n=1}^{2018} \\frac{1}{1-a_{n}}\\).\n\n<reflection>\n$P(x) = x^{2018} + x^{2017} + \\cdots + x^2 + x - 1345$ and its roots are $a_1, \\ldots, a_{2018}$. The desired sum is $S = \\sum_{n=1}^{2018} \\frac{1}{1-a_n}$. For the roots of $P$, the identity $\\sum_{n=1}^{2018} \\frac{1}{1-a_n} = \\frac{P'(1)}{P(1)}$ is stated and is correct. Defining $f(x) = \\sum_{n=1}^{2018} \\frac{1}{x-a_n}$ gives $f(1)=S$.\nThe derivative of $\\log P(x)$ is $+\\frac{P'(x)}{P(x)}$, not $-\\frac{P'(x)}{P(x)}$. Since $\\frac{d}{dx}\\log P(x)=\\sum_{n=1}^{2018}\\frac{1}{x-a_n}$, the negative sign is wrong.\nUse the correct relation $f(x)=+\\frac{d}{dx}\\log P(x)$ and compute $S=\\frac{P'(1)}{P(1)}$ with the positive sign.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

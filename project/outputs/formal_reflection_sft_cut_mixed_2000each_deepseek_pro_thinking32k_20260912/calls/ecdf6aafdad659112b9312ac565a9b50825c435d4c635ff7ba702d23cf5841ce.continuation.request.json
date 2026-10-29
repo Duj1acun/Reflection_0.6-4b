@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a right-angled triangle \\(ABC\\) (with right angle at \\(A\\)), the bisectors of the acute angles intersect at point \\(P\\). The distance from \\(P\\) to the hypotenuse is \\(\\sqrt{80000}\\). What is the distance from \\(P\\) to \\(A\\)?\n\n<reflection>\n$P$ is the incenter; its distance to the hypotenuse is the inradius $r = \\sqrt{80000}$. With $AB=c$, $AC=b$, $BC=a$, the area is $\\frac12 bc$ and $r = \\frac{bc}{a+b+c}$. By the Pythagorean theorem, $a^2 = b^2 + c^2$. The coordinate placement $A=(0,0)$, $B=(0,c)$, $C=(b,0)$ is valid. For side lengths $a=BC$, $b=CA$, $c=AB$, the incenter satisfies $P = \\frac{aA+bB+cC}{a+b+c}$.\nThe substitution assigns the side-length weights to the wrong vertices. Since $C=(b,0)$ has opposite side $c$, the x-coordinate should be $bc/(a+b+c)$; since $B=(0,c)$ has opposite side $b$, the y-coordinate should also be $bc/(a+b+c)$, not $c^2/(a+b+c)$.\nSubstitute the correct side-length weights into the incenter coordinate formula, then compute $PA$ from the corrected coordinates and simplify using the right-triangle inradius relation.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

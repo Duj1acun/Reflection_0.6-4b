@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: On a board, there are 10 natural numbers written, among which there may be equal ones, and the square of each of them divides the sum of all the others. What is the greatest number of different numbers that can be among the written ones?\n\n<reflection>\nLet the ten numbers be $a_1,\\dots,a_{10}$ and $S=\\sum a_i$. For each $i$, the condition is $a_i^2 \\mid S-a_i$, equivalently $S \\equiv a_i \\pmod{a_i^2}$. From $S \\equiv a_i \\pmod{a_i^2}$ it follows that $S \\equiv 0 \\pmod{a_i}$, i.e. $a_i \\mid S$.\nThis is only a necessary consequence of the original condition, not an equivalent simplification; replacing $a_i^2 \\mid S-a_i$ by $a_i \\mid S$ weakens the condition and can overcount possible configurations.\nRetain the stronger condition $S \\equiv a_i \\pmod{a_i^2}$ for every $i$ and use it to bound the number of distinct $a_i$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

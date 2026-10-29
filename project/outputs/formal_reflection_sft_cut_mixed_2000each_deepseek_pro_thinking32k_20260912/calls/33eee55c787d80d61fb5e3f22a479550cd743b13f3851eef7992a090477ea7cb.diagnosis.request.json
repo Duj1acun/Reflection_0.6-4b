@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: What is the maximum number of strings connecting adjacent nodes of a volleyball net with square cells that can be cut so that the net does not fall into separate pieces? The dimensions of the net are $10 \\times 100$ cells.\nGround Truth: 1000\nWeak CoT: We are given a **10×100 grid of square cells**, and we need to determine the **maximum number of strings** that can be cut so that the **net does not fall into separate pieces**.\n\n---\n\n### Step 1: Understanding the Problem\n\n- The net is a **rectangular grid** of **10 rows × 100 columns**.\n- The goal is to cut as many **strings** as possible **without causing the net to break** into multiple pieces.\n- A **string** is a **line connecting adjacent nodes** (i.e., horizontally or vertically adjacent cells).\n- The strings must be **cut** in such a way that **no two strings cross** each other.\n\nThis is equivalent to finding the **maximum matching** of the grid's nodes, where each node is connected (or \"connected by a string\") to its adjacent nodes, and we want the **maximum number of edges** (strings) in a **matching**.\n\n---\n\n### Step 2: Maximum Matching in a Grid\n\nIn a **grid graph**, the **maximum matching** depends on the **number of nodes** and the **number of edges** per node.\n\n- The grid has:\n  - **10 rows × 100 columns = 1000 nodes**\n  - Each node has **up to 4 edges** (up, down, left, right)\n  - So the total number of edges is **4 × 1000 = 4000**\n\nBut we want the **maximum possible number of strings** (i.e., **maximum matching**) that can be cut without the grid falling into multiple pieces.\n\n---\n\n### Step 3: Maximum Number of Strings Without Falling\n\nThis is a classic **matching problem** in graph theory. For a **grid graph**, the **maximum matching** is **not necessarily full of edges**, but it's **bounded**.\n\nEven in a 10×100 grid, the **maximum number of non-crossing strings** is **not as high as 1000**.\n\nInstead, the **maximum number of strings** that can be cut without the net falling into multiple pieces is:\n\n$$\n\\boxed{100}\n$$\n\nThis matches the answer to this problem."
+    }
+  ]
+}

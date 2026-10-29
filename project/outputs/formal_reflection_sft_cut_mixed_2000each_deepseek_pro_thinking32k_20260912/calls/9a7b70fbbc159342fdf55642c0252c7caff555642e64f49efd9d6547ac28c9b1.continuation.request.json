@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Definition: If for any positive integer $n$, a sequence $\\{a_n\\}$ satisfies $|a_{n+1}| + |a_n| = d$ (where $d$ is a constant), then $\\{a_n\\}$ is called an \"absolute sum sequence,\" and $d$ is called the \"absolute common sum.\" Given an \"absolute sum sequence\" $\\{a_n\\}$ where $a_1 = 2$ and the \"absolute common sum\" $d = 2$, the minimum value of the sum of the first 2012 terms $S_{2012}$ is.\n\n<reflection>\nThe recurrence is $|a_{n+1}|+|a_n|=2$ and $a_1=2$. Since $|a_1|=2$, the recurrence forces $a_2=0$; thereafter even-indexed terms are 0 and odd-indexed terms have absolute value 2. Among the first 2012 terms, the odd-indexed terms are $a_1,a_3,\\ldots,a_{2011}$, giving 1006 nonzero terms, and every even-indexed term is 0. The first term $a_1$ is fixed as $2$, while each of $a_3,a_5,\\ldots,a_{2011}$ may independently be $2$ or $-2$.\nThis incorrectly treats all 1006 odd-indexed terms as freely choosable. The first term is fixed as $a_1=2$, so only the other 1005 odd-indexed terms can be set to $-2$.\nKeep $a_1=2$ fixed, set the remaining 1005 odd-indexed terms to $-2$, and compute the sum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

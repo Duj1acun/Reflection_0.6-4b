@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: If a man earns Rs. 20 on the first day and spends Rs. 15 on the second day, and on each subsequent day, his earnings and spending increase by Rs. X and Rs. Y respectively, on which day will he have a net balance of Rs. 60?\nGround Truth: 60\nWeak CoT: We are given:\n\n- On the **first day**, a man earns **Rs. 20** and spends **Rs. 15**.\n- On each **subsequent day**, his **earnings increase by Rs. X**, and his **spending increases by Rs. Y**, starting from the second day.\n- We are to find the **day when his net balance is Rs. 60**.\n\n---\n\n### Step 1: Define the pattern\n\nLet’s express the changes in earnings and spending as a sequence.\n\n- Day 1: Earnings = Rs. 20, Spending = Rs. 15\n- Day 2: Earnings = Rs. 20 + X, Spending = Rs. 15 + Y\n- Day 3: Earnings = Rs. 20 + 2X, Spending = Rs. 15 + 2Y\n- Day n: Earnings = Rs. 20 + (n-1)X, Spending = Rs. 15 + (n-1)Y\n\n---\n\n### Step 2: Net balance\n\nThe net balance on a day is:\n\n$$\n\\text{Net Balance} = \\text{Earnings} - \\text{Spending}\n$$\n\nSo, on the $ n $-th day:\n\n$$\n\\text{Net Balance} = (20 + (n-1)X) - (15 + (n-1)Y)\n= 5 + (n-1)(X - Y)\n$$\n\nWe are given:\n\n$$\n5 + (n-1)(X - Y) = 60\n$$\n\n---\n\n### Step 3: Solve for $ n $\n\nSubtract 5 from both sides:\n\n$$\n(n-1)(X - Y) = 55\n$$\n\nWe need to find the smallest integer $ n $ such that this equation holds.\n\nTry $ n = 6 $:\n\n$$\n(6-1)(X - Y) = 5 \\Rightarrow 5(X - Y) = 5 \\Rightarrow X - Y = 1\n$$\n\nSo, on **Day 6**, the net balance is Rs. 60.\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{\\text{Day 6}}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Calculate the value of the sequence: $1 - 2 - 3 + 4 + 5 - 6 - 7 + 8 + \\ldots + 2005 - 2006 - 2007 + 2008$. Express your answer as a single integer.\n\n<reflection>\nThe terms can be grouped in blocks of four as (1 - 2 - 3 + 4) + (5 - 6 - 7 + 8) + ... .\nThe first term of each block should be positive, e.g. (1 - 2 - 3 + 4), not (-1 - 2 - 3 + 4). The correct value of such a block is 1 - 2 - 3 + 4 = 0, not -2.\nEvaluate the correct four-term block (4k+1) - (4k+2) - (4k+3) + (4k+4) to determine its actual contribution.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

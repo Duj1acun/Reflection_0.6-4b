@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $a$, $b$, and $c$ are the sides opposite to the internal angles $A$, $B$, and $C$ of $\\triangle ABC$, and $\\frac{a}{b}+\\frac{b}{a}=4\\cos C$, calculate the value of $\\frac{\\tan C}{\\tan A}+\\frac{\\tan C}{\\tan B}$.\n\n<reflection>\nThe target expression can be rewritten using tangent definitions as sin C / cos C times (cos A / sin A + cos B / sin B). cos A / sin A = cot A and cos B / sin B = cot B, so the target expression equals sin C / cos C times (cot A + cot B). The given condition is a/b + b/a = 4 cos C.\nThis equation is false because cot A + cot B equals cos A / sin A + cos B / sin B, not sin C / cos C times that same sum. The extra factor sin C / cos C was introduced incorrectly.\nUse the correct identity cot A + cot B = sin C / (sin A sin B), substitute it into the target expression, and then simplify using the given condition.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A flea jumps on the number line. It starts at 0, each jump has a length of 1, and the next jump has a probability $p$ of being in the same direction as the previous one, and a probability $1-p$ of being in the opposite direction. What is the probability that it returns to 0?\n\n<reflection>\nThe flea starts at position 0 and each jump has length 1. After the first jump, a jump is in the same direction as the previous jump with probability p and in the opposite direction with probability 1-p. The probability of being at position 0 after 0 jumps is 1.\nThis incorrectly makes the next direction depend only on the current position. In the actual process, the probability of moving to n+1 versus n-1 depends on the previous jump direction, not on the current location n.\nModel the process using a state that includes both the current position and the previous jump direction, then analyze the return probability to 0.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

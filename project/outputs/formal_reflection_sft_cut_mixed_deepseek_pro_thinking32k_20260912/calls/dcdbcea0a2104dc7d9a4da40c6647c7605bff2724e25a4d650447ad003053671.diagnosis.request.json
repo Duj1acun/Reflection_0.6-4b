@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: We will call a \"staircase\" a figure consisting of cells arranged in a step-like shape (see the picture for examples of staircases with 7 and 8 cells). In the drawing of a staircase, we will add markings: we will outline several non-overlapping sides of the cells in red so that each vertex of each cell belongs to exactly one red segment. How many different markings are there for a staircase consisting of 200 cells?\nGround Truth: 201\nWeak CoT: We are given a **staircase** made up of **200 cells**, and we are to find how many **different markings** are possible. Each vertex in a cell must belong to **exactly one red segment**.\n\n---\n\n### Step 1: Understand the structure\n\nEach cell in the staircase can be thought of as having:\n\n- **One vertex** (the top of the cell)\n- **One base** (the top of the cell, also shared with the cell above it)\n- **One side** either horizontal or vertical\n\nSo each cell has:\n- **2 vertices**\n- **2 sides**\n- **1 red segment**\n\nHowever, the coloring of the red segments depends on how the vertices are connected.\n\n---\n\n### Step 2: Determine the pattern\n\nThis becomes a combinatorial problem. We are to count the number of **non-overlapping red segment markings** such that:\n\n- Each **vertex of a cell** is on exactly **exactly one red segment**.\n- Each red segment is a **non-overlapping** side of a cell.\n\nThis corresponds to placing **2 red segments** per cell, with no overlaps.\n\n---\n\n### Step 3: Find the number of ways to color the staircase\n\nWe consider the staircase as a **linear chain of cells**, and for each cell, we choose 2 red segments such that they don't overlap.\n\nThis is equivalent to choosing **2 non-overlapping intervals** (segments) per cell, and then combining them.\n\nThis is similar to the **number of ways to tile a line with non-overlapping intervals**, which is a classic combinatorics problem.\n\n---\n\n### Step 4: Use a formula\n\nThe number of ways to color the staircase with 200 cells is:\n\n$$\n\\binom{n}{2}\n$$\n\nwhere $ n = 200 $, because for each cell, we need to choose 2 non-overlapping red segments.\n\n$$\n\\binom{200}{2} = \\frac{200 \\times 199}{2} = 19900\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{19900}\n$$"
+    }
+  ]
+}

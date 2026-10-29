@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: What is the maximum number of angles less than $150^{\\circ}$ that a non-self-intersecting 2017-sided polygon can have if all its angles are strictly less than $180^{\\circ}$?\nGround Truth: 12\nWeak CoT: We are given a **non-self-intersecting (i.e., simple polygon)** with **2017 sides**, and we are told that **all its angles are strictly less than $180^\\circ$**. The task is to find the **maximum number of angles less than $150^\\circ$**.\n\n---\n\n### Step 1: Use the Polygon Angle Formula\n\nFor a **simple polygon**, the **sum of the interior angles** is:\n\n$$\n(2n - 2) \\times 180^\\circ\n$$\n\nwhere $ n $ is the number of sides.\n\nSo, for a 2017-sided polygon:\n\n$$\n\\text{Sum of angles} = (2 \\cdot 2017 - 2) \\times 180^\\circ = (4032 - 2) \\times 180^\\circ = 4030 \\times 180^\\circ\n$$\n\nSince all angles are **less than $180^\\circ$**, the total sum is also:\n\n$$\n\\sum_{i=1}^{2017} \\alpha_i < 2017 \\cdot 180^\\circ\n$$\n\nLet $ x $ be the number of **angles less than $150^\\circ$**, and $ y = 2017 - x $ be the number of **angles greater than or equal to $150^\\circ$**.\n\nNow, we want to maximize $ x $, subject to:\n\n- All $ y $ angles are **not less than $150^\\circ$**.\n- The total sum of angles is less than $ 2017 \\cdot 180^\\circ $\n\nLet’s assume all $ y $ angles are exactly $150^\\circ$:\n\n$$\n\\text{Total sum} < 2017 \\cdot 180^\\circ\n\\Rightarrow \\text{Total sum of } x \\text{ angles} < 2017 \\cdot 180^\\circ - y \\cdot 150^\\circ\n$$\n\nSo:\n\n$$\nx \\cdot 150^\\circ < 2017 \\cdot 180^\\circ - y \\cdot 150^\\circ\n$$\n\nSimplify:\n\n$$\nx < \\frac{2017 \\cdot 180^\\circ - y \\cdot 150^\\circ}{150^\\circ}\n\\Rightarrow x < \\frac{2017 \\cdot 180 - y \\cdot 150}{150}\n$$\n\nWe want to **maximize $ x $**, so we minimize $ y $, i.e., set $ y = 0 $.\n\nThen:\n\n$$\nx < \\frac{2017 \\cdot 180^\\circ}{150^\\circ} = \\frac{2017 \\cdot 180}{150} = 2017 \\cdot 1.2 = 2420.4\n$$\n\nSo the maximum number of angles less than $150^\\circ$ is:\n\n$$\n\\boxed{2420}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{2420}\n$$"
+    }
+  ]
+}

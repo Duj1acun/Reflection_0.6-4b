@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given $(2x-3)^{10} = a_{0} + a_{1}(x-1) + a_{2}(x-1)^{2} + \\ldots + a_{10}(x-1)^{10}$, calculate the value of $a_{1} + a_{2} + \\ldots + a_{10}$. Express your answer as a single integer.\n\n<reflection>\nThe expansion is given as $(2x-3)^{10} = a_0 + a_1(x-1) + a_2(x-1)^2 + \\cdots + a_{10}(x-1)^{10}$. Substituting $x=1$ gives $a_0 = (-1)^{10} = 1$. The requested quantity is $\\sum_{k=1}^{10} a_k$. Substituting $x=2$ into the left-hand side gives $(2(2)-3)^{10}=1$.\nEvaluating at x=2 gives the total sum a0+a1+...+a10 = 1, not the partial sum a1+...+a10 = 1. The known value a0=1 must be subtracted.\nUse the x=2 evaluation to write a0 + sum_{k=1}^{10} a_k = 1, then subtract the known a0=1.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

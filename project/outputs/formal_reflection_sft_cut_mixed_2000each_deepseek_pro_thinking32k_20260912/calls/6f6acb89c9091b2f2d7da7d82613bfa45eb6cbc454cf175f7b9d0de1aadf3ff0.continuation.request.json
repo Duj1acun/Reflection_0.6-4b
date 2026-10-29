@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Clever Cat sleeps under the oak tree from noon till midnight and tells stories from midnight till noon. A poster on the tree above him says \"Two hours ago, Clever Cat was doing the same thing as he will be doing in one hour's time\". Calculate the number of hours a day the poster tells the truth.\n\n<reflection>\nClever Cat sleeps from noon to midnight and tells stories from midnight to noon. In hours since midnight, with t∈[0,24), A(t)=Sleep for t∈[12,24) and A(t)=Tell stories for t∈[0,12). The poster is true at current time t iff A(t−2)=A(t+1), with times taken modulo 24. t=0 is midnight and t=12 is noon.\nFor t=0 (midnight), two hours earlier is 22:00, not 0. The row uses modulo arithmetic incorrectly, so A(t−2) and the equality check are wrong.\nRecompute each t−2 modulo 24 correctly (e.g., for t=0, t−2=22) and re-evaluate whether A(t−2)=A(t+1).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

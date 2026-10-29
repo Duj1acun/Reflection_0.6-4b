@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Calculate the total number of different scheduling methods between \"archery\" and \"mathematics\" with at most one art in between, given that there are six sessions in a day, one for each art. Express your answer as a single integer.\n\n<reflection>\nThere are 6 sessions in a day, each for a different art. The task is to count permutations of 6 distinct arts including \"archery\" and \"mathematics\". \"At most one art in between\" means archery and mathematics are either adjacent or separated by exactly one art. The schedule positions are labeled 1 through 6.\nThis list incorrectly includes position i, which would mean archery and mathematics occupy the same session, and it only includes adjacent positions i±1. It excludes positions i±2, which correspond to exactly one art in between. Since the two arts must occupy distinct sessions, their positions must differ by 1 or 2.\nCount ordered pairs of positions for archery and mathematics whose position difference is exactly 1 or 2, then multiply by 4!.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

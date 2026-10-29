@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: At the 4 PM show, all the seats in the theater were taken, and 65 percent of the audience was children. At the 6 PM show, again, all the seats were taken, but this time only 50 percent of the audience was children. Of all the people who attended either of the shows, 57 percent were children although there were 12 adults and 28 children who attended both shows. How many people does the theater seat?\n\n<reflection>\nLet x be the number of seats, so each show has x attendees. C4 denotes children attending only the 4 PM show, C6 children only the 6 PM show, C46 = 28 children attending both shows, and A46 = 12 adults attending both shows. At 4 PM, children count is C4 + 28 = 0.65x, hence C4 = 0.65x - 28. At 6 PM, children count is C6 + 28 = 0.50x, hence C6 = 0.50x - 28. Total unique children attending either show is C = C4 + C6 + 28 = 1.15x - 28.\nThis incorrectly subtracts only-children counts from total show attendance instead of subtracting all children at each show. It therefore fails to remove the 28 children who attended both shows and overcounts unique adults by 56; the correct adult total is A = (x - 0.65x) + (x - 0.50x) - 12 = 0.85x - 12.\nReplace the adult total with the corrected formula A = (x - 0.65x) + (x - 0.50x) - 12, then set C/(C + A) = 0.57 and solve for x.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

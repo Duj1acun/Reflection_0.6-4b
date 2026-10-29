@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: How many different ways can the 6 faces of a cube be colored black or white? Two colorings are considered the same if one can be obtained from the other through rotation.\n\n<reflection>\nWithout considering rotations, there are 2^6 = 64 possible colorings. Burnside's Lemma applies: distinct colorings = (1/|G|) * sum_{g in G} Fix(g). The cube's rotational symmetry group has 24 elements: identity 1, 90° face-axis rotations 6, 180° face-axis rotations 3, 120° vertex-axis rotations 8, and 180° edge-axis rotations 6. The identity rotation fixes all 64 colorings. Each 90° face-axis rotation fixes 8 colorings: the 4 side faces in the 4-cycle must match (2 choices), while the two fixed faces can each be black or white (4 choices). For a 180° face-axis rotation, the four side faces are swapped in opposite pairs, and fixed colorings require each swapped pair to match.\nA 180° rotation about a face axis has only two pairs of opposite side faces, not three; this overcounts the fixed colorings for this rotation type.\nCorrect the 180° face-axis fixed count by using two side-face pairs (2^2 choices) and two fixed faces (2^2 choices), then recompute Burnside's sum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

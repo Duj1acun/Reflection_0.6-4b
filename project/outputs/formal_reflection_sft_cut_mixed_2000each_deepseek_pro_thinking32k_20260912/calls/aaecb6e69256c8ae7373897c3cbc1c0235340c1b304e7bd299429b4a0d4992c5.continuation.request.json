@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a math competition with 1000 students, the students are numbered as follows: 0001, 0002, 0003, ..., 1000. A sample of size 50 is to be drawn using systematic sampling, which divides the 1000 students into 50 groups. If the first group is numbered 0001, 0002, 0003, ..., 0020, and the randomly selected number from the first group is 0015, what is the 40th number that will be drawn?\n\n<reflection>\nTotal number of students is 1000. Sample size is 50. First group is numbered 0001 to 0020.\nThis incorrectly states the sampled sequence increases by 5. With 1000 students divided into 50 groups, the systematic sampling interval is 1000/50 = 20, so the selected numbers should increase by 20, not 5.\nUse the sampling interval k = 20 and compute the 40th sampled number as 0015 + (40 - 1) * 20.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

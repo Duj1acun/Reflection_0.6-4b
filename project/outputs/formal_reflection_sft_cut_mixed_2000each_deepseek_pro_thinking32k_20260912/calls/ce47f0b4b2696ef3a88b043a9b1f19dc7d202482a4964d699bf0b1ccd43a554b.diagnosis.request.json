@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: an engineer undertakes a project to build a road 10 km long in 30 days and employs 30 men for the purpose . after 10 days , he finds only 2 km of the road has been completed . find the ( approximate ) number of extra men he must employ to finish the work in time .\nGround Truth: 6\nWeak CoT: We are given:\n\n- The total length of the road: **10 km**\n- The total time allowed: **30 days**\n- The number of men initially employed: **30**\n- After **10 days**, only **2 km** of the road has been completed.\n\nWe are to find the **approximate number of extra men** needed to **finish the work on time**.\n\n---\n\n### Step 1: Understand the work\n\nLet’s define:\n\n- Total work = **10 km**\n- Time allowed = **30 days**\n- Work done in 10 days = **2 km**\n\nSo the **work rate** (work per day) is:\n\n$$\n\\text{Work rate} = \\frac{2 \\text{ km}}{10 \\text{ days}} = 0.2 \\text{ km/day}\n$$\n\nThis is the **combined work rate** of the 30 men.\n\n---\n\n### Step 2: Find the work rate per man\n\nLet’s assume each man can do **x km/day**.\n\nThen the combined rate of 30 men is:\n\n$$\n30x = 0.2 \\text{ km/day}\n$$\n\nSo:\n\n$$\nx = \\frac{0.2}{30} = \\frac{1}{150} \\text{ km/day per man}\n$$\n\n---\n\n### Step 3: Determine the remaining work\n\nRemaining work = 10 km - 2 km = **8 km**\n\nTime remaining = 30 days - 10 days = **20 days**\n\nSo the **required work rate** to finish the remaining 8 km in 20 days is:\n\n$$\n\\text{Required rate} = \\frac{8 \\text{ km}}{20 \\text{ days}} = 0.4 \\text{ km/day}\n$$\n\n---\n\n### Step 4: Find how many men are needed at this rate\n\nLet $ n $ be the number of men needed to achieve 0.4 km/day.\n\nEach man does $ \\frac{1}{150} $ km/day.\n\nSo:\n\n$$\nn \\cdot \\frac{1}{150} = 0.4\n$$\n\n$$\nn = 0.4 \\times 150 = 60\n$$\n\nSo **60 men** are needed to finish the remaining work in time.\n\n---\n\n### Step 5: Find the number of extra men needed\n\nOriginally, 30 men were employed.\n\nSo, the number of **extra men** needed is:\n\n$$\n60 - 30 = \\boxed{30}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{30}\n$$\n\nSo, the engineer must employ **30 extra men** to finish the work on time."
+    }
+  ]
+}

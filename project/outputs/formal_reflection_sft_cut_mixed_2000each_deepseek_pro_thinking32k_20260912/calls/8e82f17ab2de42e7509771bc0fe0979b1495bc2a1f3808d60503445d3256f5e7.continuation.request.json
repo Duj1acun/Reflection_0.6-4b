@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the smallest positive integer $n$ with the property that for any selection of $n$ integers, there are at least two whose sum or difference is divisible by 1991. (Australian Mathematics Competition, 1991)\n\n<reflection>\nThe condition is equivalent to requiring two selected integers a,b to satisfy a ≡ b (mod 1991) or a ≡ -b (mod 1991). The problem reduces to finding the maximum size of a residue set modulo 1991 with no duplicate residues and no distinct additive-inverse pair, then adding 1. There are 1991 residue classes modulo 1991. Residue 0 is its own additive inverse, so it cannot be selected more than once. The remaining 1990 nonzero residues split into 995 pairs {r, -r}, and at most one residue can be chosen from each pair.\nThis incorrectly excludes the residue class 0 from the safe set. Choosing one integer congruent to 0 does not create a forbidden sum/difference pair with any distinct selected residue, so 0 can be included.\nInclude the residue class 0 once in the maximum safe set, giving 995 + 1 = 996 safe residues, so by pigeonhole the smallest n is 997.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

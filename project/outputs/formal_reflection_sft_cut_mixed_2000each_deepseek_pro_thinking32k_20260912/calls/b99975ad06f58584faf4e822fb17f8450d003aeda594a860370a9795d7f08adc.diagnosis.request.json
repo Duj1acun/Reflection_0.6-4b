@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: I am trying to draw a diagonal from a vertex of an icosikaipentagon. How many diagonal lines can you draw?\nGround Truth: 22\nWeak CoT: We are given an **icosikaipentagon**, which is a polygon with:\n\n$$\n\\text{Number of sides} = 12 + 25 = 37\n$$\n\nSo, it is a **37-gon**.\n\n---\n\n### Step 1: Understand the question\n\nWe are asked:  \n**How many diagonal lines can you draw from a single vertex?**\n\nIn any polygon, a **diagonal** is a line segment connecting two **non-adjacent vertices**.\n\nIn a polygon with **n sides**, each vertex is connected to **n - 3** other vertices by diagonals.  \nThis is because:\n\n- A vertex is connected to **2 adjacent vertices** by edges (not diagonals),\n- So the number of diagonals from that vertex is:\n$$\nn - 3\n$$\n\n---\n\n### Step 2: Apply the formula\n\nFor a 37-gon:\n\n$$\n\\text{Number of diagonals from one vertex} = 37 - 3 = 34\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{34}\n$$\n\nYou can draw **34 diagonal lines** from a single vertex of a 37-sided polygon (icosikaipentagon)."
+    }
+  ]
+}

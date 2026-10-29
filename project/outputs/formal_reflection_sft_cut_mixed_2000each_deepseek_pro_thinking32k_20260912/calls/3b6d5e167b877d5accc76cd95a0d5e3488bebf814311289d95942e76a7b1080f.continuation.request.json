@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that the focus of the parabola $y^{2}=12x$ is $F$, and the line $l$ passing through the point $P(2,1)$ intersects the parabola at points $A$ and $B$, where point $P$ is exactly the midpoint of segment $AB$, find $|AF|+|BF|$.\n\n<reflection>\nThe parabola is $y^2=12x=4\\cdot3\\cdot x$, so $a=3$ and focus $F=(3,0)$. With $A=(x_1,y_1)$, $B=(x_2,y_2)$, midpoint $P(2,1)$ gives $x_1+x_2=4$ and $y_1+y_2=2$. Both endpoints satisfy $y_1^2=12x_1$ and $y_2^2=12x_2$. Solving those equations gives $y_1=1\\pm\\sqrt{23}$, $y_2=1\\mp\\sqrt{23}$, and coordinates $A=(2+\\sqrt{23}/6,1+\\sqrt{23})$, $B=(2-\\sqrt{23}/6,1-\\sqrt{23})$. The squared distances are $|AF|^2=\\frac{59-12\\sqrt{23}}{36}+24+2\\sqrt{23}$ and $|BF|^2=\\frac{59+12\\sqrt{23}}{36}+24-2\\sqrt{23}$.\nThis incorrectly assumes that the sum of distances equals the square root of the sum of their squares; it should add the two square roots individually (or use the focus-directrix property).\nCompute |AF| and |BF| separately by taking the square root of each squared distance, then add them, or apply the parabola focus-directrix definition to simplify the sum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

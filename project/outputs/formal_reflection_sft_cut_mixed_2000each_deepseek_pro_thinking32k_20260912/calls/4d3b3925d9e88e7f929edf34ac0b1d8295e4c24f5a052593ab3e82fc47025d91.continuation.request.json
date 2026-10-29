@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: The coefficient of $x^3y^6$ in the expansion of $(x-y)^2(x+y)^7$.\n\n<reflection>\n$(x-y)^2 = x^2 - 2xy + y^2$ $(x+y)^7 = x^7 + 7x^6y + 21x^5y^2 + 35x^4y^3 + 35x^3y^4 + 21x^2y^5 + 7xy^6 + y^7$ The target term is $x^3y^6$ in the product of these two expansions. Terms from the first factor are $x^2$, $-2xy$, and $y^2$; terms from the second factor are the listed expansion terms of $(x+y)^7$.\nThis incorrectly assumes a single term must supply $x^3$ and another must supply $y^6$. In a product, exponents from the two factors add, so multiple pairings such as $y^2$ with $x^3y^4$, $-2xy$ with $x^2y^5$, and $x^2$ with $xy^6$ can all contribute to $x^3y^6$.\nConsider all pairs of terms from the two factors whose exponents sum to $x^3y^6$, then add their signed coefficients.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

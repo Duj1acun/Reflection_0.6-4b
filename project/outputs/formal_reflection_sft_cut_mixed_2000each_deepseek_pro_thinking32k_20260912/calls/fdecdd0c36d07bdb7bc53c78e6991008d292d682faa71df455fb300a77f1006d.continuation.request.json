@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: What is the maximum number of cells on an $8 \\times 8$ chessboard that can be cut by a single straight line?\n\n<reflection>\nThe chessboard has 64 cells. A straight line can pass through a number of cells depending on its slope and where it intersects the board. A horizontal or vertical line can cut at most 8 cells. A diagonal line can cut at most 8 cells.\nThis incorrectly adds separate per-orientation maxima, but one line cannot be both horizontal and diagonal; the maximum may come from another slope and is not obtained by adding these cases.\nUse the formula cells = 1 + (# vertical internal grid lines crossed) + (# horizontal internal grid lines crossed) for a line avoiding grid-line intersections, then maximize over possible slopes.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

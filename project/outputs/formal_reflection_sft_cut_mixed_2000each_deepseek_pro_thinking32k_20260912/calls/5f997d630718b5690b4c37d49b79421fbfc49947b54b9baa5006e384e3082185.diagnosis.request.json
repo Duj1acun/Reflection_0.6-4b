@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There were 3 candidates in an election and they received some votes. The winning candidate got 65.21739130434783% of the total votes in that election. If the other two candidates received 5000 and 15000 votes respectively, how many votes did the first candidate receive?\nGround Truth: 37500\nWeak CoT: We are given:\n\n- The **winning candidate** got **65.21739130434783%** of the total votes.\n- The **other two candidates** received **5000** and **15000** votes respectively.\n- Let the number of votes received by the **first candidate** be $ x $.\n\n---\n\n### Step 1: Total votes\n\nLet the total number of votes be $ T $.\n\nWe know:\n\n$$\nx + 5000 + 15000 = T\n$$\n\nSo,\n\n$$\nT = x + 20000 \\tag{1}\n$$\n\n---\n\n### Step 2: Percentage of the winning candidate\n\nThe winning candidate got:\n\n$$\n65.21739130434783\\% \\times T = x\n$$\n\nSo:\n\n$$\n0.6521739130434783 \\times T = x \\tag{2}\n$$\n\n---\n\n### Step 3: Substitute $ T $ from equation (1) into equation (2)\n\n$$\n0.6521739130434783 \\times (x + 20000) = x\n$$\n\n$$\n0.6521739130434783x + 0.6521739130434783 \\times 20000 = x\n$$\n\n$$\n0.6521739130434783x - x = 0.6521739130434783 \\times 20000\n$$\n\n$$\n-0.3478260869565217x = 0.6521739130434783 \\times 20000\n$$\n\n$$\nx = \\frac{0.6521739130434783 \\times 20000}{0.3478260869565217}\n$$\n\n$$\nx = \\frac{130434.7826}{0.3478260869565217} \\approx 37960.00\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{37960}\n$$"
+    }
+  ]
+}

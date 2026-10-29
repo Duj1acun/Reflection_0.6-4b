@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Onur bikes at a speed of 35 km/h and takes a rest every 3rd day, whereas Hanil bikes at a speed of 45 km/h and takes a rest every 4th day. Onur bikes daily for 7 hours, and Hanil bikes for as many hours as it takes to cover 40 kilometers more than Onur's daily biking distance. Determine the total distance covered by both friends in a week (7 days).\nGround Truth: 2935\nWeak CoT: We are given:\n\n- **Onur**:\n  - Bikes at **35 km/h**\n  - Bikes **daily for 7 hours**\n  - Takes a **rest every 3rd day**\n  \n- **Hanil**:\n  - Bikes at **45 km/h**\n  - Bikes for **as many hours as it takes to cover 40 km more than Onur's daily biking distance**\n  - Bikes **every day** (no rest)\n\nWe are to find: **Total distance covered by both in a week (7 days)**.\n\n---\n\n### **Step 1: Onur’s daily biking distance**\n\nOnur bikes **7 hours/day** at **35 km/h**:\n\n$$\n\\text{Onur's daily distance} = 35 \\times 7 = 245 \\text{ km}\n$$\n\nSo, **Hanil's daily distance is**:\n\n$$\n245 + 40 = 285 \\text{ km}\n$$\n\n---\n\n### **Step 2: Hanil's daily biking time**\n\nWe know Hanil bikes at **45 km/h**, and he wants to bike **285 km** in a day.\n\n$$\n\\text{Hanil's daily time} = \\frac{285}{45} = 6.333\\ldots = 6\\frac{1}{3} \\text{ hours} = 6 \\text{ hours and } 20 \\text{ minutes}\n$$\n\nSo, **Hanil bikes for 6.333... hours each day**, regardless of the day.\n\n---\n\n### **Step 3: Onur's weekly distance**\n\nOnur **takes a rest every 3rd day**, meaning he **bikes on 4 out of 7 days**.\n\nSo, his **weekly distance** is:\n\n$$\n4 \\text{ days} \\times 245 \\text{ km/day} = 980 \\text{ km}\n$$\n\n---\n\n### **Step 4: Hanil's weekly distance**\n\nHanil bikes **every day**, so:\n\n$$\n7 \\text{ days} \\times 285 \\text{ km/day} = 1995 \\text{ km}\n$$\n\n---\n\n### **Step 5: Total distance covered by both**\n\n$$\n\\text{Total distance} = 980 + 1995 = \\boxed{2975} \\text{ km}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{2975} \\text{ km}\n$$"
+    }
+  ]
+}

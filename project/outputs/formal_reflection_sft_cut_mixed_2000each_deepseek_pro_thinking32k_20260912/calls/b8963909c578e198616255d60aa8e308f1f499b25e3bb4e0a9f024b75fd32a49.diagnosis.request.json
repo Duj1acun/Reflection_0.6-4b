@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given that $\\tan (3π-x)=2$, find the value of $\\frac {2\\cos ^{2} \\frac {x}{2}-\\sin x-1}{\\sin x+\\cos x}$.\nGround Truth: -3\nWeak CoT: We are given that:\n\n$$\n\\tan(3\\pi - x) = 2\n$$\n\n---\n\n### Step 1: Use the identity for $\\tan(3\\pi - x)$\n\nRecall the identity:\n\n$$\n\\tan(3\\pi - x) = \\tan(-x + 2\\pi) = \\tan x\n$$\n\nSo we have:\n\n$$\n\\tan x = 2\n$$\n\n---\n\n### Step 2: Use $\\tan x = 2$ to find $\\sin x$ and $\\cos x$\n\nWe know:\n\n$$\n\\tan x = \\frac{\\sin x}{\\cos x} = 2\n\\Rightarrow \\sin x = 2 \\cos x\n$$\n\nLet’s use the Pythagorean identity:\n\n$$\n\\sin^2 x + \\cos^2 x = 1\n\\Rightarrow (2 \\cos x)^2 + \\cos^2 x = 1\n\\Rightarrow 4 \\cos^2 x + \\cos^2 x = 1\n\\Rightarrow 5 \\cos^2 x = 1\n\\Rightarrow \\cos^2 x = \\frac{1}{5}\n\\Rightarrow \\cos x = \\pm \\frac{1}{\\sqrt{5}}\n$$\n\nNow, since $\\tan x = 2$, and $x$ can be in any quadrant, let’s assume $x$ is in the first quadrant. Then:\n\n$$\n\\sin x = 2 \\cdot \\cos x = 2 \\cdot \\frac{1}{\\sqrt{5}} = \\frac{2}{\\sqrt{5}}, \\quad \\cos x = \\frac{1}{\\sqrt{5}}\n$$\n\nSo:\n\n$$\n\\sin x = \\frac{2}{\\sqrt{5}}, \\quad \\cos x = \\frac{1}{\\sqrt{5}}\n$$\n\n---\n\n### Step 3: Find the value of:\n\n$$\n\\frac{2\\cos^2\\left(\\dfrac{x}{2}\\right) - \\sin x - 1}{\\sin x + \\cos x}\n$$\n\nWe use the double-angle identities:\n\n- $\\cos^2\\left(\\dfrac{x}{2}\\right) = \\frac{1 + \\cos x}{2}$\n\nSo:\n\n$$\n2\\cos^2\\left(\\dfrac{x}{2}\\right) = 2 \\cdot \\frac{1 + \\cos x}{2} = 1 + \\cos x = 1 + \\frac{1}{\\sqrt{5}} = \\frac{1 + \\sqrt{5}}{\\sqrt{5}}\n$$\n\nNow compute the numerator:\n\n$$\n2\\cos^2\\left(\\dfrac{x}{2}\\right) - \\sin x - 1 = \\frac{1 + \\sqrt{5}}{\\sqrt{5}} - \\frac{2}{\\sqrt{5}} - 1 = \\frac{1}{\\sqrt{5}} - 1\n$$\n\nNow compute the denominator:\n\n$$\n\\sin x + \\cos x = \\frac{2}{\\sqrt{5}} + \\frac{1}{\\sqrt{5}} = \\frac{3}{\\sqrt{5}}\n$$\n\nNow divide:\n\n$$\n\\frac{\\frac{1}{\\sqrt{5}} - 1}{\\frac{3}{\\sqrt{5}}} = \\frac{1 - \\sqrt{5}}{3}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{\\frac{1 - \\sqrt{5}}{3}}\n$$"
+    }
+  ]
+}

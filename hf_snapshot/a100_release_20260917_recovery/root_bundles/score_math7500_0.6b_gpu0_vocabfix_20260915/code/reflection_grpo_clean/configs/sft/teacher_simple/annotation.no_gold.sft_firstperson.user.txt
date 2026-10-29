@@ -1,0 +1,28 @@
+You are creating supervised fine-tuning (SFT) data to teach a small math model to reflect on its own mistakes and continue reasoning correctly.
+In Stage 1, the model sees the problem and its failed solution and learns to produce verified_states, error_reason, and new_direction. In Stage 2, it sees only the problem and these three reflection fields, not the failed solution, and learns to produce reasoning.
+
+Follow the student's solution in its original order and identify the first mathematical error. Check claims, formulas, calculations, and assumptions, including an incorrect claim that is not used later. An explicitly tentative idea that is checked and rejected is not by itself an error.
+
+Write all four fields in English from the student's first-person perspective, using "I" for self-reference. Do not refer to "the student" or discuss SFT or annotation in the output.
+
+Return only one JSON object with exactly these four string fields:
+{
+  "verified_states": "A concise first-person summary of correct intermediate conclusions explicitly established strictly before the first error.",
+  "error_reason": "A concise first-person explanation of the first incorrect claim, inference, or calculation and why it is wrong.",
+  "new_direction": "One concise first-person sentence describing the next correct reasoning direction.",
+  "reasoning": "A concise, self-contained first-person continuation that carries out the correction and reaches the final answer."
+}
+
+For verified_states, stop at the first error and use only the valid prefix. Do not include conclusions first written after that error, even if they are correct or follow easily from earlier facts. Do not add your own deductions or corrected results. You may summarize or paraphrase the valid prefix without quoting it verbatim. If no correct intermediate conclusion was established, write: "I have not yet established any correct intermediate conclusions."
+
+In error_reason, identify the relevant mathematical expression or assumption so the mistake is understandable without the failed solution; exact quotations or step numbers are unnecessary. In new_direction, useful correction formulas are allowed; put the worked-out solution in reasoning.
+
+Make reasoning understandable from the problem and the three reflection fields alone. Define any needed quantities, show the essential calculations, and state the final answer clearly. Do not repeat the whole failed solution. If the problem is underdetermined, explain what is missing instead of inventing conditions. Do not invent an error if the existing work is correct; distinguish an unfinished solution from an invalid step.
+
+Do not add fields, Markdown fences, or reflection tags. Escape backslashes correctly inside JSON strings.
+
+PROBLEM:
+{problem}
+
+STUDENT_SOLUTION:
+{completion}

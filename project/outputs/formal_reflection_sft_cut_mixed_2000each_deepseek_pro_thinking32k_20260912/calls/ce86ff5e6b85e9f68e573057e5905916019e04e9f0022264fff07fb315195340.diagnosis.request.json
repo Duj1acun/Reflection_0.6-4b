@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A class has 6 warriors, including a captain and a vice-captain. Four different tasks need to be completed, with each person completing one task. One and only one of the captain or vice-captain will participate, while the other will stay behind for duty. Calculate the number of different allocation methods for completing the tasks. Express your answer as a whole number.\nGround Truth: 192\nWeak CoT: We are given:\n\n- A class has **6 warriors**, including:\n  - 1 **captain**\n  - 1 **vice-captain**\n  - 4 other warriors\n- **4 different tasks** need to be completed, with **each person completing one task**.\n- **One and only one** of the captain or vice-captain will participate, while the other will **stay behind**.\n- We are to **calculate the number of different allocation methods** for completing the tasks.\n\n---\n\n### Step 1: Choose who among the captain or vice-captain will participate\n\nThere are **2 choices**:\n- Captain participates, vice-captain stays behind\n- Vice-captain participates, captain stays behind\n\nSo, **2 ways** to choose who participates.\n\n---\n\n### Step 2: Once one of the two is chosen to participate, how many people are available?\n\n- 6 total warriors\n- 1 is staying behind\n- So, **5 people** are available to do the 4 tasks.\n\nWe need to assign **4 tasks** to **5 people**, with **each person doing one task**.\n\nBut we are only assigning **4 out of the 5 people** to the 4 tasks.\n\nSo we need to:\n\n1. Choose **4 people** out of the 5 available\n2. Assign them to the 4 different tasks (which are distinct)\n\n---\n\n### Step 3: Choose 4 people from 5\n\nNumber of ways to choose 4 people from 5 =  \n$$\n\\binom{5}{4} = 5\n$$\n\n---\n\n### Step 4: Assign the 4 chosen people to the 4 distinct tasks\n\nNumber of ways to assign 4 people to 4 distinct tasks =  \n$$\n4! = 24\n$$\n\n---\n\n### Step 5: Combine the choices\n\nFor each of the 2 choices of who participates (captain or vice-captain), we have:\n$$\n\\binom{5}{4} \\times 4! = 5 \\times 24 = 120 \\text{ ways}\n$$\n\nSo total number of allocation methods =  \n$$\n2 \\times 120 = \\boxed{240}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{240}\n$$"
+    }
+  ]
+}

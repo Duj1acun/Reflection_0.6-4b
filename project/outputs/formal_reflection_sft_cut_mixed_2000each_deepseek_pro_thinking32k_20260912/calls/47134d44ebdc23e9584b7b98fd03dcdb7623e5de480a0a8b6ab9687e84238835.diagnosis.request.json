@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Find the value of 18396 multiplied by a number, which equals 183868020. What is the number?\nGround Truth: 9990\nWeak CoT: We are given:\n\n$$\n18396 \\times x = 183868020\n$$\n\nWe need to find the value of $ x $.\n\n---\n\n### Step 1: Divide both sides by 18396\n\n$$\nx = \\frac{183868020}{18396}\n$$\n\n---\n\n### Step 2: Perform the division\n\nWe can simplify this division step by step.\n\nLet’s divide:\n\n$$\nx = \\frac{183868020}{18396}\n$$\n\nWe can use a calculator or perform long division. Let’s do it step by step.\n\nAlternatively, use a calculator:\n\n$$\nx = \\frac{183868020}{18396} \\approx 9999\n$$\n\nLet’s verify:\n\n$$\n18396 \\times 9999 = ?\n$$\n\nWe can compute:\n\n$$\n18396 \\times 9999 = 18396 \\times (10000 - 1) = 18396 \\times 10000 - 18396 = 183960000 - 18396 = 183941604\n$$\n\nWait — but this is **not** equal to 183,868,020.\n\nSo, clearly, my earlier approximation was wrong.\n\nLet’s now compute the correct value of $ x $:\n\n$$\nx = \\frac{183868020}{18396}\n$$\n\nLet’s compute this more carefully:\n\nUse a calculator:\n\n$$\nx = \\frac{183868020}{18396} = 9999\n$$\n\nWait — but that gives:\n\n$$\n18396 \\times 9999 = 183,941,604\n$$\n\nBut the target result is **183,868,020**, which is **less** than that.\n\nSo, this suggests that **9999 is not correct**.\n\nLet’s try **9990**:\n\n$$\n18396 \\times 9990 = 18396 \\times (10000 - 10) = 183960000 - 183960 = 183,776,040\n$$\n\nStill less than 183,868,020.\n\nTry **9995**:\n\n$$\n18396 \\times 9995 = 18396 \\times (10000 - 5) = 183960000 - 91980 = 183,868,020\n$$\n\n**Yes!**\n\nSo:\n\n$$\nx = 9995\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{9995}\n$$"
+    }
+  ]
+}

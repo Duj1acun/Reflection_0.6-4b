@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given that $x^2 + 5x - 990 = 0$, evaluate the expression $x^3 + 6x^2 - 985x + 1012$. Express your answer as a single integer.\nGround Truth: 2002\nWeak CoT: We are given the quadratic equation:\n\n$$\nx^2 + 5x - 990 = 0\n$$\n\nWe are asked to evaluate the expression:\n\n$$\nx^3 + 6x^2 - 985x + 1012\n$$\n\nWe'll use the original quadratic equation to express higher powers of $x$ in terms of lower powers, and then substitute into the target expression.\n\n---\n\n### Step 1: Use the original quadratic equation to express $x^2$\n\nFrom the equation:\n\n$$\nx^2 = -5x + 990\n$$\n\n---\n\n### Step 2: Express $x^3$\n\nWe can write:\n\n$$\nx^3 = x \\cdot x^2 = x \\cdot (-5x + 990) = -5x^2 + 990x\n$$\n\nNow substitute $x^2 = -5x + 990$ into this:\n\n$$\nx^3 = -5(-5x + 990) + 990x = 25x - 4950 + 990x = 1015x - 4950\n$$\n\n---\n\n### Step 3: Substitute $x^3$ into the target expression\n\nThe target expression is:\n\n$$\nx^3 + 6x^2 - 985x + 1012\n$$\n\nWe already know:\n\n- $x^2 = -5x + 990$\n- $x^3 = 1015x - 4950$\n\nSo:\n\n$$\nx^3 + 6x^2 - 985x + 1012 = (1015x - 4950) + 6(-5x + 990) - 985x + 1012\n$$\n\n$$\n= 1015x - 4950 - 30x + 5940 - 985x + 1012\n$$\n\nCombine like terms:\n\n- $1015x - 30x - 985x = (1015 - 30 - 985)x = 0x$\n- Constants: $-4950 + 5940 + 1012 = 5940 - 4950 + 1012 = 1002$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{1002}\n$$"
+    }
+  ]
+}

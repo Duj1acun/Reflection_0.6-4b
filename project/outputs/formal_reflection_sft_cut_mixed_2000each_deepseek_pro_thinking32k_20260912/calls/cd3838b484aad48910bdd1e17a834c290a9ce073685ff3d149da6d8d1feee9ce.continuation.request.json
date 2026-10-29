@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that \\( \\alpha \\in \\left(0, \\frac{\\pi}{2}\\right) \\) and \\( \\sin^2 \\alpha + \\cos \\left( \\frac{\\pi}{2} + 2\\alpha \\right) = \\frac{3}{10} \\), find the exact value of \\( \\tan \\alpha \\).\n\n<reflection>\nIt is given that \\( \\alpha \\in (0,\\pi/2) \\). The original equation is \\( \\sin^2 \\alpha + \\cos(\\pi/2+2\\alpha)=3/10 \\). Using \\( \\cos(\\pi/2+2\\alpha)=-\\sin(2\\alpha) \\), the equation becomes \\( \\sin^2 \\alpha - \\sin(2\\alpha)=3/10 \\). The double-angle formula \\( \\sin(2\\alpha)=2\\sin\\alpha\\cos\\alpha \\) is correct. The variable definition \\( x=\\sin^2\\alpha \\) is introduced.\nThis incorrectly replaces \\(\\sin \\alpha\\) with \\(x\\). Since \\(x=\\sin^2\\alpha\\), the correct substitution is \\(\\sin 2\\alpha = 2\\sin\\alpha\\cos\\alpha = 2\\sqrt{x}\\cos\\alpha\\), not \\(2x\\cos\\alpha\\).\nCorrect the substitution to \\( \\sin 2\\alpha = 2\\sqrt{x}\\cos\\alpha \\) and then solve the resulting equation for \\(x\\) to determine \\(\\tan\\alpha\\).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

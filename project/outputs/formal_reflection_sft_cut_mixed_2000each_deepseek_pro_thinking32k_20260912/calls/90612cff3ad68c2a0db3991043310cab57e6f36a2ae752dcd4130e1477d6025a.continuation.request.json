@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Points A and B move in a clockwise direction on the sides of a square with side length 100m. Point A starts from corner A of the square and moves at a speed of 5m/s, and Point B starts from the midpoint of side CD and moves at a speed of 10m/s. After how many seconds will they first be on the same side?\n\n<reflection>\nThe square has side length 100 m, so its perimeter is 400 m. Point A starts at corner A, moves clockwise at 5 m/s, and after t seconds has traveled d_A = 5t. Point B starts at the midpoint of side CD, moves clockwise at 10 m/s, and after t seconds has traveled d_B = 10t. The goal is to find the first t > 0 when both points lie on the same side of the square.\nThis treats d_B = 10t as if it were a perimeter coordinate measured from corner A. In fact, B starts at the midpoint of CD, 250 m clockwise from A, so B's absolute perimeter position must include that initial offset; reducing only the traveled distance modulo 400 gives the wrong side.\nMeasure absolute perimeter distance clockwise from corner A, using A(0)=0 and B(0)=250, then find the first time their side indices match.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

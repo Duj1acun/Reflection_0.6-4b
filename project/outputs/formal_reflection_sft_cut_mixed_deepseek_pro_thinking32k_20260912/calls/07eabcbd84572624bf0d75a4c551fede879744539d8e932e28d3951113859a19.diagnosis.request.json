@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Let \\( a, b, c, d, e \\) be five numbers satisfying the following conditions: \\[ \\begin{array}{l} a+b+c+d+e=0, \\quad \\text{and} \\\\ abc+abd+abe+acd+ace+ade+bcd+bce+bde+cde=2008. \\end{array} \\] Find the value of \\( a^{3}+b^{3}+c^{3}+d^{3}+e^{3} \\).\nGround Truth: 6024\nWeak CoT: We are given:\n\n$$\n\\begin{cases}\na + b + c + d + e = 0 \\\\\nabc + abd + abe + acd + ace + ade + bcd + bce + bde + cde = 2008\n\\end{cases}\n$$\n\nWe are to find:\n\n$$\na^3 + b^3 + c^3 + d^3 + e^3\n$$\n\n---\n\n### Step 1: Use the identity for the cube of sum\n\nRecall the identity:\n\n$$\n(a + b + c + d + e)^3 = a^3 + b^3 + c^3 + d^3 + e^3 + 3(a + b)(b + c)(c + d)(d + e)\n$$\n\nBut we know $ a + b + c + d + e = 0 $, so:\n\n$$\n0 = a^3 + b^3 + c^3 + d^3 + e^3 + 3(a + b)(b + c)(c + d)(d + e)\n$$\n\nSo:\n\n$$\na^3 + b^3 + c^3 + d^3 + e^3 = -3(a + b)(b + c)(c + d)(d + e)\n$$\n\nNow, let's compute $ (a + b)(b + c)(c + d)(d + e) $\n\nWe can also use the identity:\n\n$$\n(a + b)(b + c)(c + d)(d + e) = (a + b + c + d + e)^4 - 4(a^2 b^2 + b^2 c^2 + c^2 d^2 + d^2 e^2 + e^2 a^2 + a^2 c^2 + a^2 d^2 + b^2 c^2 + b^2 d^2 + c^2 e^2 + d^2 e^2)\n$$\n\nBut this might be more complex. Alternatively, note that:\n\nLet’s assume all variables are **equal**. Suppose $ a = b = c = d = e = x $.\n\nThen:\n\n- $ a + b + c + d + e = 5x = 0 \\Rightarrow x = 0 $\n- $ abc + abd + abe + acd + ace + ade + bcd + bce + bde + cde = 10x^3 = 0 $, which is consistent with the given value of 2008.\n\nSo, all variables are 0.\n\nThus:\n\n$$\na^3 + b^3 + c^3 + d^3 + e^3 = 0\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{0}\n$$"
+    }
+  ]
+}

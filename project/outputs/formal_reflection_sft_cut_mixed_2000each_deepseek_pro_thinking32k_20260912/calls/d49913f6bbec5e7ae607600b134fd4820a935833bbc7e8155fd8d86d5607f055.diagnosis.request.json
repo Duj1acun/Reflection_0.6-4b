@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given the equations x^2 = 8x + y and y^2 = x + 8y, where x is not equal to y, calculate the value of x^2 + y^2. Express your answer as a single integer.\nGround Truth: 63\nWeak CoT: We are given the equations:\n\n$$\nx^2 = 8x + y \\quad \\text{(1)}\n$$\n$$\ny^2 = x + 8y \\quad \\text{(2)}\n$$\n\nWe are to find the value of:\n\n$$\nx^2 + y^2\n$$\n\n---\n\n### Step 1: Use equation (1) to express $ y $ in terms of $ x $ or vice versa\n\nFrom (1):\n\n$$\nx^2 - 8x = y\n$$\n\nSo:\n\n$$\ny = x^2 - 8x \\quad \\text{(3)}\n$$\n\n---\n\n### Step 2: Use equation (2) to express $ x $ in terms of $ y $ or vice versa\n\nFrom (2):\n\n$$\ny^2 - x = 8y\n\\Rightarrow x = y^2 - 8y \\quad \\text{(4)}\n$$\n\n---\n\n### Step 3: Substitute equation (3) into equation (4)\n\nSubstitute $ y = x^2 - 8x $ into $ x = y^2 - 8y $:\n\n$$\nx = (x^2 - 8x)^2 - 8(x^2 - 8x)\n$$\n\nLet’s expand this:\n\n$$\nx = (x^4 - 16x^3 + 64x^2) - (8x^2 - 64x)\n$$\n\n$$\nx = x^4 - 16x^3 + 64x^2 - 8x^2 + 64x\n$$\n\n$$\nx = x^4 - 16x^3 + 56x^2 + 64x\n$$\n\n---\n\n### Step 4: Bring all terms to one side\n\n$$\nx^4 - 16x^3 + 56x^2 + 64x - x = 0\n$$\n\n$$\nx^4 - 16x^3 + 56x^2 + 63x = 0\n$$\n\nFactor out an $ x $:\n\n$$\nx(x^3 - 16x^2 + 56x + 63) = 0\n$$\n\nSo either:\n\n- $ x = 0 $\n- $ x^3 - 16x^2 + 56x + 63 = 0 $\n\nWe are told $ x \\ne y $, so we can assume $ x \\ne 0 $. Let’s focus on solving:\n\n$$\nx^3 - 16x^2 + 56x + 63 = 0\n$$\n\nTry rational roots. Using Rational Root Theorem, possible roots are factors of 63 over factors of 1:\n\n- $ x = 1 $: $ 1 - 16 + 56 + 63 = 104 \\neq 0 $\n- $ x = -1 $: $ -1 - 16 - 56 + 63 = 0 $\n\nSo:\n\n$$\nx = -1 \\text{ is a root}\n$$\n\nNow factor $ (x + 1) $ from the polynomial:\n\n$$\nx^3 - 16x^2 + 56x + 63 = (x + 1)(x^2 - 17x + 63)\n$$\n\nNow factor the quadratic:\n\n$$\nx^2 - 17x + 63 = (x - 7)(x - 9)\n$$\n\nSo the full factorization is:\n\n$$\n(x + 1)(x - 7)(x - 9) = 0\n$$\n\n---\n\n### Step 5: Find corresponding values of $ x $ and $ y $\n\nWe found:\n\n- $ x = -1 $\n- $ y = x^2 - 8x = (-1)^2 - 8(-1) = 1 + 8 = 9 $\n\nSo:\n\n- $ x = -1 $\n- $ y = 9 $\n\nNow compute:\n\n$$\nx^2 + y^2 = (-1)^2 + 9^2 = 1 + 81 = \\boxed{82}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{82}\n$$"
+    }
+  ]
+}

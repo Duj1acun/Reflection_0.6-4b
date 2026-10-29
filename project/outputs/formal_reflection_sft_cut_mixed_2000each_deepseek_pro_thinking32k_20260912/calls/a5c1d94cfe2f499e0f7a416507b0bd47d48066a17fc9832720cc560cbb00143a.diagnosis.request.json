@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Point $P$ lies on the hyperbola $\\frac{x^2}{16} - \\frac{y^2}{20} = 1$. Let $F_1$ and $F_2$ be the foci of the hyperbola. Given that the distance from $P$ to $F_1$ is 9, find the distance from $P$ to $F_2$.\nGround Truth: 17\nWeak CoT: We are given:\n\n- A hyperbola:  \n  $$\n  \\frac{x^2}{16} - \\frac{y^2}{20} = 1\n  $$\n\n- Point $ P $ lies on the hyperbola.\n\n- Distance from $ P $ to $ F_1 $ is 9.\n\nWe are to find the distance from $ P $ to $ F_2 $.\n\n---\n\n### Step 1: Find the foci of the hyperbola\n\nThe general equation of a hyperbola is:\n$$\n\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1\n$$\n\nHere, $ a^2 = 16 \\Rightarrow a = 4 $, and $ b^2 = 20 \\Rightarrow b = 2\\sqrt{5} $\n\nThe foci are located at $ (\\pm c, 0) $, where:\n$$\nc = \\sqrt{a^2 + b^2} = \\sqrt{16 + 20} = \\sqrt{36} = 6\n$$\n\nSo, the foci are at:\n$$\nF_1 = (-6, 0), \\quad F_2 = (6, 0)\n$$\n\n---\n\n### Step 2: Use the definition of hyperbola\n\nFor any point $ P $ on the hyperbola, the absolute difference of the distances to the two foci is constant and equal to $ 2a = 8 $.\n\nThat is:\n$$\n|PF_1 - PF_2| = 8\n$$\n\nLet $ PF_1 = 9 $. Then:\n$$\n|9 - PF_2| = 8\n$$\n\nThis gives two possibilities:\n\n1. $ 9 - PF_2 = 8 \\Rightarrow PF_2 = 1 $\n2. $ 9 - PF_2 = -8 \\Rightarrow PF_2 = 17 $\n\n---\n\n### Step 3: Determine the correct answer\n\nWe know that point $ P $ lies on the hyperbola. Since we are given that $ PF_1 = 9 $, and the hyperbola has the property that the absolute value of the difference of the distances to the foci is 8, we can verify which case is consistent with the hyperbola.\n\nLet’s suppose $ PF_2 = 1 $. Then:\n\n$$\n|PF_1 - PF_2| = |9 - 1| = 8\n$$\n\nThis matches the definition of a hyperbola.\n\nSo, the distance from $ P $ to $ F_2 $ is:\n\n$$\n\\boxed{1}\n$$\n\n---\n\n### ✅ Final Answer:\n$$\n\\boxed{1}\n$$"
+    }
+  ]
+}

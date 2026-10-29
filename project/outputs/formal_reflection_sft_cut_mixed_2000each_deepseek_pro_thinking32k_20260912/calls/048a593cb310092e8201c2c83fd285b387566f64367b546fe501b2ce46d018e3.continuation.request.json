@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Calculate the value of $\\dfrac {1}{\\sin 10 ^{\\circ} }- \\dfrac { \\sqrt {3}}{\\sin 80 ^{\\circ} }$. Express your answer as a single number.\n\n<reflection>\nThe original expression is \\(\\frac{1}{\\sin 10^\\circ} - \\frac{\\sqrt{3}}{\\sin 80^\\circ}\\). \\(\\sin 80^\\circ = \\cos 10^\\circ\\), so the expression becomes \\(\\frac{1}{\\sin 10^\\circ} - \\frac{\\sqrt{3}}{\\cos 10^\\circ}\\). Combining over a common denominator gives \\(\\frac{\\cos 10^\\circ - \\sqrt{3} \\sin 10^\\circ}{\\sin 10^\\circ \\cos 10^\\circ}\\). The numerator can be factored as \\(2\\left(\\frac12 \\cos 10^\\circ - \\frac{\\sqrt3}{2} \\sin 10^\\circ\\right)\\).\nThe rewrite uses the wrong sign in the cosine angle-sum identity. Since \\(\\cos(10^\\circ+60^\\circ)=\\frac12\\cos10^\\circ-\\frac{\\sqrt3}{2}\\sin10^\\circ\\), the numerator should be \\(2\\cos(70^\\circ)\\), not \\(2\\cos(50^\\circ)\\).\nRewrite the numerator using \\(\\cos(A+B)=\\cos A\\cos B-\\sin A\\sin B\\) with \\(1/2=\\cos 60^\\circ\\) and \\(\\sqrt3/2=\\sin60^\\circ\\) to obtain \\(2\\cos(10^\\circ+60^\\circ)\\).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

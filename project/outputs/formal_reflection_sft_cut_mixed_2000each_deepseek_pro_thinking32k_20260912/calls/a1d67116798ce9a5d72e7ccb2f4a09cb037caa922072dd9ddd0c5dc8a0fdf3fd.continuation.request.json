@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let non-zero real numbers \\(a\\) and \\(b\\) satisfy \\(a^{2} + b^{2} = 25\\). If the function \\(y = \\frac{a x + b}{x^{2} + 1}\\) has a maximum value \\(y_{1}\\) and a minimum value \\(y_{2}\\), then \\(y_{1} - y_{2} = \\)?\n\n<reflection>\nf(x)=\\frac{a x+b}{x^2+1} f'(x)=\\frac{-a x^2-2b x+a}{(x^2+1)^2} Critical points satisfy a x^2+2b x-a=0, giving x_1=\\frac{-b+5}{a} and x_2=\\frac{-b-5}{a} since a^2+b^2=25. At these points, f(x_1)=\\frac{5}{\\left(\\frac{-b+5}{a}\\right)^2+1} and f(x_2)=\\frac{-5}{\\left(\\frac{-b-5}{a}\\right)^2+1}. Because f is continuous on R and tends to 0 as |x|\\to\\infty, the positive critical value is the maximum y_1 and the negative critical value is the minimum y_2.\nThe previous step established y_2 = -5/((( -b -5)/a)^2+1), but here the negative sign is dropped; subtracting y_2 should produce a plus sign.\nReplace the second term using y_2 = -5/((( -b -5)/a)^2+1), so y_1 - y_2 = 5/den1 + 5/den2, then simplify using a^2+b^2=25.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

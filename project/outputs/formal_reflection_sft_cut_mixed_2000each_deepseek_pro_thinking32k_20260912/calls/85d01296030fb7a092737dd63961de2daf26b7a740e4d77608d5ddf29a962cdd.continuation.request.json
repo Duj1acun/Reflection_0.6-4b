@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In a certain company, a third of the workers do not have a retirement plan. Among those without a retirement plan, 40% are women and the remaining 60% are men. Among those with a retirement plan, 40% are men and the remaining 60% are women. Additionally, 30% of the workers are aged 50 or above and have a retirement plan, while half of the workers without a retirement plan are under 30 years old. 60% of workers aged 30-49 have a retirement plan, whereas 40% do not. If 120 of the workers in the company are men, and there are 40 workers aged 50 or above without a retirement plan, how many of the workers are women? Consider the different age groups and retirement plan statuses.\n\n<reflection>\nLet T be the total number of workers. W = T/3 and H = 2T/3. The number of workers aged 50 or above with a retirement plan is 0.3T. W_{A50} = 40 (workers aged 50 or above without a retirement plan). W_{Aunder30} + W_{A30} = T/3 - 40. W_{Aunder30} = (1/2)W = (1/2)(T/3) = T/6.\nThis step incorrectly equates the under-30 no-retirement-plan group, T/6, with 40. The number 40 is the count of workers aged 50 or above without a retirement plan, not the under-30 group.\nUse the given 40 workers aged 50+ without a retirement plan together with the 30% of all workers aged 50+ with a retirement plan to solve for T, rather than equating T/6 to 40.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

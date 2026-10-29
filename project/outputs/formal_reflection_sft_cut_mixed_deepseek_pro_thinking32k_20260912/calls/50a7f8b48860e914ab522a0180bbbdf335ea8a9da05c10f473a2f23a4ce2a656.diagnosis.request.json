@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Vasiliy Petrov is working on an English language assignment. In this assignment, there are 10 English expressions and their translations into Russian in random order. The task is to match the correct pairs between the expressions and their translations. For each correctly matched pair, 1 point is given. Therefore, it is possible to score from 0 to 10 points. Vasya knows nothing, so he chooses the options randomly. Find the probability that he will get exactly 9 points.\nGround Truth: 0\nWeak CoT: We are given:\n\n- There are **10 English expressions**.\n- Their **translations into Russian** are in **random order**.\n- Vasya **chooses pairs randomly** from the 10.\n- He **gets exactly 9 points** if he matches **exactly 9 of the 10** pairs correctly.\n\n### Step 1: Total number of possible matches\n\nSince the 10 expressions and their translations are in **random order**, each of the 10 pairs has an equal probability of being selected. That means:\n\n- There are **10 possible matches**.\n- Vasya chooses one of these 10 pairs at random.\n\n### Step 2: Number of correct matches\n\nWe are looking for the **number of ways** to choose 9 correct pairs from the 10.\n\nThis is a **combination** problem:\n\n$$\n\\binom{10}{9} = 10\n$$\n\nSo, there are **10 correct ways** to choose 9 correct pairs.\n\n### Step 3: Total number of possible pairs (matches)\n\nSince each pair is selected at random, and there are 10 expressions and their translations, there are:\n\n$$\n10 \\text{ expressions} \\times 10 \\text{ translations} = 100 \\text{ possible pairs}\n$$\n\nSo, there are **100 total possible pairs**.\n\n### Step 4: Probability of getting 9 correct matches\n\nThe probability of getting exactly 9 correct matches is:\n\n$$\n\\frac{\\text{Number of correct ways}}{\\text{Total possible matches}} = \\frac{10}{100} = \\boxed{\\frac{1}{10}}\n$$\n\n### Final Answer:\n\n$$\n\\boxed{\\frac{1}{10}}\n$$"
+    }
+  ]
+}

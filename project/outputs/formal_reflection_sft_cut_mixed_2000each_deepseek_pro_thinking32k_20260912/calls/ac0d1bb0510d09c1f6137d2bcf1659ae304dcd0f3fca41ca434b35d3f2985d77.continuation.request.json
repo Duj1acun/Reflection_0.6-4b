@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: What is the result of the calculation where you multiply 287 by itself, add the product of a certain number and itself, and then subtract twice the product of 287 and the certain number? The result is 324. What is the certain number?\n\n<reflection>\nLet $x$ be the certain number. The original expression is correctly written as $287^2 + x^2 - 2 \\cdot 287 \\cdot x = 324$. $287^2 = 82369$, so the equation becomes $82369 + x^2 - 574x = 324$. Rearranging gives the quadratic equation $x^2 - 574x + 82045 = 0$. The discriminant is $329476 - 328180 = 1296$, and $\\sqrt{1296} = 36$. Applying the quadratic formula gives $x = \\frac{574 \\pm 36}{2}$, i.e. $x = 305$ or $x = 269$.\nThe arithmetic is wrong: $2 \\cdot 287 \\cdot 305 = 175070$, not $174570$. The correct evaluation is $82369 + 93025 - 175070 = 324$, so this step incorrectly rejects $x=305$.\nRecompute the verification for $x=305$ using $2 \\cdot 287 \\cdot 305 = 175070$, then check $x=269$ similarly.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

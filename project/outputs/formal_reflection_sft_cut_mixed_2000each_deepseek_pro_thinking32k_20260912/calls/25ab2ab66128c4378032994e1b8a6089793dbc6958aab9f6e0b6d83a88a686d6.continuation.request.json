@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the smallest positive integer \\( n \\) such that for any selection of \\( n \\) integers, there are at least two numbers whose sum or difference is divisible by 1991.\n\n<reflection>\nThe condition is equivalent to finding two selected residues a,b with a ≡ b (mod 1991) or a ≡ -b (mod 1991). There are 1991 possible residues modulo 1991: 0,1,...,1990. The nonzero residues 1,...,1990 can be partitioned into 995 pairs {r, 1991-r} for r=1,...,995, and residue 0 is a singleton, giving 996 groups.\nThis incorrectly calls the 996 groups 'distinct residue classes'; modulo 1991 there are actually 1991 distinct residue classes. The count 996 is for the number of groups/pigeonholes, not residue classes.\nTreat the 996 groups (995 opposite pairs plus {0}) as pigeonholes for the relation a ≡ ±b (mod 1991), and determine the largest selection that can avoid having two numbers in the same group.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

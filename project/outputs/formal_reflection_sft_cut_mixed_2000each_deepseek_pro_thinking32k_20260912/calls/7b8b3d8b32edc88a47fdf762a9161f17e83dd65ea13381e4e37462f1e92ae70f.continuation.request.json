@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given $\\cos \\left(\\theta+ \\frac {\\pi}{2}\\right)=- \\frac {1}{2}$, find the value of $\\frac {\\cos (\\theta+\\pi)}{\\sin \\left( \\frac {\\pi}{2}-\\theta \\right)\\left[\\cos (3\\pi -\\theta )-1\\right]}+ \\frac {\\cos (\\theta-2\\pi)}{\\cos (-\\theta )\\cdot \\cos (\\pi -\\theta )+\\sin (\\theta + \\frac {5\\pi}{2})}$.\n\n<reflection>\nThe given condition is cos(θ+π/2)=-1/2, and using cos(θ+π/2)=-sinθ gives sinθ=1/2. The two solutions in [0,2π] are θ=π/6 and θ=5π/6. Using standard identities, the first fraction simplifies to 1/(cosθ+1). Using standard identities, the second fraction simplifies to 1/(1-cosθ), so the expression equals 1/(cosθ+1)+1/(1-cosθ).\nThis incorrectly assumes cosθ equals sinθ. From sinθ=1/2, cosθ is ±√3/2, not 1/2.\nDetermine cosθ correctly from sinθ=1/2 using sin²θ+cos²θ=1, then substitute cos²θ into the combined expression.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

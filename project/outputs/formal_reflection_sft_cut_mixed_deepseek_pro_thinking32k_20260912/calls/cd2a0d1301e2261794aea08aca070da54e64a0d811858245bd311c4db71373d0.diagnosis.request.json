@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There were 16 roses and 3 orchids in the vase. Jessica cut some more roses and orchids from her flower garden. There are now some orchids and 13 roses in the vase. Jessica cut 4 orchids. How many orchids are in the vase now?\nGround Truth: 7\nWeak CoT: We are given the following:\n\n- Initially, there are **16 roses** and **3 orchids** in the vase.\n- After Jessica cuts some more roses and orchids, the vase contains:\n  - **13 roses**\n  - **0 orchids**\n- Jessica **cut 4 orchids**.\n\nWe are asked to find the **number of orchids** in the vase now.\n\n---\n\n### Step 1: Start with the initial counts\n\n- Roses: 16  \n- Orchids: 3\n\n---\n\n### Step 2: Add the new roses\n\n- Roses: 16 (initial) + 9 (cut) = **25 roses**\n\nThis is consistent with the statement that there are now **13 roses**.\n\nSo, **Jessica cut 2 roses**.\n\n---\n\n### Step 3: Now, orchids are 0\n\n- Initially, there were **3 orchids**.\n\n- Jessica **cut 4 orchids**, but there were already **0 orchids** in the vase.\n\nSo, the number of orchids in the vase now is:\n\n$$\n\\boxed{0}\n$$"
+    }
+  ]
+}

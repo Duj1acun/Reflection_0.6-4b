@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A tour group has three age categories of people, represented in a pie chart. The central angle of the sector corresponding to older people is $9^{\\circ}$ larger than the central angle for children. The percentage of total people who are young adults is $5\\%$ higher than the percentage of older people. Additionally, there are 9 more young adults than children. What is the total number of people in the tour group?\n\n<reflection>\nLet C, Y, and O be the numbers of children, young adults, and older people, with total T = C + Y + O. The percentage relation implies Y = O + 0.05T. The count relation implies Y = C + 9. The angle relation gives θ_O = θ_C + 9° and θ_C + θ_Y + θ_O = 360°, hence 2θ_C + θ_Y = 351°. Combining the non-angle equations gives O = 0.3T + 3, Y = 0.35T + 3, and C = 0.35T - 6. For T = 100, these formulas give C = 29, Y = 38, O = 33, and their sum is 100.\nT = 100 satisfies the equations used so far, but it does not satisfy the original angle constraint. Its sector angles would be children 104.4° and older people 118.8°, a difference of 14.4°, not 9°.\nConvert the angle relation θ_O - θ_C = 9° into an equation involving O and C via angle = group/T × 360°, then solve together with O = 0.3T + 3 and C = 0.35T - 6.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

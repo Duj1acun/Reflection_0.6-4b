@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Along a straight avenue, 100 streetlights are positioned at equal intervals, numbered sequentially from 1 to 100. At the same time, Petya and Vasya start walking towards each other from opposite ends of the avenue at different constant speeds (Petya starts from the first streetlight, and Vasya from the hundredth streetlight). When Petya reaches the 22nd streetlight, Vasya reaches the 88th streetlight. At which streetlight will they meet? If the meeting happens between two streetlights, provide the smaller number of the two in the answer.\n\n<reflection>\nThe distance between adjacent streetlights can be treated as 1 unit. Petya covers 21 units from streetlight 1 to streetlight 22. Vasya covers 12 units from streetlight 100 to streetlight 88. Since these distances are covered in the same time, the speed ratio is v_p : v_v = 21 : 12 = 7 : 4. Let x be the distance in units Petya travels from streetlight 1 to the meeting point.\nThe distance from streetlight 1 to streetlight 100 is 99 units, not 100, because adjacent streetlights are 1 unit apart. Vasya's remaining distance to the meeting point should therefore be 99 - x, not 100 - x.\nUse the correct total distance of 99 units, set x/(99 - x) = 7/4, solve for x, and then map the distance from streetlight 1 to the correct streetlight number.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

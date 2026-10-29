@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: The line $y=kx+b$ intersects the hyperbola $y=-\\frac{6}{x}$ at points $A(-3,m)$ and $B(n,-6)$. After moving the line $y=kx+b$ up by $8$ units, it intersects the hyperbola at points $D$ and $E$. Find the area of $\\triangle ADE$.\n\n<reflection>\nA(-3,m) lies on the hyperbola y=-6/x, so m=2. From A(-3,2) on the line y=kx+b, b=2+3k. From B(n,-6) on the line, -6=kn+b; using b=2+3k gives k(n+3)=-8, so k=-8/(n+3) and b=2-24/(n+3). Shifting the line up by 8 units gives y=kx+(b+8)=kx+10-24/(n+3).\nThe shifted line's intersections with the hyperbola are not symmetric with respect to A and B; shifting the line vertically does not translate the intersection points vertically by 8 or create such a symmetry.\nUse the hyperbola condition at B(n,-6) to find n=1, then solve the shifted line equation together with y=-6/x to find the actual coordinates of D and E and compute the area.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

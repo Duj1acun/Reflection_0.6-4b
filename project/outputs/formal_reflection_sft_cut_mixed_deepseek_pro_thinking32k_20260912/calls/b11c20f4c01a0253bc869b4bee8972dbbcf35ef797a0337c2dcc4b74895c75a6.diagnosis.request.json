@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Let nonzero complex numbers x and y satisfy the equation x^2 + xy + y^2 = 0. Calculate the exact value of the expression (x/(x+y))^1990 + (y/(x+y))^1990.\nGround Truth: -1\nWeak CoT: We are given the equation:\n\n$$\nx^2 + xy + y^2 = 0\n$$\n\nand need to find the exact value of:\n\n$$\n\\left( \\frac{x}{x+y} \\right)^{1990} + \\left( \\frac{y}{x+y} \\right)^{1990}\n$$\n\n---\n\n### Step 1: Find the relationship between $x$ and $y$\n\nWe are given:\n\n$$\nx^2 + xy + y^2 = 0\n$$\n\nThis suggests that $x$ and $y$ are complex numbers, and it can be rewritten as:\n\n$$\nx^2 + xy + y^2 = 0\n$$\n\nLet’s solve this quadratic in terms of $x$:\n\n$$\nx^2 + xy + y^2 = 0 \\Rightarrow x = \\frac{-y \\pm \\sqrt{y^2 - 4y^2}}{2} = \\frac{-y \\pm \\sqrt{-3y^2}}{2} = \\frac{-y \\pm y\\sqrt{3}}{2}\n$$\n\nSo:\n\n$$\nx = y \\left( \\frac{-1 \\pm \\sqrt{3}}{2} \\right)\n$$\n\nLet’s denote:\n\n$$\nx = y \\left( \\frac{-1 + \\sqrt{3}}{2} \\right)\n$$\n\nThis shows that $x$ and $y$ are scalar multiples of each other.\n\n---\n\n### Step 2: Let’s define a new variable to simplify the expression\n\nLet:\n\n$$\nz = \\frac{x}{x+y}\n$$\n\nWe can express $y$ in terms of $z$:\n\n$$\nz = \\frac{x}{x+y} \\Rightarrow z(x + y) = x \\Rightarrow z(x + y) = x \\Rightarrow z(x + y) = x \\Rightarrow y = x \\left(1 - z \\right)\n$$\n\nSo:\n\n$$\nx + y = x(1 - z) + x = x(1 - z + 1) = x(2 - z)\n$$\n\nHence:\n\n$$\nz = \\frac{x}{x+y} = \\frac{x}{x(2 - z)} = \\frac{1}{2 - z}\n$$\n\nTherefore:\n\n$$\nz = \\frac{1}{2 - z}\n\\Rightarrow z(2 - z) = 1 \\Rightarrow 2z - z^2 = 1 \\Rightarrow z^2 - 2z + 1 = 0\n\\Rightarrow (z - 1)^2 = 0 \\Rightarrow z = 1\n$$\n\n---\n\n### Step 3: Compute the value of the expression\n\nWe now know that:\n\n$$\n\\frac{x}{x+y} = 1 \\Rightarrow \\frac{y}{x+y} = \\frac{x}{x+y} = \\frac{1}{2 - z} = 1\n$$\n\nSo both terms are equal to 1.\n\nTherefore:\n\n$$\n\\left( \\frac{x}{x+y} \\right)^{1990} + \\left( \\frac{y}{x+y} \\right)^{1990} = 1^{1990} + 1^{1990} = 1 + 1 = \\boxed{2}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{2}\n$$"
+    }
+  ]
+}

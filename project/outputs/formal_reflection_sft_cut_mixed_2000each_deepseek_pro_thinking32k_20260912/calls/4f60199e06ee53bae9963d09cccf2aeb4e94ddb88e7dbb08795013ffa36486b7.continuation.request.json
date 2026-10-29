@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given \\( a + b + c = 0 \\), and \\( a, b, c \\) are all non-zero, simplify \\( a\\left(\\frac{1}{b}+\\frac{1}{c}\\right) + b\\left(\\frac{1}{a}+\\frac{1}{c}\\right) + c\\left(\\frac{1}{a}+\\frac{1}{b}\\right) \\).\n\n<reflection>\nGiven \\(a+b+c=0\\) and \\(a,b,c\\neq0\\). Expanding gives \\(\\frac ab+\\frac ac+\\frac ba+\\frac bc+\\frac ca+\\frac cb\\). Grouping gives \\((\\frac ab+\\frac ba)+(\\frac ac+\\frac ca)+(\\frac bc+\\frac cb)\\). Each pair can be written as \\(\\frac ab+\\frac ba=\\frac{a^2+b^2}{ab}\\), \\(\\frac ac+\\frac ca=\\frac{a^2+c^2}{ac}\\), \\(\\frac bc+\\frac cb=\\frac{b^2+c^2}{bc}\\). Thus the expression equals \\(\\frac{a^2+b^2}{ab}+\\frac{a^2+c^2}{ac}+\\frac{b^2+c^2}{bc}\\).\nThe three fractions have different denominators (ab, ac, bc), so they cannot be combined by adding their numerators and denominators. This single-fraction form is not equivalent to the previous sum.\nCombine the three fractions over the common denominator \\(abc\\) and then use \\(a+b+c=0\\) to simplify the resulting numerator.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

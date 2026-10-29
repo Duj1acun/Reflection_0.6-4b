@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given the equation $x^{2}+y^{2}=1$, find the value of $\\sqrt{x^2-4x+4}+\\sqrt{xy-3x+y-3}$. Express your answer as a single numerical value.\n\n<reflection>\nGiven $x^2 + y^2 = 1$. $x^2 - 4x + 4 = (x - 2)^2$, so $\\sqrt{x^2 - 4x + 4} = |x - 2|$. $xy - 3x + y - 3 = (x + 1)(y - 3)$, so $\\sqrt{xy - 3x + y - 3} = \\sqrt{(x + 1)(y - 3)}$. The expression becomes $|x - 2| + \\sqrt{(x + 1)(y - 3)}$.\nThe constraint $x^2+y^2=1$ is directly helpful because it bounds $x$ and $y$ in $[-1,1]$, which determines the signs of $x-2$ and $(x+1)(y-3)$ and is necessary for evaluating the square roots as real numbers.\nUse $x^2+y^2=1$ to determine the signs of $x-2$ and $(x+1)(y-3)$, then require the second radicand to be nonnegative.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

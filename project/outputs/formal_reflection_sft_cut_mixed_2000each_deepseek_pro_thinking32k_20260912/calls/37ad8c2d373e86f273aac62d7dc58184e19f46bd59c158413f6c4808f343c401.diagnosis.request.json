@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: If $\\alpha$ and $\\beta$ are two real roots of the equation $x^{2}+2x-2025=0$, then the value of $\\alpha^{2}+3\\alpha+\\beta$ is ______.\nGround Truth: 2023\nWeak CoT: We are given the quadratic equation:\n\n$$\nx^2 + 2x - 2025 = 0\n$$\n\nLet the roots be $\\alpha$ and $\\beta$. By Vieta's formulas:\n\n- $\\alpha + \\beta = -\\frac{b}{a} = -\\frac{2}{1} = -2$\n- $\\alpha\\beta = \\frac{c}{a} = \\frac{-2025}{1} = -2025$\n\nWe are asked to find the value of:\n\n$$\n\\alpha^2 + 3\\alpha + \\beta\n$$\n\n---\n\n### Step 1: Use the fact that $\\alpha + \\beta = -2$\n\nWe want to express $\\alpha^2 + 3\\alpha + \\beta$ in terms of $\\alpha$ and $\\beta$. Note that:\n\n$$\n\\alpha^2 + 3\\alpha + \\beta = \\alpha^2 + \\alpha + 2\\alpha + \\beta\n$$\n\nSo:\n\n$$\n\\alpha^2 + \\alpha + 2\\alpha + \\beta = (\\alpha^2 + \\alpha) + 2\\alpha + \\beta = (\\alpha^2 + \\alpha + \\beta) + \\alpha\n$$\n\nWe can rewrite this expression as:\n\n$$\n\\alpha^2 + 3\\alpha + \\beta = (\\alpha + \\beta) + \\alpha + 2\\alpha\n$$\n\nSo:\n\n$$\n= -2 + \\alpha + 2\\alpha = 3\\alpha - 2\n$$\n\nNow, we can compute this value by using the fact that $\\alpha$ is a root of the quadratic equation.\n\n---\n\n### Step 2: Find $\\alpha$ using the quadratic formula\n\n$$\n\\alpha = \\frac{-2 \\pm \\sqrt{4 + 4(2025)}}{2} = \\frac{-2 \\pm \\sqrt{4 + 8100}}{2} = \\frac{-2 \\pm \\sqrt{8104}}{2}\n$$\n\nNow, compute $\\sqrt{8104}$:\n\n$$\n\\sqrt{8104} = \\sqrt{4 \\times 2026} = 2\\sqrt{2026}\n$$\n\nSo:\n\n$$\n\\alpha = \\frac{-2 \\pm 2\\sqrt{2026}}{2} = -1 \\pm \\sqrt{2026}\n$$\n\nNow, plug into the expression $3\\alpha - 2$:\n\n$$\n3\\alpha - 2 = 3(-1 + \\sqrt{2026}) - 2 = -3 + 3\\sqrt{2026} - 2 = 3\\sqrt{2026} - 5\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{3\\sqrt{2026} - 5}\n$$"
+    }
+  ]
+}

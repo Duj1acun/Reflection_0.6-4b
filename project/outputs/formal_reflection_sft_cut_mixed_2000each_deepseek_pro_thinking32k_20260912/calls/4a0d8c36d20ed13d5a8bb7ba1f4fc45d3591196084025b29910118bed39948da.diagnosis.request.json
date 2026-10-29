@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The cells of a $5 \\times 5$ board are colored in a checkerboard pattern (corner cells are black). A figure - a mini-elephant - moves through the black cells of this board, leaving a trace on each cell it visits without returning to that cell. The mini-elephant can move either to adjacent diagonal cells that are free of traces or jump (also diagonally) over one cell with a trace to a free cell beyond it. What is the maximum number of cells the mini-elephant can visit?\nGround Truth: 12\nWeak CoT: To solve this problem, we need to maximize the number of cells a mini-elephant can visit on a $5 \\times 5$ checkerboard, where it starts and ends on black cells (as the board is colored in a checkerboard pattern, with black cells in corners and alternating colors).\n\n### Key Observations:\n- The board is $5 \\times 5$, so there are $25$ cells in total.\n- The **checkerboard pattern** means that each cell is black if its coordinates $(i, j)$ satisfy $i + j$ is even, and white otherwise.\n- The mini-elephant moves on black cells, and it can:\n  - Move **diagonally to adjacent cells** that are **free of traces** (i.e., not visited yet).\n  - **Jump diagonally over one cell** with a trace to a free cell **beyond it**.\n\nThis movement allows the mini-elephant to explore the board in a **non-repeating path**, as it can jump over one cell to another, potentially revisiting the same cell **earlier**.\n\n---\n\n### Strategy:\nWe need to **maximize the number of cells visited**, considering that:\n- The mini-elephant **starts and ends on black cells**.\n- It can move **diagonally** or **jump diagonally** over a free cell.\n\nLet’s analyze how the mini-elephant can traverse the board.\n\n---\n\n### Key Insight:\nA **checkerboard pattern** with alternating black and white cells means that the **maximum number** of cells that can be visited on a single path without repeating is **$2n - 1$**, where $n$ is the size of the board. \n\nFor a $5 \\times 5$ board, $n = 5$, so the maximum number of cells it can visit **without returning** is:\n\n$$\n2n - 1 = 2 \\cdot 5 - 1 = 9\n$$\n\nThis is achievable by moving diagonally through the board, ensuring no cell is revisited.\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{9}\n$$"
+    }
+  ]
+}

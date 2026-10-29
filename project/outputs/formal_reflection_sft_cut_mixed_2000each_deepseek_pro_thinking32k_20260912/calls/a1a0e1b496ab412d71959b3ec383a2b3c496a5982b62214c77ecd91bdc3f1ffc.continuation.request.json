@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the constant term in the expansion of $(x^{2}+1)(\\\\frac{1}{\\\\sqrt{x}}-2)^{5}$. Express your answer as a single integer.\n\n<reflection>\nThe product is (x^2 + 1)(x^{-1/2} - 2)^5. With A(x)=x^2+1 and B(x)=(x^{-1/2}-2)^5, the stated plan is to find all terms of B(x) that, when multiplied by terms of A(x), produce exponent 0. The binomial expansion gives B(x) = sum_{k=0}^{5} C(5,k)(-2)^k x^{(k-5)/2}. The general term is T_k = C(5,k)(-2)^k x^{(k-5)/2}.\nThis only finds the constant term of B(x) and ignores the contribution from multiplying the x^2 term of A(x) by the x^{-2} term of B(x), so the overall constant term is incomplete.\nSet the exponent (k-5)/2 equal to both 0 and -2, compute the corresponding B(x) terms, match each with the appropriate factor from x^2+1, and sum the constant contributions.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There were 21 consecutive natural numbers written on the board. When one of the numbers was erased, the sum of the remaining numbers became 2017. Which number was erased?\n\n<reflection>\nThe 21 consecutive numbers can be written as n, n+1, ..., n+20, where n is a natural number. The total sum of all 21 numbers is 21(n+10). If x is the erased number, then 21(n+10) - x = 2017, so x = 21(n+10) - 2017. For n to be an integer, 2017+x must be divisible by 21; since 2017 ≡ 1 mod 21, this gives x ≡ 20 mod 21.\nThis treats the congruence condition as the only restriction on x, but the erased number must also be one of the numbers n, n+1, ..., n+20. Therefore most of these values, including x=20, are not actually possible erased numbers.\nCombine x ≡ 20 mod 21 with the membership constraint n ≤ x ≤ n+20 (or set x = n + j for some 0 ≤ j ≤ 20) to find the unique feasible erased number.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

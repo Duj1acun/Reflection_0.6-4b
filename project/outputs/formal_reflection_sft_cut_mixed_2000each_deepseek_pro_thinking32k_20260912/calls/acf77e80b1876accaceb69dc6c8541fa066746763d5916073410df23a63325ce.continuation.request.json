@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Consider a positive arithmetic sequence {a_n} whose sum of the first n terms is denoted as S_n. If S_{2017} = 4034, then find the minimum value of 1/a_9 + 9/a_{2009}. Express your answer as a single number.\n\n<reflection>\n$S_n=\\frac{n}{2}(2a+(n-1)d)$ and $S_{2017}=4034$ imply $2a+2016d=4$. $a_n=a+(n-1)d$, so $a_9=a+8d$ and $a_{2009}=a+2008d$. With $x=a+8d$ and $y=a+2008d$, the objective becomes $\\frac1x+\\frac9y$. From $y-x=2000d$, we get $d=\\frac{y-x}{2000}$. Substituting $d$ into $x=a+8d$ gives $a=x+\\frac{8(x-y)}{2000}$. Substituting $a$ and $d$ into $2a+2016d=4$ gives $2x+\\frac{16(x-y)+2016(y-x)}{2000}=4$. Equivalently, $2x+\\frac{16(x-y)-2016(x-y)}{2000}=4$.\nThe coefficient is computed incorrectly: $16(x-y)-2016(x-y)=-2000(x-y)$, not $-1999(x-y)$. This arithmetic error produces the wrong constraint instead of the correct relation $x+y=4$.\nCorrect the coefficient to $-2000$ and simplify to obtain $x+y=4$, then minimize $\\frac1x+\\frac9y$ subject to $x+y=4$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

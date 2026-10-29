@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given real numbers $x$ and $y$ satisfying $3 \\leq xy^2 \\leq 8$ and $4 \\leq \\frac{x^2}{y} \\leq 9$, find the maximum value of $\\frac{x^3}{y^4}$.\n\n<reflection>\nA=xy^2 and B=x^2/y, with 3 \\leq A \\leq 8 and 4 \\leq B \\leq 9 From A=xy^2, x=A/y^2 Substituting x into B gives B=A^2/y^5, hence y=(A^2/B)^{1/5} After substituting x, the target expression is ((A/y^2)^3)/y^4\nThe simplification is wrong: ((A/y^2)^3)/y^4 = A^3/y^{10}, not A^3/y^6; the extra denominator factor y^4 was dropped.\nSimplify the target expression correctly to A^3/y^{10}, then substitute y=(A^2/B)^{1/5} so the expression is in terms of A and B before maximizing.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A boy squirrel gathers 20 walnuts and carries them to his burrow in the tree, adding to the 30 already there, but he drops 4 on the way and hides 8 in another location. Unfortunately, he forgets where he hid 3 of them. The girl squirrel brings 15 more walnuts to their burrow, eats 5, gives 4 to another squirrel, and loses 3 while playing. Later, she accidentally knocks 2 out of the burrow. A third squirrel gathers 10 walnuts and drops 1 on the way to the burrow. This squirrel also hides 3 walnuts before returning 6 to the main burrow and giving 1 away to a friend. How many walnuts are left in the main burrow of the boy and girl squirrel?\nGround Truth: 44\nWeak CoT: Let's track the number of walnuts in the main burrow of the boy and girl squirrel step by step.\n\n1. **Boy squirrel:**\n   - Starts with 20 walnuts.\n   - Adds 30: $20 + 30 = 50$\n   - Drops 4 on the way: $50 - 4 = 46$\n   - Hides 8: $46 - 8 = 38$\n   - **Total walnuts in main burrow: 38**\n\n2. **Girl squirrel:**\n   - Starts with 15 walnuts.\n   - Eats 5: $15 - 5 = 10$\n   - Gives 4 to another squirrel: $10 - 4 = 6$\n   - Loses 3 while playing: $6 - 3 = 3$\n   - **Total walnuts in main burrow: 3**\n\n3. **Third squirrel:**\n   - Gather 10 walnuts.\n   - Drops 1 on the way: $10 - 1 = 9$\n   - Hides 3 before returning: $9 - 3 = 6$\n   - Gives 1 away to a friend: $6 - 1 = 5$\n   - **Total walnuts in main burrow: 5**\n\nNow, we add the walnuts from the boy and girl squirrel, and subtract the ones that were taken or lost.\n\n- Total walnuts from the boy and girl squirrel: $38 + 3 = 41$\n- Subtract the ones that were taken: $41 - 5 = 36$\n\n### Final Answer:\n$$\n\\boxed{36}\n$$"
+    }
+  ]
+}

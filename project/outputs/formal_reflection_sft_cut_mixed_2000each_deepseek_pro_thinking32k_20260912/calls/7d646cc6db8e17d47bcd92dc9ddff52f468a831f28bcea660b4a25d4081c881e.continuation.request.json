@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Oleg drew an empty $50 \\times 50$ table and wrote a number above each column and to the left of each row. It turned out that all 100 written numbers are different, with 50 of them being rational and the remaining 50 irrational. Then, in each cell of the table, he wrote the sum of the numbers written next to its row and its column (\"addition table\"). What is the maximum number of sums in this table that could end up being rational numbers?\n\n<reflection>\nLet $R_i$ be the row labels and $C_j$ the column labels; the cell entry is $R_i + C_j$. All 100 labels are distinct; exactly 50 are rational and 50 are irrational. Rational + rational is rational; rational + irrational is irrational; irrational + irrational may be rational or irrational. The goal is to maximize the number of pairs $(R_i,C_j)$ such that $R_i + C_j$ is rational.\nThis ignores that two irrational labels can also sum to a rational number, as acknowledged in Step 2. Maximizing only rational-rational pairs does not necessarily maximize the total number of rational sums.\nCount rational-rational and irrational-irrational pairs separately, and choose the irrational labels so that as many pairs as possible have rational sums before optimizing.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

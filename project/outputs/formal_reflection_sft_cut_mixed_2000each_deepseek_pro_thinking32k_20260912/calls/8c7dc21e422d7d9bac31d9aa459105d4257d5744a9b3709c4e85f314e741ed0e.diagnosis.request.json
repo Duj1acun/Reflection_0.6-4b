@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Yoongi wants to subtract 57 from a four-digit number. Yoongi has mistaken 9 for 6 in the unit place of a four-digit number. When the difference Yoongi gets is 1819, find the correct result.\nGround Truth: 1822\nWeak CoT: We are given the following information:\n\n- Yoongi **mistakenly subtracted 57 from a four-digit number**, but he **mistook the unit digit 9 for 6**.\n- The **result he got was 1819**.\n- We are to find the **correct result** of the subtraction.\n\n---\n\n### Step 1: Understand the mistake\n\nLet the original four-digit number be:\n\n$$\nN = 1000a + 100b + 10c + d\n$$\n\nWhere $ a, b, c, d $ are digits, and $ d $ is the **unit digit**.\n\nBut Yoongi **mistook 9 for 6** in the **unit place**, so he used:\n\n$$\nN' = 1000a + 100b + 10c + 6\n$$\n\nHe then **subtracted 57 from this number** and got:\n\n$$\nN' - 57 = 1819\n$$\n\nSo:\n\n$$\n1000a + 100b + 10c + 6 - 57 = 1819\n$$\n\n---\n\n### Step 2: Solve for the original number\n\n$$\n1000a + 100b + 10c + 6 - 57 = 1819\n$$\n\n$$\n1000a + 100b + 10c - 51 = 1819\n$$\n\n$$\n1000a + 100b + 10c = 1819 + 51 = 1870\n$$\n\nSo the **modified number** that Yoongi used is:\n\n$$\nN' = 1870\n$$\n\nBut he **mistook the unit digit 9 for 6**, so the **actual original number** is:\n\n$$\nN = 1870 + 1 = 1871\n$$\n\n---\n\n### Step 3: Find the correct result\n\nNow, compute the **correct subtraction** using the original number $ N = 1871 $:\n\n$$\n1871 - 57 = \\boxed{1814}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{1814}\n$$"
+    }
+  ]
+}

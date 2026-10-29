@@ -1,0 +1,58 @@
+{
+  "size": "4b",
+  "out": "/mnt/data/reflection_grpo/artifacts/paired_eval_pass4_20260912",
+  "mode": "preflight",
+  "seed": 1234,
+  "max_model_len": 20480,
+  "max_iters": 2,
+  "base_model": "/mnt/data/models/Qwen3-4B",
+  "adapter": "/mnt/data/reflection_grpo/artifacts/paired_sft_20260912/qwen3-4b/phase2/checkpoint-290",
+  "adapter_sha256": "d7bad989a22d7537c5065f502211007005806d87575064a7c136bc8d5ab33a95",
+  "base_prompt": "Please reason step by step, and put your final answer within \\boxed{}.",
+  "sft_prompt": "You are a math reasoning assistant. When you make an error during reasoning, use <reflection>...</reflection> to reflect on the mistake, then continue reasoning based on the reflection. Put your final answer within \\boxed{}.",
+  "enable_thinking": false,
+  "n": 4,
+  "temperature": 0.7,
+  "top_p": 0.8,
+  "top_k": 20,
+  "max_new_tokens_per_round": {
+    "math500": 4096,
+    "amc23": 4096,
+    "aime24": 8192,
+    "aime25": 8192,
+    "gpqa": 4096
+  },
+  "length_policy": "fixed dataset output budget each round; never truncate input; raise if context insufficient",
+  "datasets": {
+    "math500": {
+      "n": 500,
+      "max_prompt_tokens": 852,
+      "sha256": "28db298c1902b641424a8660d5d12d45ab3b01ba21c7fce4c52461018aaf6f98"
+    },
+    "amc23": {
+      "n": 40,
+      "max_prompt_tokens": 276,
+      "sha256": "4f0e5ba9f432bc77d24d6cbb0e1af258e874b51771f5cb8f8f4acb44182e08b5"
+    },
+    "aime24": {
+      "n": 30,
+      "max_prompt_tokens": 454,
+      "sha256": "5c69ee0b2287ba942988ec3bda0bf085b5819cd421eda7ad3af5f6653e632e7d"
+    },
+    "aime25": {
+      "n": 30,
+      "max_prompt_tokens": 314,
+      "sha256": "93e782a7699abaf8b5f55429a8a7251f313315a571b7b5bd8530f5e80bbe0623"
+    },
+    "gpqa": {
+      "n": 198,
+      "max_prompt_tokens": 2872,
+      "sha256": "7f7ef38dd28380717c52fa91773a27dee9c348bb400f73238f10e3107d60c884"
+    }
+  },
+  "source_hashes": {
+    "evaluation/evaluators/eval_paired_qwen3.py": "f1c206c881e491418edc5a45351d11b5899f5dcbd0c872ee1bbec62cfab1e04e",
+    "evaluation/evaluators/paired_scoring.py": "d6bfd151535c69e6b1090ac674a5364d926506e970574bf8b567954f94513a1b",
+    "evaluation/datasets.py": "650d9b2f92679cb7258dc615c4f60ec2ab5950ddec744c7f0e29f27e9c769e41"
+  }
+}

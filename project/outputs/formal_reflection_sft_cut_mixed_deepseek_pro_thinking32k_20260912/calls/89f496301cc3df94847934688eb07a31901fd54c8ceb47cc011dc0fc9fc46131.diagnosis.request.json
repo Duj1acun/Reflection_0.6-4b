@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A 600 meter long train crosses a signal post in 40 seconds. How long will it take to cross a bridge of a certain length at the same speed if it takes 20 minutes to cross the bridge?\nGround Truth: 1240\nWeak CoT: We are given:\n\n- The **length of the train** is $ L = 600 $ meters.\n- The **time it takes for the train to cross a signal post** is $ t_1 = 40 $ seconds.\n- We are to find out how long it will take for the train to cross a bridge of **the same speed**, given that it takes $ t_2 = 20 $ minutes to cross the bridge.\n\n---\n\n### Step 1: Find the speed of the train\n\nSince the train crosses a **signal post** in 40 seconds, and the post has a length of 0 (it doesn't pass through the post), we can directly use the formula:\n\n$$\n\\text{Speed} = \\frac{\\text{Distance}}{\\text{Time}} = \\frac{600 \\text{ meters}}{40 \\text{ seconds}} = 15 \\text{ m/s}\n$$\n\n---\n\n### Step 2: Find the length of the bridge\n\nLet $ L_b $ be the length of the bridge.\n\nWhen the train passes a bridge, the total distance it covers is its own length plus the bridge's length:\n\n$$\n\\text{Total distance} = L + L_b = 600 + L_b\n$$\n\nThe time taken to cross the bridge is 20 minutes. First, convert 20 minutes to seconds:\n\n$$\n20 \\text{ minutes} = 1200 \\text{ seconds}\n$$\n\nSo:\n\n$$\n\\frac{600 + L_b}{1200} = \\frac{600}{40} = 15\n$$\n\nNow solve for $ L_b $:\n\n$$\n600 + L_b = 15 \\times 1200 = 18000\n\\Rightarrow L_b = 18000 - 600 = 17400 \\text{ meters}\n$$\n\n---\n\n### Step 3: Find how long it will take to cross the bridge\n\nWe already know the time for the signal post is 40 seconds. Now, we can find how long it takes for the train to cross the bridge of 17,400 meters:\n\n$$\n\\text{Time} = \\frac{L + L_b}{\\text{Speed}} = \\frac{600 + 17400}{15} = \\frac{18000}{15} = 1200 \\text{ seconds}\n$$\n\nConvert this to minutes:\n\n$$\n1200 \\text{ seconds} = 20 \\text{ minutes}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{20} \\text{ minutes}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: If the letter order of the English word \"good\" is written incorrectly, there are a total of ________ possible errors.\nGround Truth: 11\nWeak CoT: We are given the English word **\"good\"**, and we are told that the letter order is written **incorrectly**. The task is to find the **total number of possible errors** in the word.\n\n---\n\n### Step 1: Count the number of letters in \"good\"\n\n- The word \"good\" has **4 letters**.\n\n---\n\n### Step 2: Use the formula for the number of permutations of a word\n\nIf there are $ n $ letters in total and all letters are **distinct**, the number of **permutations** of these $ n $ letters is:\n\n$$\nn! = 4! = 4 \\times 3 \\times 2 \\times 1 = 24\n$$\n\nThis means that **24 different orders** are possible for the letters in \"good\".\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{24}\n$$"
+    }
+  ]
+}

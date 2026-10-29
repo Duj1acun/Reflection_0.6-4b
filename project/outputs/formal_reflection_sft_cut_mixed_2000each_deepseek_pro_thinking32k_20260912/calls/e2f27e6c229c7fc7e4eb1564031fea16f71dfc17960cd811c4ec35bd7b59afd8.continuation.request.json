@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: An equilateral triangle shares a common side with a square as shown. What is the number of degrees in $m\\angle CDB$? [asy] pair A,E,C,D,B; D = dir(60); C = dir(0); E = (0,-1); B = C+E; draw(B--D--C--B--E--A--C--D--A); label(\"D\",D,N); label(\"C\",C,dir(0)); label(\"B\",B,dir(0)); [/asy]\n\n<reflection>\nThe problem gives an equilateral triangle sharing a common side with a square. The target is the measure of $\\angle CDB$. The Asymptote code and description indicate a square and an equilateral triangle sharing a common side.\nThis labeling contradicts the Asymptote coordinates: B=(1,-1), C=(1,0), D=(1/2,√3/2), E=(0,-1) do not form a square BCDE, and C,D,E do not form an equilateral triangle.\nRe-identify the vertices from the Asymptote code: the square is A-C-B-E and the equilateral triangle is A-C-D, sharing side AC, then compute ∠CDB from those coordinates.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

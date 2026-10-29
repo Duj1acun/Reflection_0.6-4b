@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are 7 people standing in a row. If persons A, B, and C must not stand next to each other, how many different arrangements are there?\nGround Truth: 1440\nWeak CoT: We are given 7 people standing in a row, and we are told that **persons A, B, and C must not stand next to each other**. We are to find the number of **different arrangements** of the 7 people **under this restriction**.\n\n---\n\n### Step 1: Total number of arrangements without restriction\n\nThere are 7 people, so the total number of possible arrangements is:\n\n$$\n7! = 5040\n$$\n\n---\n\n### Step 2: Subtract the arrangements where A, B, and C **are all adjacent** to each other\n\nWe want to **exclude** all arrangements where A, B, and C are **next to each other** (i.e., form a block of three consecutive people).\n\n#### Step 2.1: Treat A, B, and C as a single \"block\"\n\nIf A, B, and C are all together, we can treat them as a single \"super person\" or \"block\". Then we have:\n\n- 1 block (ABC)\n- 4 other people: D, E, F, G\n\nSo, in total, we are arranging **5 items**: [ABC], D, E, F, G\n\nThe number of ways to arrange these 5 items is:\n\n$$\n5! = 120\n$$\n\n#### Step 2.2: Within the block, A, B, and C can be arranged in any order\n\nThe block [ABC] can be internally arranged in:\n\n$$\n3! = 6 \\text{ ways}\n$$\n\nSo, the total number of arrangements where A, B, and C are **all adjacent** is:\n\n$$\n5! \\times 3! = 120 \\times 6 = 720\n$$\n\n---\n\n### Step 3: Subtract bad arrangements from total\n\nWe want to find the number of arrangements **where A, B, and C are **not all adjacent**.\n\nSo, the answer is:\n\n$$\n\\text{Total arrangements} - \\text{Arrangements with A, B, C all adjacent}\n= 5040 - 720 = \\boxed{4320}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{4320}\n$$"
+    }
+  ]
+}

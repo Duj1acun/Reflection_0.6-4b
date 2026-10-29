@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: There are 3 different mathematics books and 3 different Chinese books placed on the same shelf of a bookcase. Calculate the number of ways to arrange the books such that books of the same type are not adjacent. Express your answer as a single numerical value.\n\n<reflection>\nThere are 3 distinct mathematics books and 3 distinct Chinese books. Without restriction, the 6 books can be arranged in 6! = 720 ways. The restriction requires no two mathematics books adjacent and no two Chinese books adjacent. Arranging the 3 Chinese books first gives 3! = 6 possible orderings. Arranging the 3 Chinese books creates 4 gaps: before C1, between C1 and C2, between C2 and C3, and after C3. Placing the 3 mathematics books in 3 of these 4 gaps, at most one per gap, keeps the mathematics books non-adjacent.\nThis counts all 4 choices of 3 gaps as valid, but a valid arrangement must also keep the Chinese books separated. Any choice that leaves either internal gap between consecutive Chinese books empty would place two Chinese books adjacent.\nCount only the gap selections that include both internal gaps between consecutive Chinese books, then place the third mathematics book in either the first or last gap.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

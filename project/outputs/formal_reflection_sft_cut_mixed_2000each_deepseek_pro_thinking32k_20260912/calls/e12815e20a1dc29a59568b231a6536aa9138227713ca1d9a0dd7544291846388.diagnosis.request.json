@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: a 100 meter long train crosses a man standing on the platform in 5 sec . what is the speed of the train ?\nGround Truth: 20\nWeak CoT: We are given:\n\n- The length of the train is **100 meters**.\n- The time it takes for the train to cross a man standing on the platform is **5 seconds**.\n\nWe are to find the **speed** of the train.\n\n---\n\n### Step 1: Understand the motion\n\nThe train is fully passing the man on the platform. Therefore, the **distance covered by the train** is equal to the **length of the train plus the distance the man moves during the crossing**.\n\nLet's denote:\n\n- $ v $ = speed of the train (in meters per second)\n- $ d $ = distance the man moves during the crossing (in meters)\n- $ t = 5 $ seconds\n\nWe know the length of the train is 100 meters.\n\nSo:\n\n$$\n\\text{Distance covered by the train} = v \\cdot t = v \\cdot 5\n$$\n\n$$\n\\text{Total distance covered by the man and the train} = 100 + d\n$$\n\nBut the train passes the man, so the **distance the train covers** equals the **distance the train moves** plus the **distance the man moves**.\n\nSo:\n\n$$\nv \\cdot 5 = 100 + d\n$$\n\n---\n\n### Step 2: Solve for $ v $\n\nWe don't know $ d $, but we can express it as:\n\n$$\nd = v \\cdot 5 - 100\n$$\n\nNow, we can **assume** that the man is stationary, meaning the total distance the train covers is simply the length of the train.\n\nSo:\n\n$$\nv \\cdot 5 = 100\n$$\n\n$$\nv = \\frac{100}{5} = 20 \\text{ m/s}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{20 \\text{ m/s}}\n$$"
+    }
+  ]
+}

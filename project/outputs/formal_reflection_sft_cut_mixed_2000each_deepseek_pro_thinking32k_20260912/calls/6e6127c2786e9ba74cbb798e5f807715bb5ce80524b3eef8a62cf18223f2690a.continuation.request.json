@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: A box contains a total of 400 tickets that come in five colors: blue, green, red, yellow, and orange. The ratio of blue to green to red tickets is 1:2:4. The ratio of green to yellow to orange tickets is 1:3:6. What is the smallest number of tickets that must be drawn to ensure that at least 50 tickets of one color have been selected? Express your answer as a whole number.\n\n<reflection>\nThe combined ratio is B:G:R:Y:O = 1:2:4:6:12, so the total number of ratio parts is 25. The scaling factor is 400/25 = 16. The actual ticket counts are B=16, G=32, R=64, Y=96, and O=192. To guarantee at least 50 tickets of one color, first compute the maximum number of tickets that can be drawn without reaching 50 in any color.\nThis ignores that blue and green have fewer than 49 total tickets: there are only 16 blue and 32 green tickets, so drawing 49 of each color is impossible.\nCompute the maximum draw without 50 by taking all 16 blue, all 32 green, and at most 49 each from red, yellow, and orange.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

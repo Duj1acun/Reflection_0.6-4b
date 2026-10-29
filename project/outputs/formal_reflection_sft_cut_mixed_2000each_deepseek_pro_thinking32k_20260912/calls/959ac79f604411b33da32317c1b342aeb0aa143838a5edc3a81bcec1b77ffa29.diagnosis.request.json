@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A flagpole is 12 feet tall. It breaks, folding over in half, such that what was the tip of the flagpole is now dangling two feet above the ground. How far from the base, in feet, did the flagpole break?\nGround Truth: 7\nWeak CoT: We are given:\n\n- The **flagpole** is 12 feet tall.\n- It breaks and folds **in half**, such that the **tip** of the flagpole is now **2 feet above the ground**.\n- The question asks: **How far from the base did the flagpole break?**\n\n---\n\n### Step 1: Understand the folding\n\nWhen the flagpole breaks, it **folds over in half**, meaning it now forms a **right triangle**.\n\n- The **base** of the triangle is the distance from the **base of the flagpole** to the **point where it breaks** (this is the side we are solving for).\n- The **tip** is now **2 feet above the ground**.\n- The **height of the triangle** is 12 feet, and the **base** is what we are solving for.\n\nWe can use the **Pythagorean Theorem** to solve for the unknown.\n\n---\n\n### Step 2: Apply the Pythagorean Theorem\n\nLet $ x $ be the distance from the base of the flagpole to the point where it breaks.\n\nThen the triangle has:\n\n- One leg: 2 feet (the tip is 2 feet above ground).\n- The other leg: $ x $.\n- The hypotenuse: 12 feet (the full height of the flagpole).\n\nWe can write the equation:\n\n$$\nx^2 + 2^2 = 12^2\n$$\n\n$$\nx^2 + 4 = 144\n$$\n\n$$\nx^2 = 140\n$$\n\n$$\nx = \\sqrt{140}\n$$\n\n---\n\n### Step 3: Simplify the answer\n\n$$\n\\sqrt{140} = \\sqrt{4 \\times 35} = 2\\sqrt{35}\n$$\n\nSo, the flagpole broke approximately **$ 2\\sqrt{35} $ feet** away from its base.\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{2\\sqrt{35}} \\text{ feet}\n$$"
+    }
+  ]
+}

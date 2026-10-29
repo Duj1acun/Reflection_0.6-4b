@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: In last night's 75-minute choir rehearsal, Canada's Totally Musical Choir spent 6 minutes warming up, 30 minutes learning notes, \\( t \\) minutes learning words, and the rest of the rehearsal singing their pieces. If the choir spent \\( N \\% \\) of the rehearsal singing their pieces, what is the value of \\( N \\)?\nGround Truth: 32\nWeak CoT: We are given the following:\n\n- Total rehearsal time: 75 minutes  \n- Time spent on warming up: 6 minutes  \n- Time spent learning notes: 30 minutes  \n- Time spent learning words: $ t $ minutes  \n- Time spent singing: $ 75 - 6 - 30 - t = 39 - t $ minutes  \n\nWe are told that the choir spent $ N \\% $ of the rehearsal singing their pieces.\n\nSo, the value of $ N $ is:\n\n$$\nN = \\left( \\frac{39 - t}{75} \\right) \\times 100\n$$\n\nSince the problem does **not** specify the value of $ t $, and we are to find $ N $, we can express it as:\n\n$$\nN = \\left( \\frac{39 - t}{75} \\right) \\times 100\n$$\n\nBut since the problem doesn't provide the value of $ t $, we cannot determine a numerical value for $ N $. However, if we assume that $ t $ is related to the other times in some way, or if there is additional context, we can find a numerical solution.\n\n**Assuming $ t = 6 $ minutes:**\n\n$$\nN = \\left( \\frac{39 - 6}{75} \\right) \\times 100 = \\left( \\frac{33}{75} \\right) \\times 100 = 44\\%\n$$\n\nBut since the problem doesn't specify $ t $, the correct answer is:\n\n$$\n\\boxed{N = \\left( \\frac{39 - t}{75} \\right) \\times 100}\n$$"
+    }
+  ]
+}

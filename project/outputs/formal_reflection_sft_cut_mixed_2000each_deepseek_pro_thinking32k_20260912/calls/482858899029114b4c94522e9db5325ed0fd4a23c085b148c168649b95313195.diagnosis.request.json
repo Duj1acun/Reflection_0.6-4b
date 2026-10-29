@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given $f(x)=2x^{3}-6x^{2}+a$ (where $a$ is a constant) has a minimum value of $3$ on the interval $[-2,2]$, find the maximum value of $f(x)$ on the interval $[-2,2]$.\nGround Truth: 43\nWeak CoT: We are given the function:\n\n$$\nf(x) = 2x^3 - 6x^2 + a\n$$\n\nwith a **minimum value of 3** on the interval $[-2, 2]$, and we are to find the **maximum value** of $ f(x) $ on the same interval.\n\n---\n\n### Step 1: Use the given condition\n\nWe are told that the **minimum value** of $ f(x) $ on $[-2, 2]$ is 3.\n\nTo find the minimum value, we need to evaluate the function at critical points in the interval and compare with the endpoints.\n\n### Step 2: Find critical points\n\nCompute the derivative:\n\n$$\nf'(x) = 6x^2 - 12x = 6x(x - 2)\n$$\n\nSet this equal to zero:\n\n$$\n6x(x - 2) = 0 \\Rightarrow x = 0 \\text{ or } x = 2\n$$\n\nSo, the critical points are $ x = 0 $ and $ x = 2 $.\n\nNow evaluate $ f(x) $ at these points and compare with the endpoints.\n\n---\n\n### Step 3: Evaluate $ f(x) $ at critical points and endpoints\n\nWe need to evaluate:\n\n- $ f(-2) $\n- $ f(2) $\n- $ f(0) $\n\n#### At $ x = 2 $:\n\n$$\nf(2) = 2(8) - 6(4) + a = 16 - 24 + a = a - 8\n$$\n\n#### At $ x = 0 $:\n\n$$\nf(0) = 2(0) - 6(0) + a = a\n$$\n\n#### At $ x = -2 $:\n\n$$\nf(-2) = 2(-8) - 6(4) + a = -16 - 24 + a = a - 40\n$$\n\nNow, the minimum value is given to be 3. So:\n\n$$\n\\min(f(x)) = \\min(a, a - 8, a - 40) = 3\n$$\n\nSo, the **minimum** among these is 3.\n\nLet’s consider possible values.\n\n- If $ a = 3 $: then the minimum is $ f(-2) = 3 $, which satisfies the condition.\n\n- If $ a < 3 $: then $ f(-2) = a - 40 < 3 $, which would contradict the minimum being 3.\n\n- If $ a > 3 $: then $ a - 8 > 3 $, which would also contradict the minimum being 3.\n\nSo, the only possible value that satisfies the minimum being 3 is:\n\n$$\na = 3\n$$\n\n---\n\n### Step 4: Find the maximum value of $ f(x) $ on $[-2, 2]$\n\nNow plug $ a = 3 $ into the function:\n\n$$\nf(x) = 2x^3 - 6x^2 + 3\n$$\n\nWe already have the critical points: $ x = 0 $, $ x = 2 $, and endpoints.\n\nEvaluate at each:\n\n- $ f(-2) = 3 $\n- $ f(0) = 3 $\n- $ f(2) = 3 $\n\nSo all values of $ f(x) $ are at 3.\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{3}\n$$"
+    }
+  ]
+}

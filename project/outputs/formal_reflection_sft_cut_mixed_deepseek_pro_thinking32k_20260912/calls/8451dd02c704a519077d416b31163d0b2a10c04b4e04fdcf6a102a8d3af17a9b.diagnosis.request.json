@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: There are some male and female participants in a meeting. Half the female participants and one-quarter of the male participants are democrats. One-third of all the participants are democrats. 110 of the democrats are female. How many participants are there in the meeting?\nGround Truth: 330\nWeak CoT: Let the total number of participants be $ P $.  \nHalf of the female participants are democrats, and one-quarter of the male participants are democrats.  \nLet the number of female participants be $ F $, and the number of male participants be $ M $.  \nSo, we have:\n\n$$\n\\frac{1}{2}F + \\frac{1}{4}M = \\text{number of democrats}\n$$\n\nWe are told that **one-third of all the participants are democrats**, so:\n\n$$\n\\frac{1}{3}P = \\text{number of democrats}\n$$\n\nWe are also told that **110 of the democrats are female**.\n\n---\n\nLet’s write this in terms of $ F $ and $ M $:\n\n- Total number of democrats: $ \\frac{1}{2}F + \\frac{1}{4}M = \\frac{1}{3}P $\n- Number of female democrats: $ \\frac{1}{2}F = 110 $\n\n---\n\nFrom the second equation:\n\n$$\n\\frac{1}{2}F = 110 \\Rightarrow F = 220\n$$\n\nNow, substitute $ F = 220 $ into the first equation:\n\n$$\n\\frac{1}{2}(220) + \\frac{1}{4}M = \\frac{1}{3}P\n$$\n\n$$\n110 + \\frac{1}{4}M = \\frac{1}{3}P\n$$\n\nMultiply both sides by 12 to eliminate denominators:\n\n$$\n12 \\cdot 110 + 3M = 4P\n$$\n\n$$\n1320 + 3M = 4P\n$$\n\n---\n\nNow we have:\n\n$$\n4P = 1320 + 3M\n$$\n\nAlso, since $ P = F + M $, and $ F = 220 $, we get:\n\n$$\nP = 220 + M\n$$\n\nSubstitute $ P = 220 + M $ into the equation:\n\n$$\n4(220 + M) = 1320 + 3M\n$$\n\n$$\n880 + 4M = 1320 + 3M\n$$\n\n$$\n4M - 3M = 1320 - 880\n$$\n\n$$\nM = 440\n$$\n\n---\n\nNow compute the total number of participants:\n\n$$\nP = F + M = 220 + 440 = \\boxed{660}\n$$\n\n---\n\n### ✅ Final Answer: $\\boxed{660}$ participants."
+    }
+  ]
+}

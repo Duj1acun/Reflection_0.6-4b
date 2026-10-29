@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Masha and the Bear ate a basket of raspberries and 60 pies, starting and finishing at the same time. Initially, Masha ate raspberries while the Bear ate pies, and then they switched at some point. The Bear ate raspberries 6 times faster than Masha and pies 3 times faster. How many pies did the Bear eat if the Bear ate twice as many raspberries as Masha?\n\n<reflection>\nLet r,R,p,P be raspberries/pies eaten by Masha/Bear; R=2r, r+R=3r, p+P=60. Rates: Bear raspberry rate b_r=6m_r, Bear pie rate b_p=3m_p. First phase t1: Masha eats m_r t1 raspberries, Bear eats 3m_p t1 pies; second phase t-t1: Masha eats m_p(t-t1) pies, Bear eats 6m_r(t-t1) raspberries. Total raspberries equation: m_r t1+6m_r(t-t1)=3r; total pies equation: 3m_p t1+m_p(t-t1)=60. From R=6m_r(t-t1)=2r, get r=3m_r(t-t1). Solving the raspberry equation gives t1=3t/4.\nP is the number of pies the Bear ate, not raspberries. The Bear eats pies only during the first phase at rate 3m_p, so P should be 3m_p t_1; the expression 6m_r(t-t_1) is the Bear's raspberry consumption R.\nReplace the incorrect P expression with P = 3m_p t_1 and use t_1=3t/4 together with the total pies equation to determine P.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

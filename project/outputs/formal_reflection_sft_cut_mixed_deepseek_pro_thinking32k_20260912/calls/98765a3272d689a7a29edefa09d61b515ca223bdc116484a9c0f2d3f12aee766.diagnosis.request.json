@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: If $\\frac{1}{\\sqrt{2011+\\sqrt{2011^2-1}}}=\\sqrt{m}-\\sqrt{n}$ , where $m$ and $n$ are positive integers, what is the value of $m+n$ ?\nGround Truth: 2011\nWeak CoT: We are given the equation:\n\n$$\n\\frac{1}{\\sqrt{2011 + \\sqrt{2011^2 - 1}}} = \\sqrt{m} - \\sqrt{n}\n$$\n\n---\n\n### Step 1: Simplify the denominator\n\nWe are told that:\n\n$$\n\\sqrt{2011^2 - 1} = \\sqrt{(2011 - 1)(2011 + 1)} = \\sqrt{2010 \\cdot 2012}\n$$\n\nSo the denominator becomes:\n\n$$\n2011 + \\sqrt{2010 \\cdot 2012}\n$$\n\nLet’s denote:\n\n$$\nx = \\sqrt{2011}\n\\Rightarrow x^2 = 2011\n$$\n\nSo:\n\n$$\n\\sqrt{2011^2 - 1} = \\sqrt{x^4 - 1} = \\sqrt{(x^2)^2 - 1}\n$$\n\nNow, we can try to express the denominator in terms of $x$. Let’s compute:\n\n$$\n2011 + \\sqrt{2011^2 - 1} = x^2 + \\sqrt{x^4 - 1}\n$$\n\nLet’s assume that:\n\n$$\nx^2 + \\sqrt{x^4 - 1} = \\sqrt{m} - \\sqrt{n}\n$$\n\nWe want to find integers $m, n$, and then compute $m + n$.\n\n---\n\n### Step 2: Try to find a perfect square expression\n\nLet’s assume:\n\n$$\n\\sqrt{2011 + \\sqrt{2011^2 - 1}} = \\sqrt{m} - \\sqrt{n}\n$$\n\nLet’s square both sides:\n\n$$\n\\left(\\sqrt{m} - \\sqrt{n}\\right)^2 = m + n - 2\\sqrt{mn}\n$$\n\nOn the other side, we have:\n\n$$\n2011 + \\sqrt{2011^2 - 1}\n$$\n\nSo equating the two expressions:\n\n$$\nm + n - 2\\sqrt{mn} = 2011 + \\sqrt{2011^2 - 1}\n$$\n\nThis suggests that the square root terms must be equal. That is:\n\n$$\n\\sqrt{mn} = \\sqrt{2011^2 - 1}\n$$\n\nSo:\n\n$$\nmn = (2011^2 - 1)\n$$\n\nNow, let’s compute:\n\n$$\n2011^2 - 1 = (2011 - 1)(2011 + 1) = 2010 \\cdot 2012\n$$\n\nSo:\n\n$$\nm = 2010, \\quad n = 2012\n$$\n\nThus, the value of $m + n$ is:\n\n$$\n\\boxed{2010 + 2012 = \\boxed{4022}}\n$$"
+    }
+  ]
+}

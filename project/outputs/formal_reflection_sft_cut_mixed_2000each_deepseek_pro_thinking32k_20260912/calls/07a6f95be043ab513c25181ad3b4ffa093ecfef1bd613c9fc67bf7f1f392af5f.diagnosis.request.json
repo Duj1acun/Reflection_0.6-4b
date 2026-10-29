@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The banker's gain on a sum due 5 years hence at 12% per annum compounded annually is Rs. 270. The banker's discount is:\nGround Truth: 270\nWeak CoT: To find the **Banker's discount**, we are given:\n\n- The **Banker's gain** is **Rs. 270**.\n- The **compounding rate** is **12% per annum**.\n- It is compounded **annually**.\n- The time is **5 years**.\n\n---\n\n### Step 1: Understand the relationship between **Banker's gain**, **Banker's discount**, and **interest**\n\nThe **Banker's gain** is the difference between the **banker's discount** and the **actual interest**.\n\n$$\n\\text{Banker's gain} = \\text{Banker's discount} - \\text{Actual interest}\n$$\n\n$$\n\\text{Banker's gain} = \\text{Banker's discount} - \\left(\\text{Principal} \\times \\text{Rate} \\times \\text{Time}\\right)\n$$\n\n---\n\n### Step 2: Use the formula for **Banker's gain**\n\nThe formula for the **Banker's gain** is:\n\n$$\n\\text{Banker's gain} = \\text{Banker's discount} \\times \\text{Rate} \\times \\text{Time}\n$$\n\n$$\n\\text{Banker's gain} = \\text{Banker's discount} \\times 0.12 \\times 5\n$$\n\n$$\n\\text{Banker's gain} = 0.6 \\times \\text{Banker's discount}\n$$\n\n---\n\n### Step 3: Solve for the **Banker's discount**\n\n$$\n\\text{Banker's discount} = \\frac{\\text{Banker's gain}}{0.6} = \\frac{270}{0.6} = 450\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{450}\n$$"
+    }
+  ]
+}

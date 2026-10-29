@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: An ant walks inside a 18 cm by 150 cm rectangle. The ant's path follows straight lines which always make angles of 45° to the sides of the rectangle. The ant starts from a point X on one of the shorter sides. The first time the ant reaches the opposite side, it arrives at the midpoint. Calculate the distance, in centimeters, from X to the nearest corner of the rectangle.\n\n<reflection>\nThe rectangle is 18 cm by 150 cm, so the shorter sides are the 18 cm sides. A 45° direction to the sides means equal horizontal and vertical components, corresponding to slope +1 or -1. In the chosen coordinate system, the shorter sides are vertical at x=0 and x=150, and the longer sides are horizontal at y=0 and y=18.\nThis contradicts the problem statement: X is on one of the shorter sides, which in this coordinate system are the vertical sides x=0 or x=150. The bottom side y=0 is a longer side of length 150.\nPlace X on a vertical shorter side, such as x=0 with y-coordinate c, and use reflecting 45° segments (or unfolding) to find the c that makes the first arrival at the opposite vertical side x=150 occur at the midpoint y=9.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

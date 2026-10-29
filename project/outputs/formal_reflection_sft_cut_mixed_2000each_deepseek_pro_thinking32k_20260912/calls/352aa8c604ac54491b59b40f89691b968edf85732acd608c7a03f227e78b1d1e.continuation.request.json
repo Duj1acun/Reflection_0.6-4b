@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that $S_n$ is the sum of the first $n$ terms of the sequence $\\{a_n\\}$, with $a_1=1$, and for $n\\geqslant 2$, it always holds that $ka_n=a_nS_n-S_{n}^{2}$, if $S_{99}=\\frac{1}{50}$, then $k=$ ______.\n\n<reflection>\nS_n = a_1 + ... + a_n, with a_1 = 1. For n >= 2, k a_n = a_n S_n - S_n^2. Since a_n = S_n - S_{n-1}, substitution gives k(S_n - S_{n-1}) = -S_{n-1} S_n. When S_n - S_{n-1} is nonzero, this implies k = (-S_{n-1} S_n)/(S_n - S_{n-1}). With S_99 = 1/50 and x = S_98, the formula is k = (-x/50)/(1/50 - x). The trial S_n = 1/n gives k = 1 but is inconsistent with S_99 = 1/50, so it is not the actual sequence.\nThe simplification is algebraically wrong: multiplying numerator and denominator of (-x/50)/(1/50 - x) by 50 gives (-x)/(1 - 50x), not (-x)/(50 - 50x).\nCorrect the simplification, then solve the recurrence k(S_n - S_{n-1}) = -S_{n-1}S_n for S_n (or 1/S_n) and use S_1 = 1, S_99 = 1/50 to find k.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

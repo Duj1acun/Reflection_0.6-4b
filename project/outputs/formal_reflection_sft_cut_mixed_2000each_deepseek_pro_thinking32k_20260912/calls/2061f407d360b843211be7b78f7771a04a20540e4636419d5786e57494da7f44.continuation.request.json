@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: In triangle \\( \\triangle ABC \\), if \\( \\angle A = 60^\\circ \\) and \\( AC = 16 \\), and the area of the triangle is \\( 220 \\sqrt{3} \\), then find the length of \\( BC \\). Express your answer as a whole number.\n\n<reflection>\n$\\angle A=60^\\circ$, $AC=16$, and the area is $220\\sqrt3$. The area is correctly expressed as $\\frac12 \\cdot AB \\cdot AC \\cdot \\sin(60^\\circ)$ because $AB$ and $AC$ are the sides adjacent to $\\angle A$. With $AB=c$, the equation becomes $220\\sqrt3 = \\frac12 \\cdot c \\cdot 16 \\cdot \\sin(60^\\circ)$. Substituting $\\sin(60^\\circ)=\\frac{\\sqrt3}{2}$ gives $220\\sqrt3 = \\frac12 \\cdot c \\cdot 16 \\cdot \\frac{\\sqrt3}{2}$. The rearranged unsimplified equation $220\\sqrt3 = \\frac12 \\cdot 16 \\cdot \\frac{\\sqrt3}{2} \\cdot c$ is correct.\nThe coefficient is wrong: $\\frac12 \\cdot 16 \\cdot \\frac{\\sqrt3}{2} = 4\\sqrt3$, not $8\\sqrt3$. This causes the later value $AB=27.5$ to be half of the correct $55$.\nSolve the corrected equation $220\\sqrt3=4\\sqrt3\\,c$ to get $AB=55$, then use the Law of Cosines with sides $AB=55$, $AC=16$, and included angle $\\angle A=60^\\circ$ to find $BC$.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given positive real numbers $x$, $y$, and $z$ that satisfy the equation $x^{2}-3xy+4y^{2}-z=0$, determine the maximum value of $\\frac{2}{x}+\\frac{1}{y}-\\frac{2}{z}+2$ when $\\frac{xy}{z}$ reaches its maximum value.\n\n<reflection>\nFrom the constraint, $ z = x^2 - 3xy + 4y^2 $. The target expression is $ S = \\frac{2}{x} + \\frac{1}{y} - \\frac{2}{x^2 - 3xy + 4y^2} + 2 $. The quantity to maximize is $ f(x,y)=\\frac{xy}{x^2 - 3xy + 4y^2} $. After setting $ x=1 $, $ g(y)=\\frac{y}{4y^2 - 3y + 1} $ and $ g'(y)=\\frac{-4y^2+1}{(4y^2 - 3y + 1)^2} $. For $ x=1 $, the maximum of $ g(y) $ occurs at $ y=\\frac{1}{2} $ and gives $ \\frac{xy}{z}=1 $.\nThe ratio is homogeneous of degree 0, so its maximum depends only on the ratio y/x; it occurs whenever y = x/2, not specifically at x = 1.\nImpose the maximizing condition y = x/2 (with x > 0 arbitrary), substitute into z and S, then maximize S over x > 0.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

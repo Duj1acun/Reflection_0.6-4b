@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Several different points are marked on a line, and all possible line segments are constructed between pairs of these points. One of these points lies on exactly 80 of these segments (not including any segments of which this point is an endpoint). Another one of these points lies on exactly 90 segments (not including any segments of which it is an endpoint). How many points are marked on the line?\n\n<reflection>\nLet n be the total number of points marked on the line. For a point with k points to its left and m points to its right, the number of segments passing through it but not having it as an endpoint is k·m. If the point on 80 such segments has a points left and b points right, then a·b = 80. If the point on 90 such segments has c points left and d points right, then c·d = 90.\nThis formula is not valid. For any one point with p points to its left and q points to its right, the total number of points is n = p+q+1; in particular n = a+b+1 and n = c+d+1. Adding the two point-count expressions with an undefined 'overlap' has no correct meaning here.\nRequire a+b = c+d = n-1 and search for factor pairs of 80 and 90 having the same sum.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

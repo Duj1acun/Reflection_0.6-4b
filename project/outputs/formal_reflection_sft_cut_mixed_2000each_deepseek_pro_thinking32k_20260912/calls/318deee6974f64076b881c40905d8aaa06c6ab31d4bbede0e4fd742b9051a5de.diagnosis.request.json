@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: It is known that the sum of the first 20 terms of a geometric sequence is 30, and the sum of the first 30 terms is 70. Then, the sum of the first 10 terms is $\\_\\_\\_\\_\\_\\_\\_$.\nGround Truth: 10\nWeak CoT: We are given:\n\n- The sum of the first 20 terms of a **geometric sequence** is $ S_{20} = 30 $.\n- The sum of the first 30 terms of the same sequence is $ S_{30} = 70 $.\n\nWe are to find the sum of the first 10 terms, $ S_{10} $.\n\n---\n\n### Step 1: Use the formula for the sum of the first $ n $ terms of a geometric sequence\n\nThe sum of the first $ n $ terms of a geometric sequence is:\n$$\nS_n = a_1 \\cdot \\frac{1 - r^n}{1 - r}\n$$\nwhere:\n- $ a_1 $ is the first term,\n- $ r $ is the common ratio,\n- $ n $ is the number of terms.\n\n---\n\n### Step 2: Use the given values to set up equations\n\nLet’s denote:\n- $ a_1 $ as the first term,\n- $ r $ as the common ratio.\n\nThen:\n$$\nS_{20} = a_1 \\cdot \\frac{1 - r^{20}}{1 - r} = 30 \\quad \\text{(1)}\n$$\n$$\nS_{30} = a_1 \\cdot \\frac{1 - r^{30}}{1 - r} = 70 \\quad \\text{(2)}\n$$\n\nSubtract equation (1) from equation (2):\n\n$$\nS_{30} - S_{20} = a_1 \\cdot \\frac{1 - r^{30}}{1 - r} - a_1 \\cdot \\frac{1 - r^{20}}{1 - r}\n$$\n\n$$\n70 - 30 = a_1 \\cdot \\frac{(1 - r^{30}) - (1 - r^{20})}{1 - r}\n$$\n\n$$\n40 = a_1 \\cdot \\frac{r^{20}}{1 - r}\n$$\n\n$$\na_1 \\cdot r^{20} = 40 \\quad \\text{(3)}\n$$\n\n---\n\n### Step 3: Find $ S_{10} $\n\n$$\nS_{10} = a_1 \\cdot \\frac{1 - r^{10}}{1 - r} = ?\n$$\n\nWe can find $ r^{10} $ from equation (3):\n\n$$\na_1 = \\frac{40}{r^{20}}\n\\Rightarrow a_1 \\cdot r^{10} = \\frac{40}{r^{10}} \\cdot r^{10} = \\frac{40}{r^{10}} \\cdot r^{10} = 40\n$$\n\nSo $ r^{10} = 40 $.\n\nNow, plug this into $ S_{10} $:\n\n$$\nS_{10} = a_1 \\cdot \\frac{1 - r^{10}}{1 - r} = \\frac{40}{r^{10}} \\cdot \\frac{1 - r^{10}}{1 - r}\n$$\n\n$$\nS_{10} = \\frac{40}{r^{10}} \\cdot \\frac{1 - r^{10}}{1 - r} = \\frac{40}{40} \\cdot \\frac{1}{1 - r} = 1 \\cdot \\frac{1}{1 - r}\n$$\n\n---\n\n### Final Answer:\n\n$$\n\\boxed{1}\n$$"
+    }
+  ]
+}

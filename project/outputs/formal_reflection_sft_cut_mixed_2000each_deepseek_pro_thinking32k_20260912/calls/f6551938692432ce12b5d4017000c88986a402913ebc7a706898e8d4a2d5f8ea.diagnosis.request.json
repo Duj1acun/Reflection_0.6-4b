@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A marksman is shooting at a triangular grid. Each time he hits a triangular cell, the shot lands either in that cell or in one of its adjacent cells sharing a side. He sees the results of his shots and can choose when to stop shooting. What is the maximum number of triangular cells he can guarantee to hit exactly five times?\nGround Truth: 25\nWeak CoT: Let's analyze the problem step by step.\n\n---\n\n### **Problem Summary**\n\nA marksman is shooting at a triangular grid. Each shot lands **either in that cell** or in one of its **adjacent cells (sharing a side)**. He can choose **when to stop** shooting. The goal is to **find the maximum number of cells** he can guarantee to hit **exactly five times**.\n\nThis is a **game-theoretic problem**, but since we are asked for a **maximum number**, it's equivalent to finding the **minimum number of cells** that he could hit **exactly five times** under optimal play.\n\n---\n\n### **Key Observations**\n\n- The grid is **triangular** and each cell has **up to 3 neighbors**.\n- The marksman can choose to stop shooting at any time.\n- We are to find **the minimum number** of cells that he can guarantee to hit **exactly five times**, i.e., the **worst-case scenario**.\n\n---\n\n### **Strategy**\n\nLet’s consider a **triangular grid** and try to construct such a scenario where the marksman hits **five cells** exactly, and the rest are hit **zero or more times**. The goal is to **minimize the total number** of cells he can hit **exactly five times**.\n\nThis is similar to a **shortest path** problem, where we want to find the **minimum number of vertices** that are reachable from a starting point via a path of length 5.\n\n---\n\n### **Example: Triangular Grid with Maximum Hits**\n\nLet’s imagine the **minimum number of cells** that can hit exactly **five** times in a **triangular grid**:\n\n- A triangular grid is a **graph**, and the **minimum number of vertices** that can be reached in a **shortest path** of length 5 is 5.\n\nTherefore, the **maximum number of cells** he can guarantee to hit **exactly five times** is:\n\n$$\n\\boxed{5}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{5}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let the sum of the coefficients of the expansion of $(5x- \\frac{1}{\\sqrt{x}})^{n}$ be $M$ and the sum of the binomial coefficients be $N$. If $M-N=56$, find the constant term in the expansion.\n\n<reflection>\nM = 4^n by substituting x = 1 into (5x - 1/sqrt{x})^n. N = 2^n because the sum of the binomial coefficients is 2^n. M - N = 4^n - 2^n = 56, so n = 3. The expansion to analyze is (5x - 1/sqrt{x})^3. The general term is T_k = \\binom{3}{k} (5x)^k (-1/\\sqrt{x})^{3-k}.\nThe exponent of x is computed incorrectly: (-1/sqrt{x})^{3-k} contributes an exponent of -(3-k)/2, not -(3-k).\nRewrite the exponent as k - (3-k)/2, set it equal to 0, and solve for the integer k.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let $x$, $y$, and $z$ be real numbers such that \\[\\cos x + \\cos y + \\cos z = \\sin x + \\sin y + \\sin z = 0.\\]Find the sum of all possible values of $\\cos (2x - y - z).$\n\n<reflection>\nThe given sum equations imply \\(\\cos y+\\cos z=-\\cos x\\) and \\(\\sin y+\\sin z=-\\sin x\\). With \\(a=e^{ix}, b=e^{iy}, c=e^{iz}\\), the condition is \\(a+b+c=0\\). For three unit complex numbers, \\(a+b+c=0\\) implies they form an equilateral triangle (angles separated by \\(120^\\circ\\)). The target can be written as \\(\\cos(2x-y-z)=\\cos(2x)\\cos(y+z)+\\sin(2x)\\sin(y+z)\\).\nThis identity is false; e.g., for y=z=0 the left side is 1 but the right side is 2. The following substitution for cos(y+z) is therefore invalid.\nUse the equilateral-triangle property (or \\(a+b+c=0\\)) to determine the angular differences among x,y,z and evaluate \\(2x-y-z\\) modulo \\(2\\pi\\).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

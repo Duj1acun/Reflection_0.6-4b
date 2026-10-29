@@ -1,0 +1,26 @@
+method: REFLECT+
+backbone: artifacts/sft/phase2_merged_hf
+group_size: 8
+prompt_batch_size: 64
+actor_learning_rate: 1.0e-6
+max_prompt_length: 1024
+max_response_length_per_round: 1024
+max_model_length: 4096
+max_generation_rounds: 3
+max_reflection_events: 2
+temperature: 1.0
+top_p: 1.0
+ppo_clip_low: 0.20
+ppo_clip_high: 0.26
+kl_coefficient: 0.0
+loss_aggregation: seq-mean-token-mean
+reward:
+  wrong_direct: -0.25
+  phi: 4
+  free_reflections: 1
+  require_format: true
+advantage:
+  baseline: same_prompt_direct_mean
+  denominator: full_group_sample_std
+  difficulty_floor: -0.5
+  skip_std_for_uniform_outcome: true

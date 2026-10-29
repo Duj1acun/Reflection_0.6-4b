@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given a positive sequence {a_n} that satisfies the equation (a_n^2+√n⋅a_n)^2-4n^2=0, find the largest integer not exceeding the sum ∑_{i=1}^{2024} 1/a_i.\nGround Truth: 88\nWeak CoT: We are given a positive sequence $\\{a_n\\}$ that satisfies the equation:\n\n$$\n(a_n^2 + \\sqrt{n} \\cdot a_n)^2 - 4n^2 = 0\n$$\n\nLet’s first simplify this equation:\n\n$$\n(a_n^2 + \\sqrt{n} \\cdot a_n)^2 = 4n^2\n$$\n\n$$\na_n^2 + \\sqrt{n} \\cdot a_n = \\pm 2n\n$$\n\nSince all terms in the original sequence are positive, we discard the negative solution, and take:\n\n$$\na_n^2 + \\sqrt{n} \\cdot a_n = 2n\n$$\n\nLet’s solve this equation for $a_n$:\n\n$$\na_n^2 + \\sqrt{n} \\cdot a_n - 2n = 0\n$$\n\nThis is a quadratic equation in $a_n$. Let’s solve it using the quadratic formula:\n\n$$\na_n = \\frac{-\\sqrt{n} \\pm \\sqrt{n + 4n}}{2}\n$$\n\n$$\na_n = \\frac{-\\sqrt{n} \\pm \\sqrt{5n}}{2}\n$$\n\nSince $a_n > 0$, we take the positive root:\n\n$$\na_n = \\frac{-\\sqrt{n} + \\sqrt{5n}}{2} = \\frac{\\sqrt{n}(\\sqrt{5} - 1)}{2}\n$$\n\n### Now, we are asked to find the largest integer not exceeding the sum:\n\n$$\n\\sum_{i=1}^{2024} \\frac{1}{a_i}\n$$\n\nSo let’s write:\n\n$$\n\\sum_{i=1}^{2024} \\frac{1}{a_i} = \\sum_{i=1}^{2024} \\frac{2}{\\sqrt{n}(\\sqrt{5} - 1)} = \\frac{2}{\\sqrt{5} - 1} \\sum_{i=1}^{2024} \\frac{1}{\\sqrt{i}}\n$$\n\nThis is a known sum:\n\n$$\n\\sum_{i=1}^N \\frac{1}{\\sqrt{i}} \\approx 2 \\sqrt{N} + \\gamma\n$$\n\nfor large $N$, where $\\gamma$ is the Euler-Mascheroni constant.\n\nSo for $N = 2024$, we get:\n\n$$\n\\sum_{i=1}^{2024} \\frac{1}{\\sqrt{i}} \\approx 2 \\cdot \\sqrt{2024} + \\gamma\n$$\n\n$$\n\\frac{2}{\\sqrt{5} - 1} \\cdot 2 \\cdot \\sqrt{2024} \\approx \\frac{2}{\\sqrt{5} - 1} \\cdot 4 \\cdot \\sqrt{2024}\n$$\n\nLet’s compute this numerically.\n\nLet’s approximate:\n\n- $\\sqrt{5} \\approx 2.236$\n- $\\sqrt{2024} \\approx 45$\n\nSo:\n\n$$\n\\sum_{i=1}^{2024} \\frac{1}{a_i} \\approx \\frac{2}{\\sqrt{5} - 1} \\cdot 4 \\cdot 45 \\approx \\frac{2}{2.236 - 1} \\cdot 4 \\cdot 45 \\approx \\frac{2}{1.236} \\cdot 180 \\approx 1.6 \\cdot 180 = 288\n$$\n\nSo the largest integer not exceeding the sum is:\n\n$$\n\\boxed{288}\n$$"
+    }
+  ]
+}

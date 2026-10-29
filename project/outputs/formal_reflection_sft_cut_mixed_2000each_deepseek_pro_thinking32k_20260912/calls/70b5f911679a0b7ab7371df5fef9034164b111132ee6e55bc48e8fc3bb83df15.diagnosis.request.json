@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A group of 55 adults and some children go for trekking. There is a meal for either 70 adults or 90 children, and 42 adults have their meal. The total number of children that can be catered with the remaining food is 36. How many children went for trekking?\nGround Truth: 36\nWeak CoT: We are given the following information:\n\n- There are **55 adults** and **some children** going trekking.\n- The total meal capacity is **either 70 adults or 90 children**.\n- **42 adults** have their meal.\n- The **remaining food** can cater to **36 children**.\n- We are to find the **number of children** who went for trekking.\n\n---\n\n### Step 1: Understand the meal equivalence\n\nLet’s define the **meal unit** in terms of **children**.\n\nWe are told:\n\n- The meal for **70 adults** is equal to the meal for **90 children**.\n\nSo, the **meal capacity** is equivalent to:\n\n$$\n\\text{70 adults} = \\text{90 children}\n$$\n\nSo, **1 adult = $\\frac{90}{70}$ children = $\\frac{9}{7}$ children**\n\n---\n\n### Step 2: Total meal capacity in terms of children\n\nThe total meal capacity is:\n\n$$\n\\text{70 adults} = 90 \\text{ children}\n$$\n\nSo the **total meal capacity is 90 children**.\n\n---\n\n### Step 3: How many meals have been used by the adults?\n\nWe are told:\n\n- 42 adults have their meal.\n\nConvert this to **children**:\n\n$$\n42 \\text{ adults} = 42 \\times \\frac{9}{7} = \\frac{378}{7} = 54 \\text{ children}\n$$\n\nSo, **54 children's worth of food** has been used by the **42 adults**.\n\n---\n\n### Step 4: Remaining meal capacity\n\nTotal meal capacity = 90 children\n\nUsed by adults = 54 children\n\nRemaining meal capacity = $90 - 54 = 36$ children\n\nThis matches the given information: **the remaining food can cater to 36 children**.\n\n---\n\n### Step 5: Find the total number of children who went for trekking\n\nWe are told that the total meal capacity is **enough for 90 children**.\n\nSo, the total number of children who went for trekking is:\n\n$$\n\\boxed{90}\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{90}\n$$"
+    }
+  ]
+}

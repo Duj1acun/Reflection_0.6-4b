@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Bob has $30$ identical unit cubes. He can join two cubes together by gluing a face on one cube to a face on the other cube. He must join all the cubes together into one connected solid. Over all possible solids that Bob can build, what is the largest possible surface area of the solid?\n\n<reflection>\nThere are 30 identical unit cubes; each unit cube has 6 faces, and each unglued face contributes 1 unit of surface area. Gluing two cubes together hides 2 faces total, so two glued cubes have surface area 10. If an added cube is glued to only one face of the existing solid, the surface area increases by 4 units. To maximize total surface area, the number of glued face-pairs must be minimized.\nIn a connected solid of 30 cubes, the first cube must be glued to at least one other cube, so it cannot have all 6 faces exposed. This step also begins an incorrect per-cube count that ignores the face hidden on the existing cube; each cube added by a single face-glue increases surface area by 4, not 5.\nUse the formula surface area = 6*30 - 2g, where g is the number of glued face-pairs, and minimize g subject to the solid being connected.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

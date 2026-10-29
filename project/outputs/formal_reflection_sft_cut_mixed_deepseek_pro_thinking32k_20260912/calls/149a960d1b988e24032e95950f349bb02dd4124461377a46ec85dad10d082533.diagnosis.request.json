@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Inside a large rectangle of dimensions \\( A \\times B \\) there is a small rectangle of dimensions \\( a \\times b \\) (see the figure). Find the difference between the total area of the yellow quadrilaterals and the total area of the green quadrilaterals, given that \\( A = 20 \\), \\( B = 30 \\), \\( a = 4 \\), and \\( b = 7 \\).\nGround Truth: 572\nWeak CoT: We are given:\n\n- The large rectangle has dimensions $ A = 20 $ and $ B = 30 $\n- A smaller rectangle inside has dimensions $ a = 4 $ and $ b = 7 $\n- We are to find the **difference between the total area of the yellow quadrilaterals** and the **total area of the green quadrilaterals**\n\n---\n\n### Step 1: Understand the configuration\n\nIt’s mentioned in the problem that the **yellow and green quadrilaterals** are formed inside the large rectangle, and their areas need to be compared.\n\nAssuming the figure shows that the small rectangle $ ab = 4 \\times 7 = 28 $ is **aligned** with the large rectangle in such a way that it divides the large rectangle into smaller regions.\n\nSince we are only asked for the **difference** between the yellow and green areas, we can proceed without knowing the specific configuration of the quadrilaterals.\n\n---\n\n### Step 2: Use the formula for the area of a rectangle\n\nEach quadrilateral has an area of:\n\n$$\n\\text{Area} = a \\times b = 4 \\times 7 = 28\n$$\n\nSo each small rectangle has an area of **28**.\n\nNow, let’s assume the large rectangle is divided into **two such small rectangles** (yellow and green), and we are to find the **difference** between the total areas of the two small rectangles.\n\n---\n\n### Step 3: Compute the difference\n\nIf the two small rectangles have areas of:\n\n- Yellow: $ 28 $\n- Green: $ 28 $\n\nThen the **difference** is:\n\n$$\n28 - 28 = 0\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{0}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Given the inequality $(x+y)( \\frac {1}{x}+ \\frac {a}{y})\\geqslant 25$, which holds true for any positive real numbers $x$ and $y$, find the minimum value of the positive real number $a$.\nGround Truth: 16\nWeak CoT: We are given the inequality:\n\n$$\n(x + y)\\left( \\frac{1}{x} + \\frac{a}{y} \\right) \\geq 25\n$$\n\nand we are to find the **minimum positive real number** $ a $ for which this inequality holds **for all positive real numbers $ x $ and $ y $**.\n\n---\n\n### Step 1: Simplify the expression\n\nWe expand the left-hand side:\n\n$$\n(x + y)\\left( \\frac{1}{x} + \\frac{a}{y} \\right) = x \\cdot \\frac{1}{x} + x \\cdot \\frac{a}{y} + y \\cdot \\frac{1}{x} + y \\cdot \\frac{a}{y}\n$$\n\n$$\n= 1 + \\frac{a x}{y} + \\frac{y}{x} + a\n$$\n\nSo the inequality becomes:\n\n$$\n1 + a + \\left( \\frac{a x}{y} + \\frac{y}{x} \\right) \\geq 25\n$$\n\n$$\n\\Rightarrow a + \\left( \\frac{a x}{y} + \\frac{y}{x} \\right) \\geq 24\n$$\n\n---\n\n### Step 2: Apply AM-GM Inequality\n\nWe know that for positive real numbers $ x $ and $ y $, the AM-GM inequality states:\n\n$$\n\\frac{x}{y} + \\frac{y}{x} \\geq 2\n$$\n\nSo, we have:\n\n$$\n\\frac{a x}{y} + \\frac{y}{x} \\geq a + 2\n$$\n\nTherefore, the inequality becomes:\n\n$$\na + a + 2 \\geq 24\n$$\n\n$$\n2a + 2 \\geq 24\n$$\n\n$$\n2a \\geq 22\n$$\n\n$$\na \\geq 11\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{11}\n$$"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let nonzero complex numbers x and y satisfy the equation x^2 + xy + y^2 = 0. Calculate the exact value of the expression (x/(x+y))^1990 + (y/(x+y))^1990.\n\n<reflection>\nThe target expression is S = (x/(x+y))^1990 + (y/(x+y))^1990 with nonzero complex x,y satisfying x^2 + xy + y^2 = 0. Viewing x^2+xy+y^2=0 as a quadratic in x with coefficients a=1, b=y, c=y^2, the quadratic formula gives x = (-y ± sqrt(y^2 - 4y^2))/2 = (-y ± sqrt(-3y^2))/2.\nThe simplification of sqrt(-3y^2) as y√3 is wrong over complex numbers: it must include the imaginary unit i, giving y i√3 up to sign.\nCorrect the root to x = y(-1 ± i√3)/2 and use this relation to compute x/(x+y) and y/(x+y).\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

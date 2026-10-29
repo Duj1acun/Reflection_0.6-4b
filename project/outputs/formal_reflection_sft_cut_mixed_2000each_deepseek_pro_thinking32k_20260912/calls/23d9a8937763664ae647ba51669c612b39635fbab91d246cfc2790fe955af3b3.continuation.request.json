@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Let nonzero complex numbers x and y satisfy the equation x^2 + xy + y^2 = 0. Calculate the exact value of the expression (x/(x+y))^1990 + (y/(x+y))^1990.\n\n<reflection>\nDividing x^2 + xy + y^2 = 0 by y^2 gives z^2 + z + 1 = 0 with z = x/y. The solutions are z = e^(2πi/3) or z = e^(4πi/3). In the case x = ωy with ω = e^(2πi/3), x + y = y(ω + 1). Then x/(x+y) = ω/(ω+1) and y/(x+y) = 1/(ω+1). Since ω+1 = e^(iπ/3), we get ω/(ω+1) = e^(iπ/3) and 1/(ω+1) = e^(-iπ/3). The expression becomes (e^(iπ/3))^1990 + (e^(-iπ/3))^1990. 1990 = 3·663 + 1, so e^(iπ/3 · 1990) = e^(i(663π + π/3)).\nThe factor e^(i663π) is dropped, but since 663 is odd, e^(i663π) = -1, not 1.\nUse e^(i663π) = -1 and e^(-i663π) = -1 to correct the simplification of both exponential terms before summing.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

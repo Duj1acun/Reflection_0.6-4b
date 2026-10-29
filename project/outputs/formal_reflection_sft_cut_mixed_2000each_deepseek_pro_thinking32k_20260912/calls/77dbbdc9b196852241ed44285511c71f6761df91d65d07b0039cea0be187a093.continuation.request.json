@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Find the largest integer \\( A \\) such that for any permutation of natural numbers from 1 to 100, there always exists a sequence of 10 consecutive numbers whose sum is greater than or equal to \\( A \\).\n\n<reflection>\nWe are given the set S = {1, 2, 3, ..., 100}. We need the largest A such that for every permutation there is a block of 10 consecutive numbers with sum ≥ A.\nThe required A is the minimum over all permutations of the maximum 10-consecutive block sum, not the minimum possible individual block sum minus 1. Minimizing the average or minimum block sum does not solve this minimax guarantee.\nFormulate the target as min over permutations of the maximum 10-consecutive sum, then find this minimax value by lower-bounding the maximum block sum in every permutation.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Person A and person B start at the same time from locations A and B respectively, walking towards each other at a constant speed. They first meet at a point 8 kilometers from location A. After meeting, they continue forward and upon reaching each other's starting point, they immediately return. They meet for the second time at a point 6 kilometers from location A. What is the distance between locations A and B in kilometers?\n\n<reflection>\nLet D be the distance between A and B, and let v_A, v_B be their constant speeds. At the first meeting, A walks 8 km and B walks D - 8 km in the same time t_1. From the first meeting: v_A t_1 = 8 and v_B t_1 = D - 8, so v_B/v_A = (D - 8)/8 (equivalently v_A/v_B = 8/(D - 8)). At the first meeting, the total combined distance covered by both is D. At the second meeting, which is 6 km from A, person A's total distance is 8 + (D - 8) + (D - 6) = 2D - 6.\nThe second meeting point is 6 km from A, so after person B reaches A, the final leg is 6 km, not D - 6 km. The correct total distance for B is (D - 8) + 8 + 6 = D + 6.\nCorrect person B's total distance to D + 6, then equate the total-distance ratio at the second meeting, (2D - 6)/(D + 6), to the speed ratio v_A/v_B = 8/(D - 8) from the first meeting and solve for D.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}

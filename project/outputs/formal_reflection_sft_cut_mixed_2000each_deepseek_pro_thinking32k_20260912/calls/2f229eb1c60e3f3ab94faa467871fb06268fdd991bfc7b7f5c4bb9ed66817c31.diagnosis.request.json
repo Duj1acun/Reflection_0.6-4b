@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: A car was driving at 60 km/h for some time, and then at 90 km/h for another 40 minutes. Its average speed was 80 km/h. How long did the car drive at 60 km/h?\nGround Truth: 20\nWeak CoT: We are told:\n\n- The car drove at **60 km/h** for some time.\n- Then at **90 km/h for 40 minutes**.\n- The **average speed** of the entire trip was **80 km/h**.\n\nLet’s denote:\n- $ t $ = time in hours driven at 60 km/h.\n- The time driven at 90 km/h is $ \\frac{40}{60} $ hours = $ \\frac{2}{3} $ hours.\n\nThe total distance traveled is:\n\n$$\nd = 60t + 90 \\cdot \\frac{2}{3}\n$$\n\nThe total time is:\n\n$$\nt + \\frac{2}{3}\n$$\n\nAverage speed is given by:\n\n$$\n\\text{Average speed} = \\frac{\\text{Total distance}}{\\text{Total time}} = \\frac{60t + 60}{t + \\frac{2}{3}} = 80\n$$\n\nNow solve for $ t $:\n\n$$\n\\frac{60t + 60}{t + \\frac{2}{3}} = 80\n$$\n\nMultiply both sides by $ t + \\frac{2}{3} $:\n\n$$\n60t + 60 = 80\\left(t + \\frac{2}{3}\\right)\n$$\n\n$$\n60t + 60 = 80t + \\frac{160}{3}\n$$\n\n$$\n60t - 80t = \\frac{160}{3} - 60\n$$\n\n$$\n-20t = \\frac{160}{3} - \\frac{180}{3}\n$$\n\n$$\n-20t = \\frac{-20}{3}\n$$\n\n$$\nt = \\frac{20}{3}\n$$\n\nSo, the car drove at 60 km/h for **$ \\frac{20}{3} $ hours**, or **approximately 6 hours and 40 minutes**.\n\n$$\n\\boxed{\\frac{20}{3}} \\text{ hours} \\quad \\text{or} \\quad \\boxed{6 \\text{ hours and } 40 \\text{ minutes}}\n$$"
+    }
+  ]
+}

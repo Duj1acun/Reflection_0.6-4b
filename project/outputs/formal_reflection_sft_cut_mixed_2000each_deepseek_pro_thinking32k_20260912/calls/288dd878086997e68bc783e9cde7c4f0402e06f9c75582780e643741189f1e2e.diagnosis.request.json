@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: Mike, Jim, and Bob are all professional fishermen. Mike can catch some fish in one hour, Jim can catch twice as much, and Bob can catch 50% more than Jim. If the 3 started to fish together and after 40 minutes Mike and Bob left, the 3 fishermen caught 140 fish in one hour. How many fish can Mike catch in one hour?\nGround Truth: 30\nWeak CoT: We are given the following:\n\n- Mike catches **some fish in 1 hour**.\n- Jim catches **twice as much** as Mike.\n- Bob catches **50% more than Jim**.\n- They all start fishing together.\n- After 40 minutes, Mike and Bob leave.\n- The total number of fish caught in **1 hour** is **140**.\n\n---\n\n### Step 1: Express their rates\n\nLet:\n\n- $ M $ = number of fish Mike catches in 1 hour.\n- $ J $ = number of fish Jim catches in 1 hour.\n- $ B $ = number of fish Bob catches in 1 hour.\n\nWe are told:\n\n- $ M = x $ (unknown)\n- $ J = 2x $\n- $ B = 1.5 \\times 2x = 3x $\n\nSo:\n\n- Mike catches $ x $ fish per hour.\n- Jim catches $ 2x $ fish per hour.\n- Bob catches $ 3x $ fish per hour.\n\n---\n\n### Step 2: Total fish caught in 1 hour\n\nThey all start fishing together, and after 40 minutes (which is $ \\frac{2}{3} $ of an hour), they finish. So the time they worked together is:\n\n$$\n\\frac{2}{3} \\text{ hours}\n$$\n\nSo the amount of fish caught in the first $ \\frac{2}{3} $ hours is:\n\n- Mike: $ \\frac{2}{3} \\times x = \\frac{2x}{3} $\n- Jim: $ \\frac{2}{3} \\times 2x = \\frac{4x}{3} $\n- Bob: $ \\frac{2}{3} \\times 3x = 2x $\n\nTotal caught in 1 hour:\n\n$$\n\\frac{2x}{3} + \\frac{4x}{3} + 2x = \\frac{2x}{3} + \\frac{4x}{3} + \\frac{6x}{3} = \\frac{12x}{3} = 4x\n$$\n\nBut we are told the total caught in 1 hour is 140.\n\nSo:\n\n$$\n4x = 140 \\Rightarrow x = \\frac{140}{4} = 35\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{35}\n$$\n\nMike can catch **35 fish in one hour**."
+    }
+  ]
+}

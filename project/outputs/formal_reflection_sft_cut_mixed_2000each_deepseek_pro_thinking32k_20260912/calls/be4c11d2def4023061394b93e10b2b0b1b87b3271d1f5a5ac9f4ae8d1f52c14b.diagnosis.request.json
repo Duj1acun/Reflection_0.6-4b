@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "\nYou are a reasoning error editor.\n\nInput:\n{problem, ground_truth, model_response}\n\nTask:\nFind the FIRST incorrect step in model_response.\n\nOutput rules:\n- If the reasoning is completely correct and concise, output exactly:\nperfect\n\n- Otherwise output ONLY valid JSON:\n\n{\n  \"cut_point\": \"...\",\n  \"reflection\": {\n    \"verified_state\": [\"...\", \"...\"],\n    \"error_step\": \"...\",\n    \"error_reason\": \"...\",\n    \"new_direction\": \"...\"\n  }\n}\n\nDefinitions:\ncut_point\nMust copy verbatim from the first character of model_response, character by character, up to and including the first incorrect step.No omission, paraphrase, summary or skipping is allowed in between; the original text must be kept exactly identical.\n\nverified_state\nThe correct section should enumerate as many correct intermediate conclusions as possible (e.g., variable definitions, equation forms, correct case distinctions, etc.) so that subsequent reasoning can reuse them directly.\nOnly include correct intermediate conclusions explicitly established in model_response strictly before the first incorrect step; do not include corrected results, new deductions, or conclusions appearing after that step.\n\nerror_step\nCopy the exact incorrect step verbatim.\n\nerror_reason\nBriefly explain why the step is incorrect or redundant.\n\nnew_direction\nOne short imperative instruction describing the correct next step. Do NOT give the full solution.\n\nConstraints:\n- No explanations\n- No reasoning traces\n- No extra text\n- Output only JSON or \"perfect\"\n"
+    },
+    {
+      "role": "user",
+      "content": "Question: The number of edges of a convex polyhedron is 99. What is the maximum number of edges a plane, not passing through its vertices, can intersect?\nGround Truth: 66\nWeak CoT: We are given:\n\n- The number of **edges of a convex polyhedron** is **99**.\n\nWe are to find the **maximum number of edges** that a **plane, not passing through its vertices**, can intersect.\n\n---\n\n### Step 1: Understand the geometry\n\nLet’s denote:\n\n- $ V $: Number of vertices\n- $ E $: Number of edges\n- $ F $: Number of faces\n\nFor a **convex polyhedron**, we know the following:\n\n- Euler's formula:  \n  $$\n  V - E + F = 2\n  $$\n\nWe are given:\n\n- $ E = 99 $\n\nSo:\n\n$$\nV - 99 + F = 2 \\Rightarrow F = 2 + 99 - V = 101 - V\n$$\n\n---\n\n### Step 2: Use the fact that a plane can intersect the polyhedron in a **simple polygon**\n\nA plane can intersect a convex polyhedron in a **simple polygon** (not overlapping its face or vertex), and the maximum number of edges of such a polygon is **$ 2E $** (since a polygon has at most 2 edges per side).\n\nSo, if a plane cuts through the polyhedron and forms a **simple polygon** with $ n $ sides, then the maximum number of edges is $ 2n $.\n\nThus, the **maximum number of edges** the plane can intersect is:\n\n$$\n2 \\times 99 = 198\n$$\n\n---\n\n### ✅ Final Answer:\n\n$$\n\\boxed{198}\n$$"
+    }
+  ]
+}

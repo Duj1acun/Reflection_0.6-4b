@@ -1,0 +1,20 @@
+{
+  "model": "DeepSeek-V4-Pro",
+  "temperature": 0.1,
+  "top_p": 0.95,
+  "max_tokens": 32768,
+  "thinking": {
+    "type": "enabled"
+  },
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a concise math reasoning assistant.\nYou will be given a math problem and a reflection that identifies what has been done and what the correct next direction is.\nYour task: continue the solution strictly based on the reflection content. Be maximally concise.\nRules:\n1. Follow the reflection's conclusions and direction exactly — do not re-derive what is already identified\n2. If the reflection already states the answer explicitly, output ONLY \\boxed{answer} with no explanation\n3. Otherwise, write only the minimal steps genuinely needed to reach the answer\n4. End with \\boxed{answer}"
+    },
+    {
+      "role": "user",
+      "content": "Problem: Given that positive numbers x and y satisfy the equation 4x^2 + 9y^2 + 3xy = 30, find the maximum value of xy. Express your answer as a single number.\n\n<reflection>\nThe constraint is 4x^2 + 9y^2 + 3xy = 30 with x,y > 0. The objective is to maximize xy. The Lagrangian is L = xy - λ(4x^2 + 9y^2 + 3xy - 30). The first-order conditions are y - λ(8x + 3y)=0 and x - λ(18y + 3x)=0, together with the constraint. From the first-order conditions, y(1 - 3λ)=8xλ and x(1 - 3λ)=18yλ. Thus y = 8xλ/(1 - 3λ) and x = 18yλ/(1 - 3λ), assuming 1 - 3λ ≠ 0.\nThe substitution into x = 18yλ/(1 - 3λ) should yield 144xλ^2/(1 - 3λ)^2, not 144xλ/(1 - 3λ)^2 because the factor λ in the numerator was omitted.\nRedo the substitution keeping the λ factor, obtain (1 - 3λ)^2 = 144λ^2, then solve for λ and use the constraint to find xy.\n</reflection>\n\nContinue the solution strictly based on the reflection above. Be concise."
+    }
+  ]
+}
